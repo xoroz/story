@@ -1,0 +1,19 @@
+{
+  "request_id": "27f286fb-9bc2-4e48-92ec-053d138e1a94",
+  "timestamp": "2025-03-18T02:45:59.369298",
+  "parameters": {
+    "age_range": "6-8",
+    "theme": "school,friendship",
+    "characters": "diego,john,mike",
+    "title": "learn to be good at school",
+    "length": "long",
+    "language": "pt-br",
+    "ai_model": "deepseek-chat",
+    "enable_audio": true
+  },
+  "status": "completed",
+  "backend": "deepseek",
+  "completed_at": "2025-03-18T02:47:44.062068",
+  "output_file": "learn-to-be-good-at-school_20250318024744.html",
+  "audio_file": "audio/27f286fb-9bc2-4e48-92ec-053d138e1a94.mp3"
+}

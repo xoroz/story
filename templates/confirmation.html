@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Story Request Submitted</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .success-message {
+            background-color: #DFF2BF;
+            color: #4F8A10;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+        .status-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .status-link a {
+            color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Story Request Submitted</h1>
+    
+    <div class="success-message">
+        Your story request has been successfully submitted! You can check its status on the waiting page.
+    </div>
+    
+    <div class="status-link">
+        <a href="{{ url_for('waiting', request_id=request.request_id) }}">Check your story status</a>
+    </div>
+    
+    <div class="actions">
+        <a href="{{ url_for('create_story') }}" class="button">Create Another Story</a>
+        <a href="{{ url_for('list_stories') }}" class="button">View All Stories</a>
+    </div>
+</body>
+</html>

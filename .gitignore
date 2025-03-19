@@ -1,0 +1,10 @@
+.env
+bin/
+errors/
+lib/
+lib64
+stories/
+.git/
+processed/
+story_processor.log
+pyvenv.cfg

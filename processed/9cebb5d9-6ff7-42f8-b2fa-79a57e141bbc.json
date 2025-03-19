@@ -1,0 +1,19 @@
+{
+  "request_id": "9cebb5d9-6ff7-42f8-b2fa-79a57e141bbc",
+  "timestamp": "2025-03-18T02:17:59.496063",
+  "parameters": {
+    "age_range": "6-8",
+    "theme": "space",
+    "characters": "diego, tiger bobo, fairy lala",
+    "title": "tiger bobo walk in the park",
+    "length": "medium",
+    "language": "pt-br",
+    "ai_model": "gpt-3.5-turbo",
+    "enable_audio": true
+  },
+  "status": "completed",
+  "backend": "openai",
+  "completed_at": "2025-03-18T02:18:23.024306",
+  "output_file": "tiger-bobo-walk-in-the-park_20250318021823.html",
+  "audio_file": "audio/9cebb5d9-6ff7-42f8-b2fa-79a57e141bbc.mp3"
+}

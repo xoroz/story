@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                padding: 20px;
+            }
+    
+            button {
+                background-color: #2196F3;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            .nav {
+                margin-bottom: 20px;
+            }
+    
+            .nav a {
+                text-decoration: none;
+                color: #2196F3;
+            }
+            
+            .checkbox-group {
+                margin-bottom: 15px;
+            }
+            
+            .checkbox-group label {
+                display: inline;
+                font-weight: normal;
+            }
+            
+            .checkbox-group input {
+                width: auto;
+                margin-right: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="nav">
+            <a href="/">Back to Home</a>
+        </div>
+    <div class="nav">
+        <a href="{{ url_for('index') }}">Home</a> | 
+        <a href="{{ url_for('list_stories') }}">View Stories</a>
+    </div>
+    
+    <h1>Create a Story</h1>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Story Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="age_range">Age Range:</label>
+            <select id="age_range" name="age_range" required>
+                <option value="3-5">3-5 years</option>
+                <option value="6-8" selected>6-8 years</option>
+                <option value="9-12">9-12 years</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="theme">Theme:</label>
+            <input type="text" id="theme" name="theme" placeholder="e.g., space adventure, friendship, animals" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="characters">Characters:</label>
+            <textarea id="characters" name="characters" rows="3" placeholder="Describe the characters you want in your story" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="length">Story Length:</label>
+            <select id="length" name="length">
+                <option value="short">Short</option>
+                <option value="medium" selected>Medium</option>
+                <option value="long">Long</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="language">Language:</label>
+            <select id="language" name="language" required>
+                <option value="en" selected>English</option>
+                <option value="pt-br">Portuguese (Brazil)</option>
+                <option value="pt">Portuguese</option>
+                <option value="it">Italian</option>
+                <option value="es">Spanish</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="backend">AI Provider:</label>
+            <select id="backend" name="backend" onchange="updateModelOptions()">
+                <option value="openai" selected>OpenAI</option>
+                <option value="deepseek">DeepSeek</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="ai_model">AI Model:</label>
+            <select id="ai_model" name="ai_model">
+                <!-- OpenAI Models -->
+                <option value="gpt-3.5-turbo" class="openai-model" selected>GPT-3.5 Turbo</option>
+                <option value="gpt-4o" class="openai-model">GPT-4o</option>
+                <option value="o1-mini" class="openai-model">o1-mini</option>
+                
+                <!-- DeepSeek Models - initially hidden -->
+                <option value="deepseek-chat" class="deepseek-model" style="display:none;">DeepSeek Chat</option>
+                <option value="deepseek-coder" class="deepseek-model" style="display:none;">DeepSeek Coder</option>
+            </select>
+        </div>
+        
+        <script>
+            function updateModelOptions() {
+                const backend = document.getElementById('backend').value;
+                const openaiModels = document.querySelectorAll('.openai-model');
+                const deepseekModels = document.querySelectorAll('.deepseek-model');
+                
+                // Hide all models first
+                openaiModels.forEach(option => option.style.display = 'none');
+                deepseekModels.forEach(option => option.style.display = 'none');
+                
+                // Show only relevant models
+                if (backend === 'openai') {
+                    openaiModels.forEach(option => option.style.display = '');
+                    document.getElementById('ai_model').value = 'gpt-3.5-turbo';
+                } else if (backend === 'deepseek') {
+                    deepseekModels.forEach(option => option.style.display = '');
+                    document.getElementById('ai_model').value = 'deepseek-chat';
+                }
+            }
+        </script>
+   
+        <div class="form-group checkbox-group">
+            <input type="checkbox" id="enable_audio" name="enable_audio" value="true">
+            <label for="enable_audio">Generate audio narration of the story</label>
+        </div>
+        
+        <button type="submit">Submit Story Request</button>
+    </form>
+</body>
+</html>

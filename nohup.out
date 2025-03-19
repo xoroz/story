@@ -1,0 +1,160 @@
+2025-03-18 02:49:38,689 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.105:8000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 211-748-935
+192.168.1.5 - - [18/Mar/2025 02:51:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+192.168.1.5 - - [18/Mar/2025 02:51:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 02:51:51] "HEAD / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 02:53:58] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 02:53:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 02:54:02] "GET /create HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 05:44:39] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 05:44:49] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 05:44:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 07:26:11] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:28:16] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:28:19] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 08:28:22] "GET /create HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:29:30] "[32mPOST /create HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:29:30] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:29:35] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:29:35] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+2025-03-18 08:29:39,469 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 08:29:39,470 - StoryProcessor - INFO - Processing request: 803458da-44eb-4f90-8e63-f70bf208f308
+2025-03-18 08:29:39,470 - StoryProcessor - INFO - Using OpenAI backend for request: 803458da-44eb-4f90-8e63-f70bf208f308
+100.106.58.41 - - [18/Mar/2025 08:29:40] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:29:41] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:29:46] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:29:46] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+2025-03-18 08:29:50,382 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 08:29:50,402 - StoryProcessor - INFO - Generating audio for request: 803458da-44eb-4f90-8e63-f70bf208f308
+2025-03-18 08:29:51,464 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+100.106.58.41 - - [18/Mar/2025 08:29:51] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:29:51] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:29:57] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:29:57] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:30:02] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:30:02] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:30:08] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:30:08] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:30:13] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:30:13] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:30:18] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:30:18] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:30:24] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:30:24] "GET /waiting/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1" 200 -
+/home/felix/story/story2/story_processor.py:282: DeprecationWarning: Due to a bug, this method doesn't actually stream the response content, `.with_streaming_response.method()` should be used instead
+  response.stream_to_file(audio_path)
+2025-03-18 08:30:26,710 - StoryProcessor - INFO - Audio generated: 803458da-44eb-4f90-8e63-f70bf208f308.mp3
+2025-03-18 08:30:26,711 - StoryProcessor - INFO - Story saved: monster-dog-learned-to-fly_20250318083026.html
+100.106.58.41 - - [18/Mar/2025 08:30:29] "[32mGET /check-status/803458da-44eb-4f90-8e63-f70bf208f308 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:30:29] "GET /stories/monster-dog-learned-to-fly_20250318083026.html HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:30:30] "[35m[1mGET /audio/803458da-44eb-4f90-8e63-f70bf208f308.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:30:59] "[35m[1mGET /audio/803458da-44eb-4f90-8e63-f70bf208f308.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:30:59] "[35m[1mGET /audio/803458da-44eb-4f90-8e63-f70bf208f308.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:32:14] "[32mPOST /create HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:14] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+2025-03-18 08:32:16,715 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 08:32:16,716 - StoryProcessor - INFO - Processing request: 201b15cd-d066-4a9c-a1ae-383d48eeddbe
+2025-03-18 08:32:16,716 - StoryProcessor - INFO - Using OpenAI backend for request: 201b15cd-d066-4a9c-a1ae-383d48eeddbe
+100.106.58.41 - - [18/Mar/2025 08:32:19] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:19] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:32:24] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:25] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+2025-03-18 08:32:28,567 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 08:32:28,571 - StoryProcessor - INFO - Generating audio for request: 201b15cd-d066-4a9c-a1ae-383d48eeddbe
+2025-03-18 08:32:30,082 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+100.106.58.41 - - [18/Mar/2025 08:32:30] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:30] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:32:35] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:35] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:32:41] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:41] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:32:46] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:46] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:32:51] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:52] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:32:57] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:32:57] "GET /waiting/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1" 200 -
+2025-03-18 08:32:59,366 - StoryProcessor - INFO - Audio generated: 201b15cd-d066-4a9c-a1ae-383d48eeddbe.mp3
+2025-03-18 08:32:59,366 - StoryProcessor - INFO - Story saved: -respect-all-teachers-make-him-the-best_20250318083259.html
+100.106.58.41 - - [18/Mar/2025 08:33:02] "[32mGET /check-status/201b15cd-d066-4a9c-a1ae-383d48eeddbe HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 08:33:02] "GET /stories/-respect-all-teachers-make-him-the-best_20250318083259.html HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:33:03] "[35m[1mGET /audio/201b15cd-d066-4a9c-a1ae-383d48eeddbe.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:35:34] "[35m[1mGET /audio/201b15cd-d066-4a9c-a1ae-383d48eeddbe.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:35:35] "[35m[1mGET /audio/201b15cd-d066-4a9c-a1ae-383d48eeddbe.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:38:54] "GET /stories HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:39:00] "GET /stories/learn-to-be-good-at-school_20250318024744.html HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 08:39:01] "[35m[1mGET /audio/27f286fb-9bc2-4e48-92ec-053d138e1a94.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:39:04] "[35m[1mGET /audio/27f286fb-9bc2-4e48-92ec-053d138e1a94.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 08:39:04] "[35m[1mGET /audio/27f286fb-9bc2-4e48-92ec-053d138e1a94.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 11:36:22] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:36:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 11:36:25] "GET /stories HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:36:30] "GET /stories/-respect-all-teachers-make-him-the-best_20250318083259.html HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:36:30] "[35m[1mGET /audio/201b15cd-d066-4a9c-a1ae-383d48eeddbe.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 11:36:52] "GET /create HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:38:17] "[32mPOST /create HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:17] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+2025-03-18 11:38:19,799 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 11:38:19,799 - StoryProcessor - INFO - Processing request: ea02e1fd-a638-48e7-9713-c4f6f64d6018
+2025-03-18 11:38:19,800 - StoryProcessor - INFO - Using OpenAI backend for request: ea02e1fd-a638-48e7-9713-c4f6f64d6018
+100.106.58.41 - - [18/Mar/2025 11:38:23] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:23] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:38:28] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:28] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+2025-03-18 11:38:30,313 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 11:38:30,328 - StoryProcessor - INFO - Generating audio for request: ea02e1fd-a638-48e7-9713-c4f6f64d6018
+2025-03-18 11:38:31,874 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+100.106.58.41 - - [18/Mar/2025 11:38:33] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:33] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:38:39] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:39] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:38:44] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:44] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:38:49] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:49] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:38:55] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:38:55] "GET /waiting/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1" 200 -
+2025-03-18 11:38:56,725 - StoryProcessor - INFO - Audio generated: ea02e1fd-a638-48e7-9713-c4f6f64d6018.mp3
+2025-03-18 11:38:56,726 - StoryProcessor - INFO - Story saved: como-brincar-junto-com-os-amigos_20250318113856.html
+100.106.58.41 - - [18/Mar/2025 11:39:00] "[32mGET /check-status/ea02e1fd-a638-48e7-9713-c4f6f64d6018 HTTP/1.1[0m" 302 -
+100.106.58.41 - - [18/Mar/2025 11:39:00] "GET /stories/como-brincar-junto-com-os-amigos_20250318113856.html HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 11:39:00] "[35m[1mGET /audio/ea02e1fd-a638-48e7-9713-c4f6f64d6018.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 11:39:15] "[35m[1mGET /audio/ea02e1fd-a638-48e7-9713-c4f6f64d6018.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 14:03:37] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 14:03:37] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 16:11:38] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 16:11:39] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 18:02:17] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [18/Mar/2025 18:02:17] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 21:13:27] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [18/Mar/2025 23:33:08] "[35m[1mGET /audio/27f286fb-9bc2-4e48-92ec-053d138e1a94.mp3 HTTP/1.1[0m" 206 -
+100.106.58.41 - - [18/Mar/2025 23:33:09] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 02:27:06] "[33mGET /.git/config HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 02:50:13] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [19/Mar/2025 02:50:35] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 02:50:41] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 02:50:46] "[33mGET /sitemap.xml HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 02:51:04] "[33mGET /config.json HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 04:49:34] "[33mGET /wp-includes/js/jquery/jquery.js HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 05:23:41] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [19/Mar/2025 06:13:02] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 06:13:08] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 18:46:48] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [19/Mar/2025 18:47:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 18:47:17] "[33mGET /robots.txt HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 18:47:27] "[33mGET /sitemap.xml HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 18:48:17] "[33mGET /config.json HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 21:02:57] "GET / HTTP/1.1" 200 -
+100.106.58.41 - - [19/Mar/2025 21:40:25] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+100.106.58.41 - - [19/Mar/2025 21:40:33] "GET / HTTP/1.1" 200 -
+192.168.1.5 - - [19/Mar/2025 21:40:34] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+192.168.1.5 - - [19/Mar/2025 21:40:43] "GET / HTTP/1.1" 200 -

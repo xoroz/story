@@ -1,0 +1,89 @@
+2025-03-18 01:33:30,028 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 01:37:20,037 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 01:37:20,038 - StoryProcessor - INFO - Processing request: 9a399dec-be45-46b4-b38a-bd0d4427ff10
+2025-03-18 01:37:46,033 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 01:37:46,039 - StoryProcessor - ERROR - Error processing request 9a399dec-be45-46b4-b38a-bd0d4427ff10: name 'request_id' is not defined
+2025-03-18 01:44:36,238 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 01:44:38,204 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 01:45:38,207 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 01:45:38,207 - StoryProcessor - INFO - Processing request: fc6427a5-ebe0-4a89-90cf-00b2174bd7d3
+2025-03-18 01:46:06,095 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 01:46:06,108 - StoryProcessor - ERROR - Error processing request fc6427a5-ebe0-4a89-90cf-00b2174bd7d3: story_to_html() missing 1 required positional argument: 'request_id'
+2025-03-18 01:51:53,040 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 01:51:54,987 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 01:52:24,989 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 01:52:24,989 - StoryProcessor - INFO - Processing request: c877e9a4-3b46-4765-ad1a-af6a9c0aae8e
+2025-03-18 01:52:24,990 - StoryProcessor - INFO - Asking GPT, Generating story for 6-8 on theme school with characters diego,john
+2025-03-18 01:52:28,655 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 01:52:28,660 - StoryProcessor - INFO - Done with GPT, Generated story for 6-8 on theme school with characters diego,john
+2025-03-18 01:52:28,660 - StoryProcessor - INFO - Story saved: animal-walker_20250318015228.html
+2025-03-18 01:54:39,428 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 02:10:00,408 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 02:10:00,408 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 02:10:00,408 - StoryProcessor - INFO - Processing request: ac4199bb-c3e6-4af3-88db-2770e7bfa1a6
+2025-03-18 02:10:01,057 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-03-18 02:10:01,058 - StoryProcessor - ERROR - Error generating story: Error code: 400 - {'error': {'message': "Unsupported value: 'messages[0].role' does not support 'system' with this model.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'unsupported_value'}}
+2025-03-18 02:10:01,059 - StoryProcessor - ERROR - Error processing request ac4199bb-c3e6-4af3-88db-2770e7bfa1a6: Error code: 400 - {'error': {'message': "Unsupported value: 'messages[0].role' does not support 'system' with this model.", 'type': 'invalid_request_error', 'param': 'messages[0].role', 'code': 'unsupported_value'}}
+2025-03-18 02:17:10,311 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 02:17:12,547 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 02:18:02,549 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 02:18:02,550 - StoryProcessor - INFO - Processing request: 9cebb5d9-6ff7-42f8-b2fa-79a57e141bbc
+2025-03-18 02:18:06,765 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 02:18:06,770 - StoryProcessor - INFO - Generating audio for request: 9cebb5d9-6ff7-42f8-b2fa-79a57e141bbc
+2025-03-18 02:18:08,390 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-18 02:18:23,023 - StoryProcessor - INFO - Audio generated: 9cebb5d9-6ff7-42f8-b2fa-79a57e141bbc.mp3
+2025-03-18 02:18:23,024 - StoryProcessor - INFO - Story saved: tiger-bobo-walk-in-the-park_20250318021823.html
+2025-03-18 02:34:05,007 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 02:34:08,457 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 02:35:08,460 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 02:35:08,460 - StoryProcessor - INFO - Processing request: df4ee441-3f77-45d4-9620-444fb580d0f8
+2025-03-18 02:35:08,461 - StoryProcessor - INFO - Using DeepSeek backend for request: df4ee441-3f77-45d4-9620-444fb580d0f8
+2025-03-18 02:35:08,461 - StoryProcessor - ERROR - Error processing request df4ee441-3f77-45d4-9620-444fb580d0f8: name 'DEEPSEEK_API_KEY' is not defined
+2025-03-18 02:35:19,469 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 02:36:12,439 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 02:36:12,439 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 02:36:12,439 - StoryProcessor - INFO - Processing request: fc6427a5-ebe0-4a89-90cf-00b2174bd7d3
+2025-03-18 02:36:12,440 - StoryProcessor - INFO - Using OpenAI backend for request: fc6427a5-ebe0-4a89-90cf-00b2174bd7d3
+2025-03-18 02:36:12,440 - StoryProcessor - ERROR - Error processing request fc6427a5-ebe0-4a89-90cf-00b2174bd7d3: 'language'
+2025-03-18 02:36:21,031 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 02:37:21,925 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 02:38:11,927 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 02:38:11,928 - StoryProcessor - INFO - Processing request: d3416a23-9cb8-4388-bc65-43a28801b901
+2025-03-18 02:38:11,928 - StoryProcessor - INFO - Using DeepSeek backend for request: d3416a23-9cb8-4388-bc65-43a28801b901
+2025-03-18 02:38:11,929 - StoryProcessor - ERROR - Error generating story with DeepSeek: name 'requests' is not defined
+2025-03-18 02:38:11,929 - StoryProcessor - ERROR - Error processing request d3416a23-9cb8-4388-bc65-43a28801b901: name 'requests' is not defined
+2025-03-18 02:41:18,747 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 02:42:08,636 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 02:46:08,645 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 02:46:08,645 - StoryProcessor - INFO - Processing request: 27f286fb-9bc2-4e48-92ec-053d138e1a94
+2025-03-18 02:46:08,645 - StoryProcessor - INFO - Using DeepSeek backend for request: 27f286fb-9bc2-4e48-92ec-053d138e1a94
+2025-03-18 02:46:58,758 - StoryProcessor - INFO - Generating audio for request: 27f286fb-9bc2-4e48-92ec-053d138e1a94
+2025-03-18 02:47:00,430 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-18 02:47:44,061 - StoryProcessor - INFO - Audio generated: 27f286fb-9bc2-4e48-92ec-053d138e1a94.mp3
+2025-03-18 02:47:44,061 - StoryProcessor - INFO - Story saved: learn-to-be-good-at-school_20250318024744.html
+2025-03-18 02:49:22,597 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-18 02:49:38,689 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-18 08:29:39,469 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 08:29:39,470 - StoryProcessor - INFO - Processing request: 803458da-44eb-4f90-8e63-f70bf208f308
+2025-03-18 08:29:39,470 - StoryProcessor - INFO - Using OpenAI backend for request: 803458da-44eb-4f90-8e63-f70bf208f308
+2025-03-18 08:29:50,382 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 08:29:50,402 - StoryProcessor - INFO - Generating audio for request: 803458da-44eb-4f90-8e63-f70bf208f308
+2025-03-18 08:29:51,464 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-18 08:30:26,710 - StoryProcessor - INFO - Audio generated: 803458da-44eb-4f90-8e63-f70bf208f308.mp3
+2025-03-18 08:30:26,711 - StoryProcessor - INFO - Story saved: monster-dog-learned-to-fly_20250318083026.html
+2025-03-18 08:32:16,715 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 08:32:16,716 - StoryProcessor - INFO - Processing request: 201b15cd-d066-4a9c-a1ae-383d48eeddbe
+2025-03-18 08:32:16,716 - StoryProcessor - INFO - Using OpenAI backend for request: 201b15cd-d066-4a9c-a1ae-383d48eeddbe
+2025-03-18 08:32:28,567 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 08:32:28,571 - StoryProcessor - INFO - Generating audio for request: 201b15cd-d066-4a9c-a1ae-383d48eeddbe
+2025-03-18 08:32:30,082 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-18 08:32:59,366 - StoryProcessor - INFO - Audio generated: 201b15cd-d066-4a9c-a1ae-383d48eeddbe.mp3
+2025-03-18 08:32:59,366 - StoryProcessor - INFO - Story saved: -respect-all-teachers-make-him-the-best_20250318083259.html
+2025-03-18 11:38:19,799 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-18 11:38:19,799 - StoryProcessor - INFO - Processing request: ea02e1fd-a638-48e7-9713-c4f6f64d6018
+2025-03-18 11:38:19,800 - StoryProcessor - INFO - Using OpenAI backend for request: ea02e1fd-a638-48e7-9713-c4f6f64d6018
+2025-03-18 11:38:30,313 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-18 11:38:30,328 - StoryProcessor - INFO - Generating audio for request: ea02e1fd-a638-48e7-9713-c4f6f64d6018
+2025-03-18 11:38:31,874 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-18 11:38:56,725 - StoryProcessor - INFO - Audio generated: ea02e1fd-a638-48e7-9713-c4f6f64d6018.mp3
+2025-03-18 11:38:56,726 - StoryProcessor - INFO - Story saved: como-brincar-junto-com-os-amigos_20250318113856.html

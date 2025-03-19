@@ -1,0 +1,19 @@
+{
+  "request_id": "201b15cd-d066-4a9c-a1ae-383d48eeddbe",
+  "timestamp": "2025-03-18T08:32:14.078700",
+  "parameters": {
+    "age_range": "6-8",
+    "theme": " l forest ",
+    "characters": "Diego, Daniel, Sofia, Maria,luca",
+    "title": " respect all teachers make him the best",
+    "length": "long",
+    "language": "pt-br",
+    "ai_model": "gpt-4o",
+    "enable_audio": true
+  },
+  "status": "completed",
+  "backend": "openai",
+  "completed_at": "2025-03-18T08:32:59.366722",
+  "output_file": "-respect-all-teachers-make-him-the-best_20250318083259.html",
+  "audio_file": "audio/201b15cd-d066-4a9c-a1ae-383d48eeddbe.mp3"
+}
