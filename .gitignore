@@ -8,3 +8,6 @@ stories/
 processed/
 story_processor.log
 pyvenv.cfg
+gp.sh
+nohup.out
+*.log
