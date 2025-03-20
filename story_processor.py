@@ -1,11 +1,15 @@
 import os
 import json
 import time
+import sys
+import traceback
 import openai
-from datetime import datetime
 import logging
-from dotenv import load_dotenv
-import requests  # Add this for DeepSeek API
+import anthropic
+from datetime import datetime
+
+import requests
+from config_loader import load_config
 
 # Set up logging
 logging.basicConfig(
@@ -18,96 +22,72 @@ logging.basicConfig(
 )
 logger = logging.getLogger("StoryProcessor")
 
-# Load environment variables
-load_dotenv()
+# Load configuration
+config = load_config()
 
-# Configuration from environment
+# Get API keys from .env (already loaded by load_config)
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY') 
-QUEUE_FOLDER = os.getenv('QUEUE_FOLDER', 'queue')
-OUTPUT_FOLDER = os.getenv('OUTPUT_FOLDER', 'stories')
-PROCESSED_FOLDER = os.getenv('PROCESSED_FOLDER', 'processed')
-ERROR_FOLDER = os.getenv('ERROR_FOLDER', 'errors')
-CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', '10'))  # seconds
+DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
+
+# Get app settings from config.ini
+QUEUE_FOLDER = config['Paths']['queue_folder']
+OUTPUT_FOLDER = config['Paths']['output_folder']
+PROCESSED_FOLDER = config['Paths']['processed_folder']
+ERROR_FOLDER = config['Paths']['error_folder']
+AUDIO_FOLDER = config['Paths'].get('audio_folder', os.path.join(OUTPUT_FOLDER, 'audio'))
+CHECK_INTERVAL = int(config['App']['check_interval'])
 
 # Ensure directories exist
 os.makedirs(QUEUE_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 os.makedirs(ERROR_FOLDER, exist_ok=True)
+os.makedirs(AUDIO_FOLDER, exist_ok=True)
 
-# Load MCP configuration
 def load_mcp():
+    """
+    Load the Model Control Protocol (MCP) JSON file.
+    Fails with an error if the file is not found.
+    """
     mcp_path = 'child_storyteller_mcp.json'
+    
     if not os.path.exists(mcp_path):
-        logger.warning(f"MCP file not found at {mcp_path}. Creating default configuration.")
-        # Create a default MCP file
-        default_mcp = {
-            "system_prompt": {
-                "ai_definition": {
-                    "who_am_i": "I am a friendly storyteller for children",
-                    "what_i_do": "I create original stories for children"
-                },
-                "ai_personality": {
-                    "communication_style": "I use simple, clear language appropriate for children."
-                },
-                "ai_behavior": {
-                    "what_to_avoid": "I avoid scary content and inappropriate themes"
-                }
-            }
-        }
-        with open(mcp_path, 'w') as f:
-            json.dump(default_mcp, f, indent=2)
-        return default_mcp
+        logger.error(f"MCP file not found at {mcp_path}")
+        logger.error("The application requires this file to control AI behavior.")
+        sys.exit(1)
         
     with open(mcp_path, 'r') as f:
-        return json.load(f)
+        try:
+            return json.load(f)
+        except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON in MCP file: {e}")
+            sys.exit(1)
 
-# Generate story using OpenAI
+def get_language_name(language_code):
+    """Convert language code to language name"""
+    language_map = {
+        'en': 'English',
+        'pt-br': 'Portuguese',
+        'pt': 'Portuguese',
+        'it': 'Italian',
+        'es': 'Spanish'
+    }
+    return language_map.get(language_code, 'English')
+
 def generate_story(request_data):
-
-    mcp = load_mcp()
-    
-    # Get parameters
+    """Generate a story using OpenAI"""
+    # Get parameters and prompts
     params = request_data['parameters']
-    age_range = params['age_range']
-    theme = params['theme']
-    characters = params['characters']
-    length = params['length']
-    language = params['language']
+    prompts = request_data['prompts']
+    
+    # Use the prompts from the request data
+    system_prompt = prompts['system_prompt']
+    user_message = prompts['user_message']
     ai_model = params['ai_model']
-    
-    # Create system prompt and user message
-    system_prompt = f"""
-    {mcp['system_prompt']['ai_definition']['who_am_i']}
-    
-    WHAT I DO:
-    {mcp['system_prompt']['ai_definition']['what_i_do']}
-    
-    HOW I COMMUNICATE:
-    {mcp['system_prompt']['ai_personality']['communication_style']}
-    
-    IMPORTANT CONSTRAINTS:
-    {mcp['system_prompt']['ai_behavior']['what_to_avoid']}
-    
-    LANGUAGE:
-    Please write the story in {get_language_name(language)}.
-    """
-    
-    user_message = f"""
-    Please create a {length} story for a child in the age range {age_range}.
-    
-    Theme: {theme}
-    Characters: {characters}
-    
-    The story should be engaging, age-appropriate, and have a positive message.
-    Write the entire story in {get_language_name(language)}.
-    """
     
     # Check if API key is available
     if not OPENAI_API_KEY:
-        logger.warning("No OpenAI API key found. Returning dummy story.")
-        return f"Once upon a time, there was a story about {theme} with characters like {characters}. This is a placeholder because no OpenAI API key was provided."
+        raise Exception("No OpenAI API key found")
     
     # Configure the API key
     openai.api_key = OPENAI_API_KEY
@@ -126,66 +106,35 @@ def generate_story(request_data):
                 {"role": "user", "content": user_message}
             ]
         
-        # Make the API call
+        # Make the API call using the new API format
         response = openai.chat.completions.create(
             model=ai_model,
             messages=messages,
-            max_tokens=2000,
-            temperature=0.7
+            temperature=0.7,
+            max_tokens=3000
         )
         
         # Return the generated story
         return response.choices[0].message.content
         
     except Exception as e:
-        logger.error(f"Error generating story: {e}")
+        logger.error(f"Error generating story with OpenAI: {e}")
         raise
-
-# Generate story using DeepSeek
 def generate_story_deepseek(request_data):
     """Generate a story using DeepSeek API"""
-    mcp = load_mcp()
-    
-    # Get parameters
+    # Get parameters and prompts
     params = request_data['parameters']
-    age_range = params['age_range']
-    theme = params['theme']
-    characters = params['characters']
-    length = params['length']
-    language = params['language']
+    prompts = request_data['prompts']
+    
+    # Use the prompts from the request data
+    system_prompt = prompts['system_prompt']
+    user_message = prompts['user_message']
     ai_model = params['ai_model']
-    
-    # Create system prompt and user message
-    system_prompt = f"""
-    {mcp['system_prompt']['ai_definition']['who_am_i']}
-    
-    WHAT I DO:
-    {mcp['system_prompt']['ai_definition']['what_i_do']}
-    
-    HOW I COMMUNICATE:
-    {mcp['system_prompt']['ai_personality']['communication_style']}
-    
-    IMPORTANT CONSTRAINTS:
-    {mcp['system_prompt']['ai_behavior']['what_to_avoid']}
-    
-    LANGUAGE:
-    Please write the story in {get_language_name(language)}.
-    """
-    
-    user_message = f"""
-    Please create a {length} story for a child in the age range {age_range}.
-    
-    Theme: {theme}
-    Characters: {characters}
-    
-    The story should be engaging, age-appropriate, and have a positive message.
-    Write the entire story in {get_language_name(language)}.
-    """
     
     # Check if API key is available
     if not DEEPSEEK_API_KEY:
         logger.warning("No DeepSeek API key found. Returning dummy story.")
-        return f"Once upon a time, there was a story about {theme} with characters like {characters}. This is a placeholder because no DeepSeek API key was provided."
+        return f"Once upon a time, there was a story about {params.get('theme')} with characters like {params.get('characters')}. This is a placeholder because no DeepSeek API key was provided."
     
     try:
         # Map DeepSeek model names to actual API model names
@@ -233,19 +182,45 @@ def generate_story_deepseek(request_data):
     except Exception as e:
         logger.error(f"Error generating story with DeepSeek: {e}")
         raise
+def generate_story_claude(request_data):
+    """Generate a story using Anthropic's Claude API"""
+    # Get parameters and prompts
+    params = request_data['parameters']
+    prompts = request_data['prompts']
+    
+    # Use the prompts from the request data
+    system_prompt = prompts['system_prompt']
+    user_message = prompts['user_message']
+    ai_model = params['ai_model']
+    
+    # Get API key from environment
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    
+    # Check if API key is available
+    if not ANTHROPIC_API_KEY:
+        raise Exception("No Anthropic API key found")
+    
+    try:
+        # Initialize the client
+        client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+        
+        # Create the message
+        response = client.messages.create(
+            model=ai_model,
+            system=system_prompt,
+            max_tokens=3000,
+            messages=[
+                {"role": "user", "content": user_message}
+            ]
+        )
+        
+        # Extract the story content from the response
+        return response.content[0].text
+        
+    except Exception as e:
+        logger.error(f"Error generating story with Claude: {e}")
+        raise
 
-# Helper function to get full language name
-def get_language_name(code):
-    languages = {
-        'en': 'English',
-        'pt-br': 'Brazilian Portuguese',
-        'pt': 'Portuguese',
-        'it': 'Italian',
-        'es': 'Spanish'
-    }
-    return languages.get(code, 'English')
-
-# Add this function to story_processor.py
 def generate_audio(text, language, request_id):
     """Generate audio narration using OpenAI's API"""
     if not OPENAI_API_KEY:
@@ -288,11 +263,22 @@ def generate_audio(text, language, request_id):
         logger.error(f"Error generating audio: {e}")
         return None
 
-# Convert story to HTML
-# Update this function in story_processor.py
-def story_to_html(story, title, request_id, audio_path=None, language='en'):
+def story_to_html(story, title, request_id, audio_path, language='en', backend='openai', model='gpt-3.5-turbo'):
+    """
+    Convert a story to an HTML document
+    """
     paragraphs = story.split('\n\n')
     html_paragraphs = [f"<p>{p}</p>" for p in paragraphs if p.strip()]
+    
+    # Format the AI provider name to look nicer
+    provider_display = {
+        'openai': 'OpenAI',
+        'deepseek': 'DeepSeek',
+        'anthropic': 'Claude',
+    }.get(backend, backend.title())
+    
+    # Current date
+    current_date = datetime.now().strftime('%B %d, %Y')
     
     # Add audio player if audio is available
     audio_html = ""
@@ -335,66 +321,80 @@ def story_to_html(story, title, request_id, audio_path=None, language='en'):
                 background-color: white;
                 padding: 30px;
                 border-radius: 15px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }}
-            .date {{
-                text-align: right;
-                font-style: italic;
-                margin-top: 30px;
-                color: #888;
-            }}
-            .metadata {{
-                margin-top: 20px;
-                font-size: 14px;
-                color: #888;
-                text-align: center;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             }}
             .audio-player {{
                 margin-top: 30px;
                 padding: 20px;
-                background-color: #f5f5f5;
+                background-color: #f0f0f0;
                 border-radius: 10px;
             }}
-            .audio-player h3 {{
-                color: #555;
-                margin-top: 0;
+            .back-link {{
+                display: block;
+                text-align: center;
+                margin-top: 30px;
+                color: #FF6B6B;
+                text-decoration: none;
+                font-weight: bold;
+            }}
+            .back-link:hover {{
+                text-decoration: underline;
+            }}
+            .footer {{
+                margin-top: 30px;
+                text-align: center;
+                font-size: 14px;
+                color: #777;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+            }}
+            .ai-info {{
+                font-style: italic;
+                margin-top: 5px;
             }}
         </style>
     </head>
     <body>
         <div class="story-container">
             <h1>{title}</h1>
-            {''.join(html_paragraphs)}
+            {"".join(html_paragraphs)}
             {audio_html}
-            <div class="date">Created on {datetime.now().strftime('%B %d, %Y')}</div>
-        </div>
-        <div class="metadata">
-            <p>Story ID: {request_id}</p>
+            <div class="footer">
+                <div class="date">{current_date}</div>
+                <div class="ai-info">Created by {provider_display} using {model}</div>
+            </div>
+            <a href="/" class="back-link">Create another story</a>
         </div>
     </body>
     </html>
     """
-    return html
-# Process a single request file
-def process_request(request_file):
-    request_path = os.path.join(QUEUE_FOLDER, request_file)
-    request_id = os.path.splitext(request_file)[0]
     
-    logger.info(f"Processing request: {request_id}")
+    return html
+
+def process_request(request_path):
+    """
+    Process a story generation request from the queue
+    """
+    request_id = os.path.basename(request_path).split('.')[0]
     
     try:
         # Read the request
         with open(request_path, 'r') as f:
             request_data = json.load(f)
-        # Get backend type
+        
+        # Get backend type and model
         backend = request_data.get('backend', 'openai')
+        model = request_data['parameters'].get('ai_model', 'gpt-3.5-turbo')
+        
         # Generate the story based on backend
+        logger.info(f"Generating story for request {request_id} using {backend} ({model})")
+        
         if backend == 'deepseek':
-            logger.info(f"Using DeepSeek backend for request: {request_id}")
             story = generate_story_deepseek(request_data)
+        elif backend == 'anthropic':
+            story = generate_story_claude(request_data)
         else:
-            logger.info(f"Using OpenAI backend for request: {request_id}")
-            story = generate_story(request_data)  # Original OpenAI function
+            story = generate_story(request_data)
         
         # Get story parameters
         params = request_data['parameters']
@@ -405,11 +405,19 @@ def process_request(request_file):
         # Generate audio if requested
         audio_path = None
         if enable_audio:
-            logger.info(f"Generating audio for request: {request_id}")
+            logger.info(f"Generating audio for request {request_id}")
             audio_path = generate_audio(story, language, request_id)
         
-        # Convert to HTML
-        html = story_to_html(story, title, request_id, audio_path, language)
+        # Convert to HTML - pass backend and model
+        html = story_to_html(
+            story=story, 
+            title=title, 
+            request_id=request_id, 
+            audio_path=audio_path, 
+            language=language,
+            backend=backend,
+            model=model
+        )
         
         # Create filename for the story
         safe_title = title.lower().replace(' ', '-')
@@ -417,76 +425,84 @@ def process_request(request_file):
         html_filename = f"{safe_title}_{timestamp}.html"
         html_path = os.path.join(OUTPUT_FOLDER, html_filename)
         
-        # Save the HTML file
+        # Save the story
         with open(html_path, 'w', encoding='utf-8') as f:
             f.write(html)
         
-        logger.info(f"Story saved: {html_filename}")
-        
-        # Update request status and move to processed folder
+        # Update request data
         request_data['status'] = 'completed'
-        request_data['completed_at'] = datetime.now().isoformat()
         request_data['output_file'] = html_filename
         if audio_path:
-            request_data['audio_file'] = audio_path
+            request_data['audio_file'] = os.path.basename(audio_path)
         
-        processed_path = os.path.join(PROCESSED_FOLDER, request_file)
-        with open(processed_path, 'w') as f:
+        # Move to processed folder
+        processed_path = os.path.join(PROCESSED_FOLDER, f"{request_id}.json")
+        with open(processed_path, 'w', encoding='utf-8') as f:
             json.dump(request_data, f, indent=2)
         
         # Remove from queue
         os.remove(request_path)
         
-        return True
+        logger.info(f"Successfully processed request {request_id}")
         
     except Exception as e:
-        logger.error(f"Error processing request {request_id}: {e}")
+        logger.error(f"Error processing request {request_id}: {str(e)}")
         
-        # Move to error folder
+        # Create error record
+        error_data = {
+            "request_id": request_id,
+            "timestamp": datetime.now().isoformat(),
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }
+        
+        # Try to read original request data
         try:
-            error_path = os.path.join(ERROR_FOLDER, request_file)
-            os.rename(request_path, error_path)
-            
-            # Update request with error info
-            with open(error_path, 'r') as f:
-                error_data = json.load(f)
-            
-            error_data['status'] = 'error'
-            error_data['error'] = str(e)
-            error_data['error_time'] = datetime.now().isoformat()
-            
-            with open(error_path, 'w') as f:
-                json.dump(error_data, f, indent=2)
-                
-        except Exception as move_error:
-            logger.error(f"Error moving failed request to error folder: {move_error}")
+            with open(request_path, 'r') as f:
+                original_request = json.load(f)
+            error_data['original_request'] = original_request
+        except:
+            pass
         
-        return False
-# Main loop to monitor the queue folder
-def monitor_queue():
-    logger.info(f"Starting story processor. Monitoring {QUEUE_FOLDER} every {CHECK_INTERVAL} seconds")
+        # Save error
+        error_path = os.path.join(ERROR_FOLDER, f"{request_id}.json")
+        with open(error_path, 'w', encoding='utf-8') as f:
+            json.dump(error_data, f, indent=2)
+        
+        # Remove from queue
+        try:
+            os.remove(request_path)
+        except:
+            pass
+def main():
+    """
+    Main function to monitor the queue and process requests
+    """
+    logger.info("Story Processor started")
     
     while True:
         try:
-            # Get list of JSON files in queue folder
+            # Get list of request files
             queue_files = [f for f in os.listdir(QUEUE_FOLDER) if f.endswith('.json')]
             
             if queue_files:
-                logger.info(f"Found {len(queue_files)} requests in queue")
+                # Process the oldest request first (sort by creation time)
+                queue_files.sort(key=lambda f: os.path.getctime(os.path.join(QUEUE_FOLDER, f)))
+                next_file = queue_files[0]
                 
-                for request_file in queue_files:
-                    process_request(request_file)
-            
-            # Wait before checking again
-            time.sleep(CHECK_INTERVAL)
-            
-        except KeyboardInterrupt:
-            logger.info("Keyboard interrupt received. Shutting down.")
-            break
-            
+                # Process the request
+                logger.info(f"Processing request: {next_file}")
+                process_request(os.path.join(QUEUE_FOLDER, next_file))
+            else:
+                # No requests, sleep
+                time.sleep(2)
+                
         except Exception as e:
-            logger.error(f"Error in main loop: {e}")
-            time.sleep(CHECK_INTERVAL)  # Wait before retrying
+            logger.error(f"Error in main loop: {str(e)}")
+            time.sleep(5)  # Sleep longer on error
+            
+        # Sleep between checks
+        time.sleep(0.5)
 
 if __name__ == "__main__":
-    monitor_queue()
+    main()

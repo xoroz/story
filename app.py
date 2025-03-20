@@ -1,32 +1,66 @@
 import os
 import json
 import uuid
+import sys
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
-from dotenv import load_dotenv
+from config_loader import load_config
 
-# Load environment variables
-load_dotenv()
+# Load configuration
+config = load_config()
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change in production
-
-
-
-# Configuration from environment
+# Get API keys from .env (already loaded by load_config)
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')  # Add DeepSeek API key
-QUEUE_FOLDER = os.getenv('QUEUE_FOLDER', 'queue')
-OUTPUT_FOLDER = os.getenv('OUTPUT_FOLDER', 'stories')
-PROCESSED_FOLDER = os.getenv('PROCESSED_FOLDER', 'processed')
-ERROR_FOLDER = os.getenv('ERROR_FOLDER', 'errors')
-CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', '10'))  # seconds
+DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
 
+# Get app settings from config.ini
+QUEUE_FOLDER = config['Paths']['queue_folder']
+OUTPUT_FOLDER = config['Paths']['output_folder']
+PROCESSED_FOLDER = config['Paths']['processed_folder']
+ERROR_FOLDER = config['Paths']['error_folder']
+AUDIO_FOLDER = config['Paths'].get('audio_folder', os.path.join(OUTPUT_FOLDER, 'audio'))
+CHECK_INTERVAL = int(config['App']['check_interval'])
+
+# Ensure directories exist
 os.makedirs(QUEUE_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 os.makedirs(ERROR_FOLDER, exist_ok=True)
-os.makedirs(os.path.join(OUTPUT_FOLDER, 'audio'), exist_ok=True)
+os.makedirs(AUDIO_FOLDER, exist_ok=True)
+
+# Initialize Flask app
+app = Flask(__name__)
+app.secret_key = config['App']['secret_key']
+
+def load_mcp():
+    """
+    Load the Model Control Protocol (MCP) JSON file.
+    Fails with an error if the file is not found.
+    """
+    mcp_path = 'child_storyteller_mcp.json'
+    
+    if not os.path.exists(mcp_path):
+        print(f"ERROR: MCP file not found at {mcp_path}")
+        print("The application requires this file to control AI behavior.")
+        sys.exit(1)
+        
+    with open(mcp_path, 'r') as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"ERROR: Invalid JSON in MCP file: {e}")
+            sys.exit(1)
+
+def get_language_name(language_code):
+    """Convert language code to language name"""
+    language_map = {
+        'en': 'English',
+        'es': 'Spanish',
+        'it': 'Italian',
+        'pt': 'Portuguese',
+        'pt-br': 'Portuguese-Brazil',
+    }
+    return language_map.get(language_code, 'Portuguese-Brazil')
 
 @app.route('/')
 def index():
@@ -34,15 +68,67 @@ def index():
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_story():
+    # Load MCP - will exit if not found
+    mcp = load_mcp()
+    
     if request.method == 'POST':
         # Get form data
         request_id = str(uuid.uuid4())
+        
+        # Get theme description from selected theme ID
+        theme_id = request.form.get('theme')
+        theme_map = mcp.get("themes", {})
+        
+        if theme_id not in theme_map:
+            flash(f"Error: Selected theme '{theme_id}' not found in MCP")
+            return redirect(url_for('create_story'))
+            
+        theme_description = theme_map[theme_id]
+        
+        # Get lesson
+        lesson = request.form.get('lesson')
+        
+        # Format user message template with theme and lesson
+        user_message_template = mcp.get("templates", {}).get("user_message", "")
+        if not user_message_template:
+            flash("Error: User message template not found in MCP")
+            return redirect(url_for('create_story'))
+            
+        user_message = user_message_template.format(
+            theme_description=theme_description,
+            lesson=lesson
+        )
+        
+        # Create system prompt from MCP components
+        system_prompt = f"""
+        {mcp['system_prompt']['ai_definition']['who_am_i']}
+        
+        WHAT I DO:
+        {mcp['system_prompt']['ai_definition']['what_i_do']}
+        
+        HOW I COMMUNICATE:
+        {mcp['system_prompt']['ai_personality']['communication_style']}
+        
+        IMPORTANT CONSTRAINTS:
+        {mcp['system_prompt']['ai_behavior']['what_to_avoid']}
+        
+        LANGUAGE:
+        Please write the story in {get_language_name(request.form.get('language', 'en'))}.
+        """
+        
+        # Add backend-specific instructions
+        backend = request.form.get('backend', 'openai')
+        if backend in mcp['system_prompt'].get('backend_specific', {}):
+            system_prompt += f"\n\nBACKEND SPECIFIC:\n{mcp['system_prompt']['backend_specific'][backend]['instruction']}"
+        
         request_data = {
             "request_id": request_id,
             "timestamp": datetime.now().isoformat(),
             "parameters": {
                 "age_range": request.form.get('age_range'),
-                "theme": request.form.get('theme'),
+                "theme": theme_id,
+                "theme_description": theme_description,
+                "lesson": lesson,
                 "characters": request.form.get('characters'),
                 "title": request.form.get('title', 'My Story'),
                 "length": request.form.get('length', 'medium'),
@@ -50,9 +136,14 @@ def create_story():
                 "ai_model": request.form.get('ai_model', 'gpt-3.5-turbo'),
                 "enable_audio": request.form.get('enable_audio') == 'true'
             },
+            "prompts": {
+                "system_prompt": system_prompt,
+                "user_message": user_message
+            },
             "status": "pending",
-            "backend": request.form.get('backend', 'openai')  # Get the selected backend
+            "backend": backend
         }
+        
         # Store in session for reference
         session['request_data'] = request_data
         
@@ -63,48 +154,71 @@ def create_story():
             
         # Redirect to waiting page
         return redirect(url_for('waiting', request_id=request_id))
+     
+    # For GET requests, pass theme data to template
+    themes = mcp.get("themes", {})
+    lessons = mcp.get("lessons", [])
+    ai_providers = mcp.get("ai_providers", {})
     
-    return render_template('create_story.html')
+    # Check for required data
+    if not themes:
+        flash("Error: No themes defined in MCP")
+    if not lessons:
+        flash("Error: No lessons defined in MCP")
+    if not ai_providers:
+        flash("Error: No AI providers defined in MCP")
+        
+    return render_template('create_story.html', 
+                          themes=themes, 
+                          lessons=lessons, 
+                          ai_providers=ai_providers)
 
 @app.route('/waiting/<request_id>')
 def waiting(request_id):
-    # Check if request data is in session
-    request_data = session.get('request_data', None)
+    # Check if request exists
+    request_path = os.path.join(QUEUE_FOLDER, f"{request_id}.json")
+    processed_path = os.path.join(PROCESSED_FOLDER, f"{request_id}.json")
+    error_path = os.path.join(ERROR_FOLDER, f"{request_id}.json")
     
-    # If not in session, try to load from file
-    if not request_data:
-        queue_file = os.path.join(QUEUE_FOLDER, f"{request_id}.json")
-        processed_file = os.path.join(PROCESSED_FOLDER, f"{request_id}.json")
-        error_file = os.path.join(ERROR_FOLDER, f"{request_id}.json")
-        
-        if os.path.exists(queue_file):
-            with open(queue_file, 'r') as f:
-                request_data = json.load(f)
-        elif os.path.exists(processed_file):
-            with open(processed_file, 'r') as f:
-                request_data = json.load(f)
-                # Story is ready, redirect
-                if 'output_file' in request_data:
-                    return redirect(url_for('view_story', filename=request_data['output_file']))
-        elif os.path.exists(error_file):
-            with open(error_file, 'r') as f:
-                request_data = json.load(f)
-                # Error occurred, show error page
-                flash(f"Error creating story: {request_data.get('error', 'Unknown error')}")
-                return redirect(url_for('create_story'))
-        
-        if not request_data:
-            flash("Story request not found.")
-            return redirect(url_for('create_story'))
+    request_data = None
     
-    # Render waiting page
-    # Render waiting page with additional info
+    # Check if in queue
+    if os.path.exists(request_path):
+        with open(request_path, 'r') as f:
+            request_data = json.load(f)
+        status = "Processing"
+    
+    # Check if processed
+    elif os.path.exists(processed_path):
+        with open(processed_path, 'r') as f:
+            request_data = json.load(f)
+        
+        if 'output_file' in request_data:
+            return redirect(url_for('view_story', filename=request_data['output_file']))
+        
+        status = "Completed"
+    
+    # Check if error
+    elif os.path.exists(error_path):
+        with open(error_path, 'r') as f:
+            request_data = json.load(f)
+        
+        flash(f"Error creating story: {request_data.get('error', 'Unknown error')}")
+        return redirect(url_for('create_story'))
+    
+    # Not found
+    else:
+        flash("Story request not found")
+        return redirect(url_for('create_story'))
+    
+    # If we get here, render waiting template
     return render_template(
         'waiting.html', 
         request_id=request_id, 
-        title=request_data['parameters']['title'],
+        title=request_data['parameters'].get('title', 'My Story'),
         backend=request_data.get('backend', 'openai'),
-        ai_model=request_data['parameters']['ai_model']
+        ai_model=request_data['parameters'].get('ai_model', 'gpt-3.5-turbo'),
+        check_interval=CHECK_INTERVAL * 1000  # Convert to milliseconds for JS
     )
 
 @app.route('/check-status/<request_id>')
@@ -131,15 +245,6 @@ def check_story_status(request_id):
     
     # Still processing, continue waiting
     return redirect(url_for('waiting', request_id=request_id))
-
-@app.route('/confirmation')
-def request_confirmation():
-    request_data = session.get('request_data', None)
-    if not request_data:
-        flash('No story request found. Please create a new story.')
-        return redirect(url_for('create_story'))
-    
-    return render_template('confirmation.html', request=request_data)
 
 @app.route('/stories')
 def list_stories():
@@ -184,19 +289,18 @@ def view_story(filename):
     return content
 
 @app.route('/audio/<filename>')
-def serve_audio(filename):
+def get_audio(filename):
     # Security check to prevent directory traversal
     if '..' in filename or filename.startswith('/'):
         flash('Invalid audio filename')
         return redirect(url_for('list_stories'))
         
-    file_path = os.path.join(OUTPUT_FOLDER, 'audio', filename)
+    file_path = os.path.join(AUDIO_FOLDER, filename)
     if not os.path.exists(file_path):
-        flash('Audio file not found')
+        flash('Audio not found')
         return redirect(url_for('list_stories'))
     
-    return send_file(file_path, mimetype='audio/mpeg')
-
+    return send_file(file_path)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000, host='0.0.0.0')

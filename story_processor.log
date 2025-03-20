@@ -87,3 +87,98 @@
 2025-03-18 11:38:31,874 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
 2025-03-18 11:38:56,725 - StoryProcessor - INFO - Audio generated: ea02e1fd-a638-48e7-9713-c4f6f64d6018.mp3
 2025-03-18 11:38:56,726 - StoryProcessor - INFO - Story saved: como-brincar-junto-com-os-amigos_20250318113856.html
+2025-03-20 00:11:20,060 - StoryProcessor - INFO - Starting story processor. Monitoring queue every 10 seconds
+2025-03-20 00:13:00,064 - StoryProcessor - INFO - Found 1 requests in queue
+2025-03-20 00:13:00,065 - StoryProcessor - INFO - Processing request: 965033ce-bcf6-4e6b-8508-b017d36fcb78
+2025-03-20 00:13:00,065 - StoryProcessor - INFO - Using OpenAI backend for request: 965033ce-bcf6-4e6b-8508-b017d36fcb78
+2025-03-20 00:13:04,547 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-20 00:13:04,552 - StoryProcessor - INFO - Generating audio for request: 965033ce-bcf6-4e6b-8508-b017d36fcb78
+2025-03-20 00:13:06,252 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 00:13:28,260 - StoryProcessor - INFO - Audio generated: 965033ce-bcf6-4e6b-8508-b017d36fcb78.mp3
+2025-03-20 00:13:28,260 - StoryProcessor - INFO - Story saved: talk-to-the-prince-of-the-moon_20250320001328.html
+2025-03-20 01:07:39,089 - StoryProcessor - INFO - Keyboard interrupt received. Shutting down.
+2025-03-20 01:07:50,535 - StoryProcessor - INFO - Story Processor started
+2025-03-20 01:09:43,067 - StoryProcessor - INFO - Processing request: e48f040e-c73b-4567-9734-58cb5835934b.json
+2025-03-20 01:09:43,067 - StoryProcessor - INFO - Generating story for request e48f040e-c73b-4567-9734-58cb5835934b using openai backend
+2025-03-20 01:09:43,068 - StoryProcessor - ERROR - Error generating story with OpenAI: 
+
+You tried to access openai.ChatCompletion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
+
+You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
+
+Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
+
+A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
+
+2025-03-20 01:09:43,068 - StoryProcessor - ERROR - Error processing request e48f040e-c73b-4567-9734-58cb5835934b: 
+
+You tried to access openai.ChatCompletion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
+
+You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
+
+Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
+
+A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
+
+2025-03-20 01:12:19,247 - StoryProcessor - INFO - Story Processor started
+2025-03-20 01:15:59,301 - StoryProcessor - INFO - Processing request: b4663247-df08-4bad-b02e-a8d07ed528f5.json
+2025-03-20 01:15:59,302 - StoryProcessor - INFO - Generating story for request b4663247-df08-4bad-b02e-a8d07ed528f5 using deepseek backend
+2025-03-20 01:16:28,793 - StoryProcessor - INFO - Generating audio for request b4663247-df08-4bad-b02e-a8d07ed528f5
+2025-03-20 01:16:31,063 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 01:16:51,770 - StoryProcessor - INFO - Audio generated: b4663247-df08-4bad-b02e-a8d07ed528f5.mp3
+2025-03-20 01:16:51,770 - StoryProcessor - INFO - Successfully processed request b4663247-df08-4bad-b02e-a8d07ed528f5
+2025-03-20 01:16:52,271 - StoryProcessor - INFO - Processing request: 3400eb90-722a-4758-9edb-163f2381b7e7.json
+2025-03-20 01:16:52,272 - StoryProcessor - INFO - Generating story for request 3400eb90-722a-4758-9edb-163f2381b7e7 using deepseek backend
+2025-03-20 01:17:27,227 - StoryProcessor - INFO - Generating audio for request 3400eb90-722a-4758-9edb-163f2381b7e7
+2025-03-20 01:17:29,527 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 01:18:07,313 - StoryProcessor - INFO - Audio generated: 3400eb90-722a-4758-9edb-163f2381b7e7.mp3
+2025-03-20 01:18:07,314 - StoryProcessor - INFO - Successfully processed request 3400eb90-722a-4758-9edb-163f2381b7e7
+2025-03-20 01:18:07,815 - StoryProcessor - INFO - Processing request: c18dc309-33e9-4109-a724-8d1aac58a358.json
+2025-03-20 01:18:07,815 - StoryProcessor - INFO - Generating story for request c18dc309-33e9-4109-a724-8d1aac58a358 using openai backend
+2025-03-20 01:18:13,154 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-20 01:18:13,170 - StoryProcessor - INFO - Generating audio for request c18dc309-33e9-4109-a724-8d1aac58a358
+2025-03-20 01:18:14,985 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 01:18:35,707 - StoryProcessor - INFO - Audio generated: c18dc309-33e9-4109-a724-8d1aac58a358.mp3
+2025-03-20 01:18:35,708 - StoryProcessor - INFO - Successfully processed request c18dc309-33e9-4109-a724-8d1aac58a358
+2025-03-20 01:18:36,209 - StoryProcessor - INFO - Processing request: b09dda3c-4280-4be8-bc91-c75feca31f74.json
+2025-03-20 01:18:36,210 - StoryProcessor - INFO - Generating story for request b09dda3c-4280-4be8-bc91-c75feca31f74 using openai backend
+2025-03-20 01:18:58,471 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-20 01:18:58,479 - StoryProcessor - INFO - Generating audio for request b09dda3c-4280-4be8-bc91-c75feca31f74
+2025-03-20 01:18:59,718 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 01:19:28,019 - StoryProcessor - INFO - Audio generated: b09dda3c-4280-4be8-bc91-c75feca31f74.mp3
+2025-03-20 01:19:28,020 - StoryProcessor - INFO - Successfully processed request b09dda3c-4280-4be8-bc91-c75feca31f74
+2025-03-20 01:43:33,233 - StoryProcessor - INFO - Story Processor started
+2025-03-20 01:46:55,786 - StoryProcessor - INFO - Processing request: 30e71077-99aa-4abd-81c7-89f4c4ed2f53.json
+2025-03-20 01:46:55,786 - StoryProcessor - INFO - Generating story for request 30e71077-99aa-4abd-81c7-89f4c4ed2f53 using anthropic backend
+2025-03-20 01:46:56,962 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 404 Not Found"
+2025-03-20 01:46:56,965 - StoryProcessor - ERROR - Error generating story with Claude: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-haiku'}}
+2025-03-20 01:46:56,965 - StoryProcessor - ERROR - Error processing request 30e71077-99aa-4abd-81c7-89f4c4ed2f53: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-haiku'}}
+2025-03-20 01:49:42,031 - StoryProcessor - INFO - Story Processor started
+2025-03-20 01:49:57,035 - StoryProcessor - INFO - Processing request: 6bad91f3-8c5c-46dc-8c2f-b3a6fc1e0ad8.json
+2025-03-20 01:49:57,036 - StoryProcessor - INFO - Generating story for request 6bad91f3-8c5c-46dc-8c2f-b3a6fc1e0ad8 using anthropic backend
+2025-03-20 01:50:08,077 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2025-03-20 01:50:08,083 - StoryProcessor - INFO - Generating audio for request 6bad91f3-8c5c-46dc-8c2f-b3a6fc1e0ad8
+2025-03-20 01:50:10,409 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 01:50:24,004 - StoryProcessor - INFO - Audio generated: 6bad91f3-8c5c-46dc-8c2f-b3a6fc1e0ad8.mp3
+2025-03-20 01:50:24,005 - StoryProcessor - INFO - Successfully processed request 6bad91f3-8c5c-46dc-8c2f-b3a6fc1e0ad8
+2025-03-20 02:02:09,678 - StoryProcessor - INFO - Processing request: c707e5d4-b0e8-4343-944a-4563cb95159c.json
+2025-03-20 02:02:09,679 - StoryProcessor - INFO - Generating story for request c707e5d4-b0e8-4343-944a-4563cb95159c using openai backend
+2025-03-20 02:02:14,029 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-20 02:02:14,042 - StoryProcessor - INFO - Generating audio for request c707e5d4-b0e8-4343-944a-4563cb95159c
+2025-03-20 02:02:15,605 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 02:02:25,766 - StoryProcessor - INFO - Audio generated: c707e5d4-b0e8-4343-944a-4563cb95159c.mp3
+2025-03-20 02:02:25,767 - StoryProcessor - INFO - Successfully processed request c707e5d4-b0e8-4343-944a-4563cb95159c
+2025-03-20 02:02:26,268 - StoryProcessor - INFO - Processing request: 7b3225dd-5b4c-4504-b24c-57e75f27bac8.json
+2025-03-20 02:02:26,268 - StoryProcessor - INFO - Generating story for request 7b3225dd-5b4c-4504-b24c-57e75f27bac8 using deepseek backend
+2025-03-20 02:03:10,421 - StoryProcessor - INFO - Generating audio for request 7b3225dd-5b4c-4504-b24c-57e75f27bac8
+2025-03-20 02:03:11,816 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 02:03:38,015 - StoryProcessor - INFO - Audio generated: 7b3225dd-5b4c-4504-b24c-57e75f27bac8.mp3
+2025-03-20 02:03:38,016 - StoryProcessor - INFO - Successfully processed request 7b3225dd-5b4c-4504-b24c-57e75f27bac8
+2025-03-20 02:10:16,291 - StoryProcessor - INFO - Story Processor started
+2025-03-20 02:11:13,805 - StoryProcessor - INFO - Processing request: 829176f3-4279-4d62-8c1c-a7fdb0245c73.json
+2025-03-20 02:11:13,806 - StoryProcessor - INFO - Generating story for request 829176f3-4279-4d62-8c1c-a7fdb0245c73 using openai (gpt-3.5-turbo)
+2025-03-20 02:11:16,808 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-20 02:11:16,814 - StoryProcessor - INFO - Generating audio for request 829176f3-4279-4d62-8c1c-a7fdb0245c73
+2025-03-20 02:11:18,649 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 02:11:37,173 - StoryProcessor - INFO - Audio generated: 829176f3-4279-4d62-8c1c-a7fdb0245c73.mp3
+2025-03-20 02:11:37,174 - StoryProcessor - INFO - Successfully processed request 829176f3-4279-4d62-8c1c-a7fdb0245c73
