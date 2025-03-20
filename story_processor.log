@@ -249,3 +249,11 @@ requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://op
 2025-03-20 23:47:57,383 - StoryProcessor - INFO - Audio generated: 3e9f5c40-4649-4332-a627-9989d8176fde.mp3
 2025-03-20 23:47:57,383 - StoryProcessor - INFO - Successfully processed request 3e9f5c40-4649-4332-a627-9989d8176fde in 48.70 seconds
 2025-03-20 23:47:57,383 - StoryProcessor - INFO -   Story generation: 9.83s, Audio: 38.88s, HTML: 0.00s
+2025-03-21 00:22:16,353 - StoryProcessor - INFO - Story Processor started
+2025-03-21 00:23:33,873 - StoryProcessor - INFO - Processing request: b2c214d7-ee0b-4a41-bff4-1200d1b49994.json
+2025-03-21 00:23:33,874 - StoryProcessor - INFO - Processing request b2c214d7-ee0b-4a41-bff4-1200d1b49994 - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-03-21 00:23:33,874 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request b2c214d7-ee0b-4a41-bff4-1200d1b49994
+2025-03-21 00:23:54,671 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 20.80 seconds
+2025-03-21 00:23:54,672 - StoryProcessor - INFO - Tokens: 392 prompt + 1013 completion = 1405 total
+2025-03-21 00:23:54,674 - StoryProcessor - INFO - Successfully processed request b2c214d7-ee0b-4a41-bff4-1200d1b49994 in 20.80 seconds
+2025-03-21 00:23:54,675 - StoryProcessor - INFO -   Story generation: 20.80s, Audio: 0.00s, HTML: 0.00s
