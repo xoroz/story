@@ -65,8 +65,7 @@ def get_language_name(language_code):
 @app.route('/')
 def index():
     return render_template('index.html')
-@app.route('/create', methods=['GET', 'POST'])
-@app.route('/create', methods=['GET', 'POST'])
+
 @app.route('/create', methods=['GET', 'POST'])
 def create_story():
     # Load MCP - will exit if not found
