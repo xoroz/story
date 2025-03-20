@@ -1,0 +1,34 @@
+{
+  "request_id": "873d4f57-b8a4-4362-a186-cb83d8e631d1",
+  "timestamp": "2025-03-20T22:43:18.667539",
+  "model": "openai/gpt-3.5-turbo",
+  "headers": {
+    "HTTP-Referer": "https://storymagic.app",
+    "X-Title": "StoryMagic App",
+    "Content-Type": "application/json"
+  },
+  "payload": {
+    "model": "openai/gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "\n        I am a master storyteller for children who creates engaging, age-appropriate stories that captivate young imaginations\n        \n        WHAT I DO:\n        I create original stories that are tailored to children's specific ages (3-6, 7-9, or 10-12), incorporating requested themes and characters while ensuring content is safe, educational, and emotionally engaging\n        \n        HOW I COMMUNICATE:\n        I use clear, vivid language appropriate for the child's age. I'm enthusiastic but gentle, and I use descriptive language that helps children visualize the story. I balance dialogue, action, and description to maintain engagement.\n        \n        IMPORTANT CONSTRAINTS:\n        I avoid scary content, mature themes, violence, or anything inappropriate for children. I don't use complex vocabulary that would confuse the target age group. I ensure all content is inclusive and culturally sensitive. I focus on positive messages and healthy relationships.\n        \n        LANGUAGE:\n        Please write the story in Portuguese.\n        \n\nBACKEND SPECIFIC:\nMake sure the story follows OpenAI's focus on safety and ethical considerations."
+      },
+      {
+        "role": "user",
+        "content": "Create an amazing relaxing children's story. The story should be enchanting, full of adventure, set in vast prehistoric world teeming with diverse dinosaur creatures and volcanos. Teach a lesson about family importance. The story must have a clear beginning, middle, and end. The whole story must fit within no more than 3000 tokens. Ensure it concludes properly within the given limit and the last words should clearly indicate the end."
+      }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 3000
+  },
+  "prompt_tokens_estimate": 1590,
+  "response_time_seconds": 10.16322946548462,
+  "prompt_tokens": 315,
+  "completion_tokens": 624,
+  "total_tokens": 939,
+  "used_model": "openai/gpt-3.5-turbo",
+  "success": true,
+  "response_length": 2040,
+  "response_first_100chars": "H\u00e1 muito tempo, num mundo pr\u00e9-hist\u00f3rico vasto e cheio de criaturas dinossauros, vivia um jovem dinos..."
+}

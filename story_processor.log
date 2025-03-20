@@ -182,3 +182,70 @@ A detailed migration guide is available here: https://github.com/openai/openai-p
 2025-03-20 02:11:18,649 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
 2025-03-20 02:11:37,173 - StoryProcessor - INFO - Audio generated: 829176f3-4279-4d62-8c1c-a7fdb0245c73.mp3
 2025-03-20 02:11:37,174 - StoryProcessor - INFO - Successfully processed request 829176f3-4279-4d62-8c1c-a7fdb0245c73
+2025-03-20 22:01:32,500 - StoryProcessor - INFO - Story Processor started
+2025-03-20 22:02:30,011 - StoryProcessor - INFO - Processing request: 55d8972a-e015-40d3-8110-783c93d31273.json
+2025-03-20 22:02:30,012 - StoryProcessor - INFO - Generating story for request 55d8972a-e015-40d3-8110-783c93d31273 using openai (o3-mini)
+2025-03-20 22:02:30,897 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-03-20 22:02:30,899 - StoryProcessor - ERROR - Error generating story with OpenAI: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+2025-03-20 22:02:30,899 - StoryProcessor - ERROR - Error processing request 55d8972a-e015-40d3-8110-783c93d31273: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+2025-03-20 22:20:57,577 - StoryProcessor - INFO - Story Processor started
+2025-03-20 22:21:15,081 - StoryProcessor - INFO - Processing request: a484a0c1-7b87-43b8-8891-d16cf0643dbd.json
+2025-03-20 22:21:15,082 - StoryProcessor - INFO - Processing request a484a0c1-7b87-43b8-8891-d16cf0643dbd - Generating story using model o1-mini
+2025-03-20 22:21:15,083 - StoryProcessor - INFO - Sending request to OpenRouter: o1-mini for request a484a0c1-7b87-43b8-8891-d16cf0643dbd
+2025-03-20 22:21:22,600 - StoryProcessor - INFO - Story generated using model: openai/o1-mini in 7.52 seconds
+2025-03-20 22:21:22,601 - StoryProcessor - INFO - Tokens: 182 prompt + 835 completion = 1017 total
+2025-03-20 22:21:22,602 - StoryProcessor - INFO - Generating audio for request a484a0c1-7b87-43b8-8891-d16cf0643dbd
+2025-03-20 22:21:25,098 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 22:21:54,603 - StoryProcessor - INFO - Audio generated: a484a0c1-7b87-43b8-8891-d16cf0643dbd.mp3
+2025-03-20 22:21:54,604 - StoryProcessor - INFO - Successfully processed request a484a0c1-7b87-43b8-8891-d16cf0643dbd in 39.52 seconds
+2025-03-20 22:21:54,604 - StoryProcessor - INFO -   Story generation: 7.52s, Audio: 32.00s, HTML: 0.00s
+2025-03-20 22:29:57,967 - StoryProcessor - INFO - Story Processor started
+2025-03-20 22:34:23,533 - StoryProcessor - INFO - Story Processor started
+2025-03-20 22:43:18,666 - StoryProcessor - INFO - Processing request: 873d4f57-b8a4-4362-a186-cb83d8e631d1.json
+2025-03-20 22:43:18,667 - StoryProcessor - INFO - Processing request 873d4f57-b8a4-4362-a186-cb83d8e631d1 - Generating story using model openai/gpt-3.5-turbo
+2025-03-20 22:43:18,667 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-3.5-turbo for request 873d4f57-b8a4-4362-a186-cb83d8e631d1
+2025-03-20 22:43:28,831 - StoryProcessor - INFO - Story generated using model: openai/gpt-3.5-turbo in 10.16 seconds
+2025-03-20 22:43:28,831 - StoryProcessor - INFO - Tokens: 315 prompt + 624 completion = 939 total
+2025-03-20 22:43:28,833 - StoryProcessor - INFO - Generating audio for request 873d4f57-b8a4-4362-a186-cb83d8e631d1
+2025-03-20 22:43:31,994 - openai._base_client - INFO - Retrying request to /audio/speech in 0.401641 seconds
+2025-03-20 22:43:33,863 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 22:43:50,841 - StoryProcessor - INFO - Audio generated: 873d4f57-b8a4-4362-a186-cb83d8e631d1.mp3
+2025-03-20 22:43:50,842 - StoryProcessor - INFO - Successfully processed request 873d4f57-b8a4-4362-a186-cb83d8e631d1 in 32.18 seconds
+2025-03-20 22:43:50,842 - StoryProcessor - INFO -   Story generation: 10.17s, Audio: 22.01s, HTML: 0.00s
+2025-03-20 22:57:28,044 - StoryProcessor - INFO - Story Processor started
+2025-03-20 23:06:43,184 - StoryProcessor - INFO - Processing request: 318a7de7-3c3b-469f-b45d-3abd59143a42.json
+2025-03-20 23:06:43,184 - StoryProcessor - INFO - Processing request 318a7de7-3c3b-469f-b45d-3abd59143a42 - Generating story using model anthropic/claude-3-5-sonnet-20240620
+2025-03-20 23:06:43,185 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3-5-sonnet-20240620 for request 318a7de7-3c3b-469f-b45d-3abd59143a42
+2025-03-20 23:06:44,504 - StoryProcessor - ERROR - Error generating story with OpenRouter after 1.32s: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+2025-03-20 23:06:44,506 - StoryProcessor - ERROR - Error processing request 318a7de7-3c3b-469f-b45d-3abd59143a42 after 1.32s: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+2025-03-20 23:06:44,507 - StoryProcessor - ERROR - Traceback (most recent call last):
+  File "/home/felix/story/story2/story_processor.py", line 581, in process_request
+    story = generate_story_openrouter(request_data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/felix/story/story2/story_processor.py", line 297, in generate_story_openrouter
+    response.raise_for_status()
+  File "/home/felix/story/story2/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions
+
+2025-03-20 23:07:22,516 - StoryProcessor - INFO - Processing request: 326a6c88-7151-4581-a6a0-78f91244c999.json
+2025-03-20 23:07:22,517 - StoryProcessor - INFO - Processing request 326a6c88-7151-4581-a6a0-78f91244c999 - Generating story using model openai/gpt-3.5-turbo
+2025-03-20 23:07:22,517 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-3.5-turbo for request 326a6c88-7151-4581-a6a0-78f91244c999
+2025-03-20 23:07:32,807 - StoryProcessor - INFO - Story generated using model: openai/gpt-3.5-turbo in 10.29 seconds
+2025-03-20 23:07:32,807 - StoryProcessor - INFO - Tokens: 518 prompt + 735 completion = 1253 total
+2025-03-20 23:07:32,808 - StoryProcessor - INFO - Generating audio for request 326a6c88-7151-4581-a6a0-78f91244c999
+2025-03-20 23:07:34,927 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 23:08:08,059 - StoryProcessor - INFO - Audio generated: 326a6c88-7151-4581-a6a0-78f91244c999.mp3
+2025-03-20 23:08:08,060 - StoryProcessor - INFO - Successfully processed request 326a6c88-7151-4581-a6a0-78f91244c999 in 45.54 seconds
+2025-03-20 23:08:08,060 - StoryProcessor - INFO -   Story generation: 10.29s, Audio: 35.25s, HTML: 0.00s
+2025-03-20 23:45:53,662 - StoryProcessor - INFO - Story Processor started
+2025-03-20 23:47:08,680 - StoryProcessor - INFO - Processing request: 3e9f5c40-4649-4332-a627-9989d8176fde.json
+2025-03-20 23:47:08,681 - StoryProcessor - INFO - Processing request 3e9f5c40-4649-4332-a627-9989d8176fde - Generating story using model mistralai/mistral-saba
+2025-03-20 23:47:08,681 - StoryProcessor - INFO - Sending request to OpenRouter: mistralai/mistral-saba for request 3e9f5c40-4649-4332-a627-9989d8176fde
+2025-03-20 23:47:18,505 - StoryProcessor - INFO - Story generated using model: mistralai/mistral-saba in 9.82 seconds
+2025-03-20 23:47:18,506 - StoryProcessor - INFO - Tokens: 409 prompt + 804 completion = 1213 total
+2025-03-20 23:47:18,507 - StoryProcessor - INFO - Generating audio for request 3e9f5c40-4649-4332-a627-9989d8176fde
+2025-03-20 23:47:20,371 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-20 23:47:57,383 - StoryProcessor - INFO - Audio generated: 3e9f5c40-4649-4332-a627-9989d8176fde.mp3
+2025-03-20 23:47:57,383 - StoryProcessor - INFO - Successfully processed request 3e9f5c40-4649-4332-a627-9989d8176fde in 48.70 seconds
+2025-03-20 23:47:57,383 - StoryProcessor - INFO -   Story generation: 9.83s, Audio: 38.88s, HTML: 0.00s

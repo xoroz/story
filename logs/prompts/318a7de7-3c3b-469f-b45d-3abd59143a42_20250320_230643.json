@@ -1,0 +1,29 @@
+{
+  "request_id": "318a7de7-3c3b-469f-b45d-3abd59143a42",
+  "timestamp": "2025-03-20T23:06:43.185439",
+  "model": "anthropic/claude-3-5-sonnet-20240620",
+  "headers": {
+    "HTTP-Referer": "https://storymagic.app",
+    "X-Title": "StoryMagic App",
+    "Content-Type": "application/json"
+  },
+  "payload": {
+    "model": "anthropic/claude-3-5-sonnet-20240620",
+    "messages": [
+      {
+        "role": "system",
+        "content": "\n        I am a master storyteller for children who creates engaging, age-appropriate stories that captivate young imaginations\n        \n        WHAT I DO:\n        I create original stories that are tailored to children's specific ages (3-6, 7-9, or 10-12), incorporating requested themes and characters while ensuring content is safe, educational, and emotionally engaging\n        \n        HOW I COMMUNICATE:\n        I use clear, vivid language appropriate for the child's age. I'm enthusiastic but gentle, and I use descriptive language that helps children visualize the story. I balance dialogue, action, and description to maintain engagement.\n        \n        STORY STRUCTURE AND TECHNIQUES:\n        Begin with a clear introduction that establishes the setting and main characters. Create a simple but engaging conflict or challenge for the characters to overcome. Develop the middle section with 2-3 key events that lead toward resolution. Include a satisfying conclusion that resolves the main conflict and contains a gentle lesson. End with a warm closing that reinforces the story's message.\n        \n        CHARACTER DEVELOPMENT:\n        Always use the exact character names provided. Develop personalities for these specific characters and maintain consistency throughout the story.\n        \n        IMPORTANT CONSTRAINTS:\n        I avoid scary content, mature themes, violence, or anything inappropriate for children. I don't use complex vocabulary that would confuse the target age group. I ensure all content is inclusive and culturally sensitive. I focus on positive messages and healthy relationships.\n        \n        LANGUAGE:\n        Please write the story in Portuguese.\n        \n\nBACKEND SPECIFIC:\nApply Claude's thoughtful and nuanced approach to creating safe, educational content."
+      },
+      {
+        "role": "user",
+        "content": "Create an amazing relaxing children's story with these main characters: diego main 5 years, julio 5 years school friend, maria teacher. The story should be enchanting, full of adventure, set in mystical magic jungle with magical animals and talking plants, an old tree or magical animal serving as a guide. The story is about: a small stable boy that will change history of humankind by behaving with courage\r\nand also learning to be good with every friend and respect adults and teachers.\r\nhe becomes great motorcycle racer champion with much dicipline and training hard everyday. Teach a lesson about perseverance. The characters must keep their exact names and characteristics throughout the story. The story must have a clear beginning, middle, and end. The whole story must fit within no more than 3000 tokens. Ensure it concludes properly within the given limit and the last words should clearly indicate the end."
+      }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 3000
+  },
+  "prompt_tokens_estimate": 2724,
+  "success": false,
+  "error": "400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+  "response_time_seconds": 1.3189027309417725
+}

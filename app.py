@@ -65,7 +65,8 @@ def get_language_name(language_code):
 @app.route('/')
 def index():
     return render_template('index.html')
-
+@app.route('/create', methods=['GET', 'POST'])
+@app.route('/create', methods=['GET', 'POST'])
 @app.route('/create', methods=['GET', 'POST'])
 def create_story():
     # Load MCP - will exit if not found
@@ -75,65 +76,77 @@ def create_story():
         # Get form data
         request_id = str(uuid.uuid4())
         
-        # Get theme description from selected theme ID
+        # Get basic parameters
         theme_id = request.form.get('theme')
-        theme_map = mcp.get("themes", {})
+        age_range = request.form.get('age_range')
+        length_setting = request.form.get('length', 'medium')
+        language = request.form.get('language', 'en')
+        lesson = request.form.get('lesson')
+        characters = request.form.get('characters', '')
+        story_about = request.form.get('story_about', '')
         
+        # Look up theme description
+        theme_map = mcp.get("themes", {})
         if theme_id not in theme_map:
             flash(f"Error: Selected theme '{theme_id}' not found in MCP")
             return redirect(url_for('create_story'))
-            
         theme_description = theme_map[theme_id]
         
-        # Get lesson
-        lesson = request.form.get('lesson')
+        # Get token limit based on length
+        token_lengths = mcp.get('token_lengths', {})
+        max_tokens = token_lengths.get(length_setting, 3000)
         
-        # Format user message template with theme and lesson
-        user_message_template = mcp.get("templates", {}).get("user_message", "")
-        if not user_message_template:
-            flash("Error: User message template not found in MCP")
+        # Create age-specific system prompt
+        age_adaptations = mcp.get('age_adaptation', {})
+        age_guidance = age_adaptations.get(age_range, "")
+        
+        # Build system prompt
+        system_prompt = mcp.get('system_prompt', '')
+        
+        # Add age-specific guidance if available
+        if age_guidance:
+            system_prompt += f"\n\nFOR AGE RANGE {age_range}:\n{age_guidance}"
+        
+        # Add story structure guidance
+        story_structure = mcp.get('story_structure', '')
+        if story_structure:
+            system_prompt += f"\n\nSTORY STRUCTURE:\n{story_structure}"
+            
+        # Add language instruction
+        system_prompt += f"\n\nLANGUAGE:\nPlease write the story in {get_language_name(language)}."
+        
+        # Build user message from template
+        user_template = mcp.get('user_template', '')
+        if not user_template:
+            flash("Error: User template not found in MCP")
             return redirect(url_for('create_story'))
             
-        user_message = user_message_template.format(
+        user_message = user_template.format(
+            age_range=age_range,
+            characters=characters,
             theme_description=theme_description,
-            lesson=lesson
+            story_about=story_about,
+            lesson=lesson,
+            length=length_setting,
+            tokens=max_tokens
         )
         
-        # Create system prompt from MCP components
-        system_prompt = f"""
-        {mcp['system_prompt']['ai_definition']['who_am_i']}
-        
-        WHAT I DO:
-        {mcp['system_prompt']['ai_definition']['what_i_do']}
-        
-        HOW I COMMUNICATE:
-        {mcp['system_prompt']['ai_personality']['communication_style']}
-        
-        IMPORTANT CONSTRAINTS:
-        {mcp['system_prompt']['ai_behavior']['what_to_avoid']}
-        
-        LANGUAGE:
-        Please write the story in {get_language_name(request.form.get('language', 'en'))}.
-        """
-        
-        # Add backend-specific instructions
-        backend = request.form.get('backend', 'openai')
-        if backend in mcp['system_prompt'].get('backend_specific', {}):
-            system_prompt += f"\n\nBACKEND SPECIFIC:\n{mcp['system_prompt']['backend_specific'][backend]['instruction']}"
-        
+        # Create request data
         request_data = {
             "request_id": request_id,
             "timestamp": datetime.now().isoformat(),
             "parameters": {
-                "age_range": request.form.get('age_range'),
+                "age_range": age_range,
                 "theme": theme_id,
                 "theme_description": theme_description,
                 "lesson": lesson,
-                "characters": request.form.get('characters'),
+                "characters": characters,
+                "story_about": story_about,
                 "title": request.form.get('title', 'My Story'),
-                "length": request.form.get('length', 'medium'),
-                "language": request.form.get('language', 'en'),
-                "ai_model": request.form.get('ai_model', 'gpt-3.5-turbo'),
+                "length": length_setting,
+                "max_tokens": max_tokens,
+                "language": language,
+                "ai_model": request.form.get('ai_model', 'openai/gpt-3.5-turbo'),
                 "enable_audio": request.form.get('enable_audio') == 'true'
             },
             "prompts": {
@@ -141,7 +154,7 @@ def create_story():
                 "user_message": user_message
             },
             "status": "pending",
-            "backend": backend
+            "backend": request.form.get('backend', 'openai')
         }
         
         # Store in session for reference
@@ -154,25 +167,18 @@ def create_story():
             
         # Redirect to waiting page
         return redirect(url_for('waiting', request_id=request_id))
-     
-    # For GET requests, pass theme data to template
+    
+    # For GET requests, pass data to template
     themes = mcp.get("themes", {})
     lessons = mcp.get("lessons", [])
     ai_providers = mcp.get("ai_providers", {})
     
-    # Check for required data
-    if not themes:
-        flash("Error: No themes defined in MCP")
-    if not lessons:
-        flash("Error: No lessons defined in MCP")
-    if not ai_providers:
-        flash("Error: No AI providers defined in MCP")
-        
-    return render_template('create_story.html', 
-                          themes=themes, 
-                          lessons=lessons, 
-                          ai_providers=ai_providers)
-
+    return render_template(
+        'create_story.html', 
+        themes=themes, 
+        lessons=lessons,
+        ai_providers=ai_providers
+    )
 @app.route('/waiting/<request_id>')
 def waiting(request_id):
     # Check if request exists

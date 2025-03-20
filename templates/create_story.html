@@ -164,7 +164,16 @@
                             {% endfor %}
                         </select>
                     </div>
-
+                    <div class="mb-3">
+                        <label for="story_about" class="form-label">What is the story about?</label>
+                        <textarea class="form-control" id="story_about" name="story_about" 
+                            rows="3" placeholder="Describe what should happen in the story" 
+                            maxlength="600" oninput="updateCharCount(this)"></textarea>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-text">Add specific details about the adventures, challenges, or special elements.</div>
+                            <div class="form-text" id="charCount">0/600 characters</div>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label for="lesson" class="form-label">Lesson</label>
                         <select class="form-select" id="lesson" name="lesson" required>
@@ -245,7 +254,29 @@
             </div>
         </form>
     </div>
-
+    <script>
+        function updateCharCount(textarea) {
+            const maxLength = textarea.getAttribute('maxlength');
+            const currentLength = textarea.value.length;
+            document.getElementById('charCount').textContent = 
+                `${currentLength}/${maxLength} characters`;
+            
+            // Optional: Change color when approaching limit
+            if (currentLength > maxLength * 0.8) {
+                document.getElementById('charCount').classList.add('text-warning');
+            } else {
+                document.getElementById('charCount').classList.remove('text-warning');
+            }
+        }
+        
+        // Initialize character count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const storyAboutField = document.getElementById('story_about');
+            if (storyAboutField) {
+                updateCharCount(storyAboutField);
+            }
+        });
+    </script>
     
 </body>
 </html>
