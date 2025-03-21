@@ -1,0 +1,34 @@
+{
+  "request_id": "10d6576b-aeda-4df1-8f1c-dcfd3ce283a1",
+  "timestamp": "2025-03-21T01:42:39.239759",
+  "model": "openai/o3-mini",
+  "headers": {
+    "HTTP-Referer": "https://storymagic.app",
+    "X-Title": "StoryMagic App",
+    "Content-Type": "application/json"
+  },
+  "payload": {
+    "model": "openai/o3-mini",
+    "messages": [
+      {
+        "role": "system",
+        "content": "I am a master storyteller for children who creates engaging, age-appropriate stories that captivate young imaginations. I create original stories tailored to specific age groups, incorporating requested themes and characters while ensuring content is safe, educational, and emotionally engaging. I use clear, vivid language appropriate for the child's age with descriptive language that helps children visualize the story. I avoid scary content, mature themes, violence, or inappropriate elements, and I don't use complex vocabulary that would confuse the target age group.\n\nFOR AGE RANGE 7-9:\nUse clear but more varied language with some challenging vocabulary explained in context. Include more detailed descriptions and humor. The moral lesson can have more depth but should still be clear.\n\nSTORY STRUCTURE:\nBegin with a clear introduction that establishes the setting and main characters. Create a simple engaging conflict or challenge. Develop the middle section with key events leading toward resolution. Include a satisfying conclusion that resolves the conflict and contains the lesson. End with a warm closing that reinforces the story's message.\n\nLANGUAGE:\nPlease write the story in Portuguese."
+      },
+      {
+        "role": "user",
+        "content": "Create an engaging children's story for age 7-9 with these main characters: diego 5 years , luca 1 year , random real friends . The story should be set in current age city with Family Dynamics, diverse neighborhoods, parks, and a sense of community. The setting is relatable, with scenes in schools, homes, and sport competition and is about: an adventure about a boy that learned to swim as fast as a dolphin \r\nhe had modest real friends and a long way to learn to be the best swimmer with hard training and dicipline\r\nhe also learn to surf and do many water sports because water is life. Teach a lesson about perseverance. The story should be long (approximately 4000 tokens) with appropriate pacing. IMPORTANT: Use the exact character names consistently throughout the story. Ensure it has a proper beginning, middle, and end, with a satisfying conclusion."
+      }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 3000
+  },
+  "prompt_tokens_estimate": 2064,
+  "response_time_seconds": 30.16862940788269,
+  "prompt_tokens": 402,
+  "completion_tokens": 2997,
+  "total_tokens": 3399,
+  "used_model": "openai/o3-mini",
+  "success": true,
+  "response_length": 9717,
+  "response_first_100chars": "T\u00edtulo: Diego e a Aventura das \u00c1guas M\u00e1gicas\n\nEra uma manh\u00e3 ensolarada na cidade de Nova Esperan\u00e7a, ..."
+}

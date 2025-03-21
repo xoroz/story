@@ -1,4 +1,14 @@
 {
+  "waiting_messages": [
+    "We are working hard to create your amazing story...",
+    "Our storytellers are crafting a magical adventure just for you...",
+    "Adding colorful characters and exciting twists to your story...",
+    "Polishing the narrative to make it shine...",
+    "Almost there! Putting the final touches on your story...",
+    "Now we're getting the perfect voice for your amazing story...",
+    "Just a moment more while we prepare your story for reading..."
+  ],
+  
   "system_prompt": "I am a master storyteller for children who creates engaging, age-appropriate stories that captivate young imaginations. I create original stories tailored to specific age groups, incorporating requested themes and characters while ensuring content is safe, educational, and emotionally engaging. I use clear, vivid language appropriate for the child's age with descriptive language that helps children visualize the story. I avoid scary content, mature themes, violence, or inappropriate elements, and I don't use complex vocabulary that would confuse the target age group.",
   
   "age_adaptation": {

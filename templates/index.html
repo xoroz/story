@@ -1,101 +1,97 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>StoryMagic - AI-Powered Children's Stories</title>
-    <style>
-        body { 
-            font-family: 'Arial', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        h1 { 
-            color: #FF6B6B;
-            font-size: 36px;
-        }
-        .tagline {
-            color: #666;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
+{% extends "base.html" %}
+
+{% block title %}StoryMagic - AI-Powered Children's Stories{% endblock %}
+
+{% block extra_css %}
+<style>
+    .home-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .home-header h1 {
+        color: var(--secondary-color);
+        font-size: 36px;
+    }
+    
+    .tagline {
+        color: var(--gray);
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+    
+    .features {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+    
+    .feature {
+        background-color: var(--white);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        width: 30%;
+        min-width: 250px;
+        margin-bottom: 20px;
+    }
+    
+    .feature h2 {
+        color: var(--accent-color);
+        font-size: 20px;
+    }
+    
+    .cta {
+        text-align: center;
+        margin: 40px 0;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 15px 30px;
+        border-radius: 4px;
+        font-size: 18px;
+        margin: 0 10px;
+    }
+    
+    @media (max-width: 768px) {
         .features {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
+        
         .feature {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            width: 30%;
-            min-width: 250px;
-            margin-bottom: 20px;
+            width: 100%;
         }
-        .feature h2 {
-            color: #4CAF50;
-            font-size: 20px;
-        }
-        .cta {
-            text-align: center;
-            margin: 40px 0;
-        }
-        .button {
-            display: inline-block;
-            background-color: #FF6B6B;
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 4px;
-            font-size: 18px;
-            margin: 0 10px;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #ff5252;
-        }
-        .button.secondary {
-            background-color: #4CAF50;
-        }
-        .button.secondary:hover {
-            background-color: #3d9140;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>StoryMagic</h1>
-        <div class="tagline">AI-Powered Stories for Little Imaginations</div>
-    </header>
-    
-    <div class="features">
-        <div class="feature">
-            <h2>Creative Stories</h2>
-            <p>Generate unique, imaginative stories tailored to your child's interests and age group.</p>
-        </div>
-        
-        <div class="feature">
-            <h2>Educational</h2>
-            <p>Stories can include educational themes and valuable life lessons in an engaging format.</p>
-        </div>
-        
-        <div class="feature">
-            <h2>Age-Appropriate</h2>
-            <p>Content is crafted specifically for your child's age range with appropriate vocabulary and themes.</p>
-        </div>
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="home-header">
+    <h1>StoryMagic</h1>
+    <div class="tagline">AI-Powered Stories for Little Imaginations</div>
+</div>
+
+<div class="features">
+    <div class="feature">
+        <h2>Creative Stories</h2>
+        <p>Generate unique, imaginative stories tailored to your child's interests and age group.</p>
     </div>
     
-    <div class="cta">
-        <a href="{{ url_for('create_story') }}" class="button">Create a Story</a>
-        <a href="{{ url_for('list_stories') }}" class="button secondary">View Stories</a>
+    <div class="feature">
+        <h2>Educational</h2>
+        <p>Stories can include educational themes and valuable life lessons in an engaging format.</p>
     </div>
-</body>
-</html>
+    
+    <div class="feature">
+        <h2>Age-Appropriate</h2>
+        <p>Content is crafted specifically for your child's age range with appropriate vocabulary and themes.</p>
+    </div>
+</div>
+
+<div class="cta">
+    <a href="{{ url_for('create_story') }}" class="btn btn-secondary">Create a Story</a>
+    <a href="{{ url_for('list_stories') }}" class="btn btn-accent">View Stories</a>
+</div>
+{% endblock %}

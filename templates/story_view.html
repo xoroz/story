@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/story.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/rating.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="story-container">
+    <h1>{{ title }}</h1>
+    
+    {% if story_about %}
+    <div class="story-brief">
+        <h3>Story Brief</h3>
+        <p class="story-about">{{ story_about }}</p>
+    </div>
+    {% endif %}
+    
+    <div class="story-content">
+        {{ story_html|safe }}
+    </div>
+    
+    {% if audio_path %}
+    <div class="audio-player">
+        <h3>Listen to the story:</h3>
+        <audio controls>
+            <source src="/{{ audio_path }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    {% endif %}
+    
+    <div class="rating-container" data-filename="{{ filename }}">
+        <h3>Rate this story</h3>
+        <div class="rating-stars">
+            <div class="stars-display">
+                {% for i in range(1, 6) %}
+                    <span class="star {% if i <= avg_rating %}active{% endif %}">★</span>
+                {% endfor %}
+            </div>
+            <div class="rating-info">
+                <span class="rating-value">{{ "%.1f"|format(avg_rating) }}</span>
+                <span class="rating-count">({{ rating_count }} {{ 'rating' if rating_count == 1 else 'ratings' }})</span>
+                <div class="view-count">
+                    <span class="view-count-icon">👁️</span>
+                    <span>{{ view_count }} {{ 'view' if view_count == 1 else 'views' }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="rating-message"></div>
+    </div>
+    
+    <div class="story-footer">
+        <div class="story-date">{{ current_date }}</div>
+        <div class="ai-info">Created by {{ provider_display }} using {{ model }}</div>
+    </div>
+    
+    <div class="story-actions">
+        <a href="{{ url_for('create_story') }}" class="btn btn-primary">Create Another Story</a>
+        <a href="{{ url_for('list_stories') }}" class="btn btn-accent">View All Stories</a>
+    </div>
+</div>
+{% endblock %}

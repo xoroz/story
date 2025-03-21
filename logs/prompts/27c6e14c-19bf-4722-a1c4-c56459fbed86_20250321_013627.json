@@ -1,0 +1,34 @@
+{
+  "request_id": "27c6e14c-19bf-4722-a1c4-c56459fbed86",
+  "timestamp": "2025-03-21T01:36:27.744117",
+  "model": "mistralai/mistral-large-2411",
+  "headers": {
+    "HTTP-Referer": "https://storymagic.app",
+    "X-Title": "StoryMagic App",
+    "Content-Type": "application/json"
+  },
+  "payload": {
+    "model": "mistralai/mistral-large-2411",
+    "messages": [
+      {
+        "role": "system",
+        "content": "I am a master storyteller for children who creates engaging, age-appropriate stories that captivate young imaginations. I create original stories tailored to specific age groups, incorporating requested themes and characters while ensuring content is safe, educational, and emotionally engaging. I use clear, vivid language appropriate for the child's age with descriptive language that helps children visualize the story. I avoid scary content, mature themes, violence, or inappropriate elements, and I don't use complex vocabulary that would confuse the target age group.\n\nFOR AGE RANGE 7-9:\nUse clear but more varied language with some challenging vocabulary explained in context. Include more detailed descriptions and humor. The moral lesson can have more depth but should still be clear.\n\nSTORY STRUCTURE:\nBegin with a clear introduction that establishes the setting and main characters. Create a simple engaging conflict or challenge. Develop the middle section with key events leading toward resolution. Include a satisfying conclusion that resolves the conflict and contains the lesson. End with a warm closing that reinforces the story's message.\n\nLANGUAGE:\nPlease write the story in Portuguese."
+      },
+      {
+        "role": "user",
+        "content": "Create an engaging children's story for age 7-9 with these main characters: diego 5, luca 1, random friends . The story should be set in current age city with Family Dynamics, diverse neighborhoods, parks, and a sense of community. The setting is relatable, with scenes in schools, homes, and sport competition and is about: an adventure about a boy that learned to play the piano then guitar\r\nhe had modest real friends and a long way to learn also to sing and play in a band. Teach a lesson about friendship. The story should be long (approximately 4000 tokens) with appropriate pacing. IMPORTANT: Use the exact character names consistently throughout the story. Ensure it has a proper beginning, middle, and end, with a satisfying conclusion."
+      }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 3000
+  },
+  "prompt_tokens_estimate": 1950,
+  "response_time_seconds": 42.32368445396423,
+  "prompt_tokens": 429,
+  "completion_tokens": 1782,
+  "total_tokens": 2211,
+  "used_model": "mistralai/mistral-large-2411",
+  "success": true,
+  "response_length": 5383,
+  "response_first_100chars": "**O Aventureiro M\u00fasico da Cidade**\n\nEra uma vez, numa cidade vibrante e cheia de vida, um menino cha..."
+}

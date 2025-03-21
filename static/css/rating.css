@@ -1,0 +1,125 @@
+/* Rating System Styles */
+.rating-container {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.rating-container h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.rating-stars {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stars-display {
+    display: inline-flex;
+    margin-right: 15px;
+}
+
+.star {
+    color: #ddd;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s;
+    margin-right: 2px;
+}
+
+.star:hover, .star.active {
+    color: #ffc107; /* Gold color for active stars */
+}
+
+.star.half-active {
+    position: relative;
+}
+
+.star.half-active:after {
+    content: '★';
+    color: #ffc107;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    overflow: hidden;
+}
+
+.rating-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: var(--gray);
+}
+
+.rating-value {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.rating-count {
+    margin-right: 15px;
+}
+
+.view-count {
+    display: flex;
+    align-items: center;
+}
+
+.view-count-icon {
+    margin-right: 5px;
+    color: var(--primary-color);
+}
+
+/* Rating in story list */
+.story-item .rating-view-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--gray);
+}
+
+.story-item .stars-display {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.story-item .star {
+    font-size: 16px;
+    cursor: default;
+}
+
+.story-item .rating-count {
+    margin-right: 15px;
+}
+
+.story-item .view-count {
+    display: flex;
+    align-items: center;
+}
+
+/* Rating submission message */
+.rating-message {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    display: none;
+}
+
+.rating-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    display: block;
+}
+
+.rating-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    display: block;
+}

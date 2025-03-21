@@ -3,7 +3,7 @@ import json
 import uuid
 import sys
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
 from config_loader import load_config
 
 # Load configuration
@@ -31,6 +31,44 @@ os.makedirs(AUDIO_FOLDER, exist_ok=True)
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = config['App']['secret_key']
+
+# Path to the story metadata file
+METADATA_FILE = 'story_metadata.json'
+
+def get_story_metadata():
+    """
+    Get story metadata from the JSON file
+    Creates the file with default structure if it doesn't exist
+    """
+    if not os.path.exists(METADATA_FILE):
+        # Create default metadata structure
+        metadata = {
+            "metadata_version": 1,
+            "stories": {}
+        }
+        # Save to file
+        with open(METADATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(metadata, f, indent=2)
+        return metadata
+    
+    # Read existing metadata
+    try:
+        with open(METADATA_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        # If file is corrupted, create a new one
+        metadata = {
+            "metadata_version": 1,
+            "stories": {}
+        }
+        with open(METADATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(metadata, f, indent=2)
+        return metadata
+
+def save_story_metadata(metadata):
+    """Save story metadata to the JSON file"""
+    with open(METADATA_FILE, 'w', encoding='utf-8') as f:
+        json.dump(metadata, f, indent=2)
 
 def load_mcp():
     """
@@ -216,6 +254,18 @@ def waiting(request_id):
         flash("Story request not found")
         return redirect(url_for('create_story'))
     
+    # Load MCP to get waiting messages
+    mcp = load_mcp()
+    waiting_messages = mcp.get('waiting_messages', [
+        "We are working hard to create your amazing story...",
+        "Please wait while we generate your story..."
+    ])
+    
+    # Debug: Print waiting messages
+    print(f"Waiting messages: {waiting_messages}")
+    waiting_messages_json = json.dumps(waiting_messages)
+    print(f"JSON waiting messages: {waiting_messages_json}")
+    
     # If we get here, render waiting template
     return render_template(
         'waiting.html', 
@@ -223,7 +273,8 @@ def waiting(request_id):
         title=request_data['parameters'].get('title', 'My Story'),
         backend=request_data.get('backend', 'openai'),
         ai_model=request_data['parameters'].get('ai_model', 'gpt-3.5-turbo'),
-        check_interval=CHECK_INTERVAL * 1000  # Convert to milliseconds for JS
+        check_interval=CHECK_INTERVAL * 1000,  # Convert to milliseconds for JS
+        waiting_messages=waiting_messages_json  # Pass messages as JSON string
     )
 
 @app.route('/check-status/<request_id>')
@@ -255,6 +306,11 @@ def check_story_status(request_id):
 def list_stories():
     # Get list of HTML files in stories directory
     story_files = []
+    
+    # Get story metadata
+    metadata = get_story_metadata()
+    stories_metadata = metadata.get('stories', {})
+    
     for file in os.listdir(OUTPUT_FOLDER):
         if file.endswith('.html'):
             # Get creation time and simple name
@@ -264,10 +320,23 @@ def list_stories():
             # Extract title from filename (remove timestamp and extension)
             title = ' '.join(file.split('_')[:-1]).replace('-', ' ').title()
             
+            # Get metadata for this story if available
+            story_meta = stories_metadata.get(file, {})
+            
+            # Calculate average rating
+            ratings = story_meta.get('ratings', [])
+            avg_rating = sum(ratings) / len(ratings) if ratings else 0
+            
+            # Get view count
+            view_count = story_meta.get('views', 0)
+            
             story_files.append({
                 'path': file,
                 'title': title,
-                'created': created
+                'created': created,
+                'avg_rating': avg_rating,
+                'rating_count': len(ratings),
+                'view_count': view_count
             })
     
     # Sort by creation time, newest first
@@ -287,11 +356,132 @@ def view_story(filename):
         flash('Story not found')
         return redirect(url_for('list_stories'))
     
-    # Simply serve the HTML file content
+    # Read the HTML file content
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    return content
+    # Extract title from the HTML content
+    import re
+    title_match = re.search(r'<title>(.*?)</title>', content, re.IGNORECASE)
+    title = title_match.group(1) if title_match else 'Story'
+    
+    # Extract story content
+    story_content_match = re.search(r'<div class="story-content">(.*?)</div>', content, re.DOTALL)
+    story_html = story_content_match.group(1) if story_content_match else content
+    
+    # Extract story brief if available
+    story_about = None
+    story_about_match = re.search(r'<p class="story-about">(.*?)</p>', content, re.DOTALL)
+    if story_about_match:
+        story_about = story_about_match.group(1)
+    
+    # Extract audio path if available
+    audio_path = None
+    audio_match = re.search(r'<source src="/(.*?)" type="audio/mpeg">', content)
+    if audio_match:
+        audio_path = audio_match.group(1)
+    
+    # Extract provider and model info
+    provider_display = 'AI'
+    model = 'Unknown'
+    ai_info_match = re.search(r'Created by (.*?) using (.*?)</div>', content)
+    if ai_info_match:
+        provider_display = ai_info_match.group(1)
+        model = ai_info_match.group(2)
+    
+    # Current date
+    from datetime import datetime
+    current_date = datetime.now().strftime('%B %d, %Y')
+    
+    # Increment view count
+    metadata = get_story_metadata()
+    if filename not in metadata['stories']:
+        metadata['stories'][filename] = {
+            'ratings': [],
+            'views': 0
+        }
+    
+    # Increment view count
+    metadata['stories'][filename]['views'] = metadata['stories'][filename].get('views', 0) + 1
+    save_story_metadata(metadata)
+    
+    # Get rating information
+    story_meta = metadata['stories'].get(filename, {})
+    ratings = story_meta.get('ratings', [])
+    avg_rating = sum(ratings) / len(ratings) if ratings else 0
+    rating_count = len(ratings)
+    view_count = story_meta.get('views', 0)
+    
+    # Render the story view template
+    return render_template(
+        'story_view.html',
+        title=title,
+        story_html=story_html,
+        story_about=story_about,
+        audio_path=audio_path,
+        provider_display=provider_display,
+        model=model,
+        current_date=current_date,
+        filename=filename,
+        avg_rating=avg_rating,
+        rating_count=rating_count,
+        view_count=view_count
+    )
+
+@app.route('/rate-story', methods=['POST'])
+def rate_story():
+    """Handle story rating submissions via AJAX"""
+    # Get form data
+    filename = request.form.get('filename')
+    rating = request.form.get('rating')
+    
+    # Validate input
+    if not filename or not rating:
+        return jsonify({'success': False, 'message': 'Missing required parameters'}), 400
+    
+    try:
+        rating = int(rating)
+        if rating < 1 or rating > 5:
+            return jsonify({'success': False, 'message': 'Rating must be between 1 and 5'}), 400
+    except ValueError:
+        return jsonify({'success': False, 'message': 'Invalid rating value'}), 400
+    
+    # Security check to prevent directory traversal
+    if '..' in filename or filename.startswith('/'):
+        return jsonify({'success': False, 'message': 'Invalid filename'}), 400
+    
+    # Check if the story exists
+    file_path = os.path.join(OUTPUT_FOLDER, filename)
+    if not os.path.exists(file_path):
+        return jsonify({'success': False, 'message': 'Story not found'}), 404
+    
+    # Get metadata
+    metadata = get_story_metadata()
+    
+    # Initialize story metadata if not exists
+    if filename not in metadata['stories']:
+        metadata['stories'][filename] = {
+            'ratings': [],
+            'views': 0
+        }
+    
+    # Add the rating
+    metadata['stories'][filename]['ratings'].append(rating)
+    
+    # Calculate new average
+    ratings = metadata['stories'][filename]['ratings']
+    avg_rating = sum(ratings) / len(ratings)
+    
+    # Save metadata
+    save_story_metadata(metadata)
+    
+    # Return success response with updated info
+    return jsonify({
+        'success': True,
+        'message': 'Rating submitted successfully!',
+        'average_rating': avg_rating,
+        'rating_count': len(ratings)
+    })
 
 @app.route('/audio/<filename>')
 def get_audio(filename):

@@ -1,0 +1,143 @@
+/* Story Display Styles */
+.story-container {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.story-container h1 {
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+}
+
+.story-brief {
+    background-color: #f6f8ff;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border-left: 4px solid var(--primary-color);
+}
+
+.story-brief h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.story-about {
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.story-content {
+    margin-top: 25px;
+    line-height: 1.8;
+}
+
+.story-content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.audio-player {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.audio-player h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+.audio-player audio {
+    width: 100%;
+    margin: 15px 0;
+}
+
+.story-footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--gray);
+    border-top: 1px solid var(--light-gray);
+    padding-top: 15px;
+}
+
+.story-date {
+    margin-bottom: 5px;
+}
+
+.ai-info {
+    font-style: italic;
+}
+
+.story-actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.story-actions .btn {
+    margin: 0 10px;
+}
+
+/* Story List Styles */
+.story-list {
+    margin-top: 20px;
+}
+
+.story-item {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.story-item:hover {
+    transform: translateY(-3px);
+}
+
+.story-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.story-date {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.no-stories {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 30px;
+    text-align: center;
+    color: var(--gray);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .story-container {
+        padding: 20px;
+    }
+    
+    .story-container h1 {
+        font-size: 28px;
+    }
+    
+    .story-content p {
+        font-size: 16px;
+    }
+}

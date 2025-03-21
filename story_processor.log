@@ -257,3 +257,75 @@ requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://op
 2025-03-21 00:23:54,672 - StoryProcessor - INFO - Tokens: 392 prompt + 1013 completion = 1405 total
 2025-03-21 00:23:54,674 - StoryProcessor - INFO - Successfully processed request b2c214d7-ee0b-4a41-bff4-1200d1b49994 in 20.80 seconds
 2025-03-21 00:23:54,675 - StoryProcessor - INFO -   Story generation: 20.80s, Audio: 0.00s, HTML: 0.00s
+2025-03-21 00:49:38,937 - StoryProcessor - INFO - Story Processor started
+2025-03-21 00:52:18,980 - StoryProcessor - INFO - Processing request: b0984c63-41db-4d92-b36a-66f42c52fdcd.json
+2025-03-21 00:52:18,981 - StoryProcessor - INFO - Processing request b0984c63-41db-4d92-b36a-66f42c52fdcd - Generating story using model openai/gpt-4o-mini
+2025-03-21 00:52:18,981 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-4o-mini for request b0984c63-41db-4d92-b36a-66f42c52fdcd
+2025-03-21 00:52:35,165 - StoryProcessor - INFO - Story generated using model: openai/gpt-4o-mini in 16.18 seconds
+2025-03-21 00:52:35,166 - StoryProcessor - INFO - Tokens: 378 prompt + 1211 completion = 1589 total
+2025-03-21 00:52:35,167 - StoryProcessor - INFO - Generating audio for request b0984c63-41db-4d92-b36a-66f42c52fdcd
+2025-03-21 00:52:35,963 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 400 Bad Request"
+2025-03-21 00:52:36,168 - StoryProcessor - ERROR - Error generating audio: Error code: 400 - {'error': {'message': '[{\'type\': \'string_too_long\', \'loc\': (\'body\', \'input\'), \'msg\': \'String should have at most 4096 characters\', \'input\': \'**Título: Diego e o Robô Mágico**\\n\\n**Introdução**\\n\\nEm uma cidade vibrante, repleta de diversidade e cores, vivia um menino chamado Diego. Ele tinha 10 anos e morava com sua família em um pequeno apartamento perto de um parque onde as crianças costumavam brincar. Diego era curioso e criativo, sempre cheio de ideias malucas sobre como tornar o mundo um lugar melhor. Seu irmão mais novo, Luca, apenas um ano de idade, ainda estava aprendendo a andar e a falar, mas já tinha o sorriso mais encantador que iluminava os dias de Diego.\\n\\nDiego adorava passar o tempo com seus amigos, jogando futebol no parque e explorando os arredores da vizinhança. Porém, mesmo com toda a sua energia, havia algo que sempre o incomodava: sua dificuldade em colocar suas ideias em prática. Ele sonhava em inventar coisas incríveis, mas muitas vezes se sentia desencorajado quando seus planos não saíam como ele queria.\\n\\n**O Encontro Mágico**\\n\\nUm dia, enquanto voltava da escola, Diego avistou algo diferente no parque. Era um robô futurista, brilhante e com um sorriso amigável. Este robô se chamava Robi, e ele possuía uma inteligência artificial muito avançada. Robi estava programado para ajudar os humanos a desenvolverem suas ideias e a se tornarem versões melhores de si mesmos.\\n\\nDiego, intrigado, se aproximou do robô. "Oi! Você é um robô de verdade?" perguntou ele, os olhos brilhando de curiosidade. Robi respondeu com uma voz suave e encorajadora: "Sim, sou! Estou aqui para ajudar você a transformar suas ideias em realidade. O que você gostaria de criar?"\\n\\nDiego hesitou por um momento. Ele tinha tantas ideias, mas não sabia qual escolher. "Eu quero inventar algo que ajude as pessoas no meu bairro, mas nunca consigo fazer tudo funcionar."\\n\\nRobi sorriu. "Vamos trabalhar juntos! A primeira coisa que você precisa é de perseverança. Às vezes, as melhores ideias surgem depois de muitos tentativos. Vamos começar!"\\n\\n**Desenvolvendo a Ideia**\\n\\nNos dias seguintes, Diego e Robi se encontraram no parque sempre que podiam. Robi ensinou Diego sobre programação e como usar códigos para dar vida às suas invenções. Juntos, eles passaram horas desenhando projetos e escrevendo códigos, enquanto Diego aprendia a importância de não desistir, mesmo quando as coisas ficavam difíceis.\\n\\nDiego decidiu que queria criar um dispositivo que ajudasse as crianças a se organizarem para brincar no parque, para que todos pudessem se divertir juntos. Ele imaginou um aplicativo que permitisse que as crianças escolhessem jogos e horários, garantindo que ninguém ficasse de fora.\\n\\n"Isso é uma ótima ideia, Diego! Mas, e se não funcionasse na primeira tentativa?" perguntou Robi, incentivando-o a pensar sobre a perseverança. Diego respirou fundo e sorriu. "Então, nós tentaremos de novo, certo?"\\n\\n**Os Desafios e a Superação**\\n\\nA jornada não foi fácil. No início, Diego enfrentou muitos erros e falhas. O aplicativo não funcionava como esperado e, em uma das tentativas, os jogos que ele havia programado não apareciam no dispositivo. Diego sentiu a frustração crescendo. "Talvez eu não seja bom o suficiente para isso," desabafou para Robi, com o olhar cabisbaixo.\\n\\nRobi, percebendo a tristeza do amigo, disse: "Todos enfrentamos dificuldades, Diego. O importante é como lidamos com elas. Vamos revisar o que deu errado e aprender com isso. A perseverança é o caminho para o sucesso."\\n\\nMotivado pelas palavras do robô, Diego decidiu não desistir. Ele e Robi trabalharam juntos, ajustando o código, testando novas ideias e, mais importante, aprendendo com cada erro. Com o tempo, Diego começou a perceber que cada falha era uma oportunidade de aprendizado.\\n\\n**A Competição**\\n\\nFinalmente, a escola de Diego anunciou uma competição de ciências, onde os alunos poderiam apresentar suas invenções. Diego viu nisso uma chance perfeita para mostrar o que ele e Robi haviam criado. Ele se inscreveu, animado, mas também nervoso. "E se ninguém gostar da minha ideia?" ele pensou.\\n\\nRobi, sempre otimista, encorajou Diego: "Lembre-se, o que importa não é apenas ganhar, mas o quanto você aprendeu durante o processo. Vá e mostre a todos o que você criou!"\\n\\nNo dia da competição, Diego apresentou seu aplicativo com confiança. Ele explicou como o dispositivo ajudava as crianças a se organizarem e a se divertirem juntas no parque. Os jurados ficaram impressionados com a criatividade e a utilidade da invenção. No final, Diego não apenas ganhou o primeiro lugar, mas também o respeito e a admiração de seus colegas.\\n\\n**Conclusão**\\n\\nCom o prêmio em mãos e um sorriso radiante no rosto, Diego percebeu que a verdadeira vitória não estava em vencer a competição, mas em todo o aprendizado e crescimento que ele experimentou ao longo do caminho. Ele agradeceu a Robi, que sempre esteve ao seu lado, e prometeu continuar se esforçando para fazer do mundo um lugar melhor.\\n\\nDiego aprendeu que a perseverança é fundamental para alcançar seus sonhos e que, ao lado de amigos e mentores, nada é impossível. E assim, a amizade entre Diego e Robi se fortaleceu, e juntos, eles continuaram a explorar novas ideias, prontos para enfrentar qualquer desafio que viesse pela frente.\\n\\nE assim termina a história de Diego e o robô mágico, que juntos ensinaram que cada ideia vale a pena, e que a perseverança é a chave para transformar sonhos em realidade.\', \'ctx\': {\'max_length\': 4096}}]', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-03-21 00:52:36,170 - StoryProcessor - INFO - Successfully processed request b0984c63-41db-4d92-b36a-66f42c52fdcd in 17.19 seconds
+2025-03-21 00:52:36,170 - StoryProcessor - INFO -   Story generation: 16.19s, Audio: 1.00s, HTML: 0.00s
+2025-03-21 01:03:13,464 - StoryProcessor - INFO - Story Processor started
+2025-03-21 01:05:00,991 - StoryProcessor - INFO - Processing request: ef86c1c8-a0f3-4854-9728-8066de998f0a.json
+2025-03-21 01:05:00,992 - StoryProcessor - INFO - Processing request ef86c1c8-a0f3-4854-9728-8066de998f0a - Generating story using model openai/gpt-4o-mini
+2025-03-21 01:05:00,993 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-4o-mini for request ef86c1c8-a0f3-4854-9728-8066de998f0a
+2025-03-21 01:05:18,318 - StoryProcessor - INFO - Story generated using model: openai/gpt-4o-mini in 17.32 seconds
+2025-03-21 01:05:18,319 - StoryProcessor - INFO - Tokens: 363 prompt + 1200 completion = 1563 total
+2025-03-21 01:05:18,320 - StoryProcessor - INFO - Generating audio for request ef86c1c8-a0f3-4854-9728-8066de998f0a
+2025-03-21 01:05:18,321 - StoryProcessor - INFO - Text exceeds 4096 character limit. Splitting into chunks for request ef86c1c8-a0f3-4854-9728-8066de998f0a
+2025-03-21 01:05:18,321 - StoryProcessor - INFO - Split text into 2 chunks for audio generation
+2025-03-21 01:05:20,367 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:06:04,069 - StoryProcessor - INFO - Generated audio chunk 1/2
+2025-03-21 01:06:06,338 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:06:18,739 - StoryProcessor - INFO - Generated audio chunk 2/2
+2025-03-21 01:06:20,680 - StoryProcessor - INFO - Combined audio saved to ef86c1c8-a0f3-4854-9728-8066de998f0a.mp3
+2025-03-21 01:06:20,684 - StoryProcessor - INFO - Successfully processed request ef86c1c8-a0f3-4854-9728-8066de998f0a in 79.69 seconds
+2025-03-21 01:06:20,684 - StoryProcessor - INFO -   Story generation: 17.33s, Audio: 62.36s, HTML: 0.00s
+2025-03-21 01:25:00,400 - StoryProcessor - INFO - Story Processor started
+2025-03-21 01:26:52,926 - StoryProcessor - INFO - Processing request: 78ec7e84-4ef4-4933-be3b-256c45e0c8c5.json
+2025-03-21 01:26:52,927 - StoryProcessor - INFO - Processing request 78ec7e84-4ef4-4933-be3b-256c45e0c8c5 - Generating story using model openai/gpt-4o
+2025-03-21 01:26:52,928 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-4o for request 78ec7e84-4ef4-4933-be3b-256c45e0c8c5
+2025-03-21 01:27:13,082 - StoryProcessor - INFO - Story generated using model: openai/gpt-4o in 20.15 seconds
+2025-03-21 01:27:13,083 - StoryProcessor - INFO - Tokens: 353 prompt + 988 completion = 1341 total
+2025-03-21 01:27:13,084 - StoryProcessor - INFO - Generating audio for request 78ec7e84-4ef4-4933-be3b-256c45e0c8c5
+2025-03-21 01:27:14,558 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:27:54,352 - StoryProcessor - INFO - Audio generated: 78ec7e84-4ef4-4933-be3b-256c45e0c8c5.mp3
+2025-03-21 01:27:54,352 - StoryProcessor - INFO - Successfully processed request 78ec7e84-4ef4-4933-be3b-256c45e0c8c5 in 61.43 seconds
+2025-03-21 01:27:54,353 - StoryProcessor - INFO -   Story generation: 20.16s, Audio: 41.27s, HTML: 0.00s
+2025-03-21 01:34:27,711 - StoryProcessor - INFO - Story Processor started
+2025-03-21 01:36:27,742 - StoryProcessor - INFO - Processing request: 27c6e14c-19bf-4722-a1c4-c56459fbed86.json
+2025-03-21 01:36:27,743 - StoryProcessor - INFO - Processing request 27c6e14c-19bf-4722-a1c4-c56459fbed86 - Generating story using model mistralai/mistral-large-2411
+2025-03-21 01:36:27,744 - StoryProcessor - INFO - Sending request to OpenRouter: mistralai/mistral-large-2411 for request 27c6e14c-19bf-4722-a1c4-c56459fbed86
+2025-03-21 01:37:10,068 - StoryProcessor - INFO - Story generated using model: mistralai/mistral-large-2411 in 42.32 seconds
+2025-03-21 01:37:10,068 - StoryProcessor - INFO - Tokens: 429 prompt + 1782 completion = 2211 total
+2025-03-21 01:37:10,070 - StoryProcessor - INFO - Generating audio for request 27c6e14c-19bf-4722-a1c4-c56459fbed86
+2025-03-21 01:37:10,071 - StoryProcessor - INFO - Text exceeds 4096 character limit. Splitting into chunks for request 27c6e14c-19bf-4722-a1c4-c56459fbed86
+2025-03-21 01:37:10,071 - StoryProcessor - INFO - Split text into 2 chunks for audio generation
+2025-03-21 01:37:11,665 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:37:54,113 - StoryProcessor - INFO - Generated audio chunk 1/2
+2025-03-21 01:37:55,824 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:38:12,517 - StoryProcessor - INFO - Generated audio chunk 2/2
+2025-03-21 01:38:14,660 - StoryProcessor - INFO - Combined audio saved to 27c6e14c-19bf-4722-a1c4-c56459fbed86.mp3
+2025-03-21 01:38:14,662 - StoryProcessor - INFO - Successfully processed request 27c6e14c-19bf-4722-a1c4-c56459fbed86 in 106.92 seconds
+2025-03-21 01:38:14,662 - StoryProcessor - INFO -   Story generation: 42.33s, Audio: 64.59s, HTML: 0.00s
+2025-03-21 01:40:56,707 - StoryProcessor - INFO - Story Processor started
+2025-03-21 01:42:39,238 - StoryProcessor - INFO - Processing request: 10d6576b-aeda-4df1-8f1c-dcfd3ce283a1.json
+2025-03-21 01:42:39,239 - StoryProcessor - INFO - Processing request 10d6576b-aeda-4df1-8f1c-dcfd3ce283a1 - Generating story using model openai/o3-mini
+2025-03-21 01:42:39,239 - StoryProcessor - INFO - Sending request to OpenRouter: openai/o3-mini for request 10d6576b-aeda-4df1-8f1c-dcfd3ce283a1
+2025-03-21 01:43:09,409 - StoryProcessor - INFO - Story generated using model: openai/o3-mini in 30.17 seconds
+2025-03-21 01:43:09,409 - StoryProcessor - INFO - Tokens: 402 prompt + 2997 completion = 3399 total
+2025-03-21 01:43:09,411 - StoryProcessor - INFO - Generating audio for request 10d6576b-aeda-4df1-8f1c-dcfd3ce283a1
+2025-03-21 01:43:09,411 - StoryProcessor - INFO - Text exceeds 4096 character limit. Splitting into chunks for request 10d6576b-aeda-4df1-8f1c-dcfd3ce283a1
+2025-03-21 01:43:09,411 - StoryProcessor - INFO - Split text into 3 chunks for audio generation
+2025-03-21 01:43:10,868 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:43:50,716 - StoryProcessor - INFO - Generated audio chunk 1/3
+2025-03-21 01:43:53,552 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:44:40,484 - StoryProcessor - INFO - Generated audio chunk 2/3
+2025-03-21 01:44:43,161 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-21 01:45:05,206 - StoryProcessor - INFO - Generated audio chunk 3/3
+2025-03-21 01:45:08,804 - StoryProcessor - INFO - Combined audio saved to 10d6576b-aeda-4df1-8f1c-dcfd3ce283a1.mp3
+2025-03-21 01:45:08,808 - StoryProcessor - INFO - Successfully processed request 10d6576b-aeda-4df1-8f1c-dcfd3ce283a1 in 149.57 seconds
+2025-03-21 01:45:08,808 - StoryProcessor - INFO -   Story generation: 30.17s, Audio: 119.40s, HTML: 0.00s

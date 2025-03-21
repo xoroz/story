@@ -1,89 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>All Stories</title>
-    <style>
-        body { 
-            font-family: 'Arial', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .nav {
-            margin-bottom: 20px;
-        }
-        .nav a {
-            text-decoration: none;
-            color: #2196F3;
-        }
-        .story-list {
-            border-top: 1px solid #eee;
-            margin-top: 20px;
-        }
-        .story-item {
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .story-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .story-date {
-            color: #777;
-            font-size: 14px;
-        }
-        .story-link {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .no-stories {
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-            text-align: center;
-            color: #777;
-        }
-        .create-button {
-            display: inline-block;
-            background-color: #FF6B6B;
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="nav">
-        <a href="{{ url_for('index') }}">Home</a> | 
-        <a href="{{ url_for('create_story') }}">Create Story</a>
-    </div>
-    
-    <h1>All Stories</h1>
-    
-    {% if stories %}
-        <div class="story-list">
-            {% for story in stories %}
-                <div class="story-item">
-                    <div class="story-title">{{ story.title }}</div>
-                    <div class="story-date">Created: {{ story.created.strftime('%B %d, %Y at %I:%M %p') }}</div>
-                    <a href="{{ url_for('view_story', filename=story.path) }}" class="story-link">Read Story</a>
+{% extends "base.html" %}
+
+{% block title %}All Stories{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/story.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>All Stories</h1>
+
+{% if stories %}
+    <div class="story-list">
+        {% for story in stories %}
+            <div class="story-item">
+                <div class="story-title">{{ story.title }}</div>
+                <div class="story-date">Created: {{ story.created.strftime('%B %d, %Y at %I:%M %p') }}</div>
+                <div class="rating-view-info">
+                    <div class="stars-display">
+                        {% for i in range(1, 6) %}
+                            <span class="star {% if i <= story.avg_rating %}active{% endif %}">★</span>
+                        {% endfor %}
+                    </div>
+                    <span class="rating-value">{{ "%.1f"|format(story.avg_rating) }}</span>
+                    <span class="rating-count">({{ story.rating_count }} {{ 'rating' if story.rating_count == 1 else 'ratings' }})</span>
+                    <div class="view-count">
+                        <span class="view-count-icon">👁️</span>
+                        <span>{{ story.view_count }} {{ 'view' if story.view_count == 1 else 'views' }}</span>
+                    </div>
                 </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="no-stories">
-            <p>No stories have been created yet.</p>
-            <a href="{{ url_for('create_story') }}" class="create-button">Create Your First Story</a>
-        </div>
-    {% endif %}
-</body>
-</html>
+                <a href="{{ url_for('view_story', filename=story.path) }}" class="btn btn-accent">Read Story</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-stories">
+        <p>No stories have been created yet.</p>
+        <a href="{{ url_for('create_story') }}" class="btn btn-secondary">Create Your First Story</a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -293,18 +293,121 @@ def generate_audio(text, language, request_id):
         audio_filename = f"{request_id}.mp3"
         audio_path = os.path.join(audio_dir, audio_filename)
         
-        # Call OpenAI TTS API
-        response = openai.audio.speech.create(
-            model="tts-1",
-            voice=voice,
-            input=text
-        )
-        
-        # Save the audio file
-        response.stream_to_file(audio_path)
-        
-        logger.info(f"Audio generated: {audio_filename}")
-        return f"audio/{audio_filename}"
+        # Check if text exceeds OpenAI's 4096 character limit
+        if len(text) <= 4000:  # Using 4000 to be safe
+            # Call OpenAI TTS API for the entire text
+            response = openai.audio.speech.create(
+                model="tts-1",
+                voice=voice,
+                input=text
+            )
+            
+            # Save the audio file
+            response.stream_to_file(audio_path)
+            
+            logger.info(f"Audio generated: {audio_filename}")
+            return f"audio/{audio_filename}"
+        else:
+            logger.info(f"Text exceeds 4096 character limit. Splitting into chunks for request {request_id}")
+            
+            # Split text into chunks (at paragraph boundaries if possible)
+            chunks = []
+            paragraphs = text.split('\n\n')
+            current_chunk = ""
+            
+            for paragraph in paragraphs:
+                # If adding this paragraph would exceed the limit, start a new chunk
+                if len(current_chunk) + len(paragraph) + 2 > 4000:  # +2 for the newlines
+                    if current_chunk:  # Don't add empty chunks
+                        chunks.append(current_chunk)
+                    current_chunk = paragraph
+                else:
+                    if current_chunk:
+                        current_chunk += '\n\n' + paragraph
+                    else:
+                        current_chunk = paragraph
+            
+            # Add the last chunk if it's not empty
+            if current_chunk:
+                chunks.append(current_chunk)
+            
+            # If we still have chunks that are too long, split them further
+            final_chunks = []
+            for chunk in chunks:
+                if len(chunk) <= 4000:
+                    final_chunks.append(chunk)
+                else:
+                    # Split at sentence boundaries
+                    sentences = chunk.replace('. ', '.|').replace('! ', '!|').replace('? ', '?|').split('|')
+                    current_chunk = ""
+                    
+                    for sentence in sentences:
+                        if len(current_chunk) + len(sentence) + 1 > 4000:  # +1 for the space
+                            if current_chunk:
+                                final_chunks.append(current_chunk)
+                            current_chunk = sentence
+                        else:
+                            if current_chunk:
+                                current_chunk += ' ' + sentence
+                            else:
+                                current_chunk = sentence
+                    
+                    if current_chunk:
+                        final_chunks.append(current_chunk)
+            
+            logger.info(f"Split text into {len(final_chunks)} chunks for audio generation")
+            
+            # Process each chunk and combine the audio files
+            import pydub
+            from pydub import AudioSegment
+            
+            combined_audio = None
+            temp_files = []
+            
+            for i, chunk in enumerate(final_chunks):
+                # Generate a temporary filename for this chunk
+                temp_filename = f"{request_id}_chunk_{i}.mp3"
+                temp_path = os.path.join(audio_dir, temp_filename)
+                temp_files.append(temp_path)
+                
+                # Generate audio for this chunk
+                try:
+                    chunk_response = openai.audio.speech.create(
+                        model="tts-1",
+                        voice=voice,
+                        input=chunk
+                    )
+                    
+                    # Save the chunk audio file
+                    chunk_response.stream_to_file(temp_path)
+                    logger.info(f"Generated audio chunk {i+1}/{len(final_chunks)}")
+                    
+                    # Add to combined audio
+                    if combined_audio is None:
+                        combined_audio = AudioSegment.from_mp3(temp_path)
+                    else:
+                        chunk_audio = AudioSegment.from_mp3(temp_path)
+                        combined_audio += chunk_audio
+                        
+                except Exception as chunk_error:
+                    logger.error(f"Error generating audio for chunk {i+1}: {chunk_error}")
+            
+            # Save the combined audio file
+            if combined_audio:
+                combined_audio.export(audio_path, format="mp3")
+                logger.info(f"Combined audio saved to {audio_filename}")
+                
+                # Clean up temporary files
+                for temp_file in temp_files:
+                    try:
+                        os.remove(temp_file)
+                    except Exception as cleanup_error:
+                        logger.warning(f"Could not remove temporary file {temp_file}: {cleanup_error}")
+                
+                return f"audio/{audio_filename}"
+            else:
+                logger.error("Failed to generate any audio chunks")
+                return None
         
     except Exception as e:
         logger.error(f"Error generating audio: {e}")
@@ -351,95 +454,66 @@ def story_to_html(story, title, request_id, audio_path, language='en', backend='
         </div>
         """
     
+    # Create HTML with links to static CSS
     html = f"""
     <!DOCTYPE html>
     <html lang="{language}">
     <head>
         <title>{title}</title>
         <meta charset="UTF-8">
-        <style>
-            body {{ 
-                font-family: 'Comic Sans MS', cursive, sans-serif;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 20px;
-                background-color: #f9f9f9;
-                color: #333;
-                line-height: 1.6;
-            }}
-            h1 {{ 
-                color: #FF6B6B;
-                text-align: center;
-            }}
-            h3 {{
-                color: #5D69B1;
-                margin-top: 20px;
-            }}
-            p {{ 
-                font-size: 18px;
-                margin-bottom: 15px;
-            }}
-            .story-container {{
-                background-color: white;
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            }}
-            .story-content {{
-                margin-top: 25px;
-            }}
-            .story-brief {{
-                background-color: #f6f8ff;
-                padding: 15px;
-                border-radius: 10px;
-                margin: 20px 0;
-                border-left: 4px solid #5D69B1;
-            }}
-            .story-about {{
-                font-style: italic;
-                font-size: 16px;
-            }}
-            .audio-player {{
-                margin-top: 30px;
-                padding: 20px;
-                background-color: #f0f0f0;
-                border-radius: 10px;
-            }}
-            .footer {{
-                margin-top: 30px;
-                text-align: center;
-                font-size: 14px;
-                color: #777;
-                border-top: 1px solid #eee;
-                padding-top: 15px;
-            }}
-            .back-link {{
-                display: block;
-                text-align: center;
-                margin-top: 30px;
-                color: #FF6B6B;
-                text-decoration: none;
-                font-weight: bold;
-            }}
-            .back-link:hover {{
-                text-decoration: underline;
-            }}
-        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/css/base.css">
+        <link rel="stylesheet" href="/static/css/story.css">
     </head>
     <body>
-        <div class="story-container">
-            <h1>{title}</h1>
-            {story_about_html}
-            <div class="story-content">
-                {"".join(html_paragraphs)}
+        <header class="site-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="/">StoryMagic</a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/create">Create Story</a></li>
+                        <li><a href="/stories">View Stories</a></li>
+                    </ul>
+                </nav>
             </div>
-            {audio_html}
-            <div class="footer">
-                <div class="date">{current_date}</div>
-                <div class="ai-info">Created by {provider_display} using {model}</div>
+        </header>
+
+        <main class="site-content">
+            <div class="container">
+                <div class="story-container">
+                    <h1>{title}</h1>
+                    {story_about_html}
+                    <div class="story-content">
+                        {"".join(html_paragraphs)}
+                    </div>
+                    {audio_html}
+                    <div class="story-footer">
+                        <div class="story-date">{current_date}</div>
+                        <div class="ai-info">Created by {provider_display} using {model}</div>
+                    </div>
+                    <div class="story-actions">
+                        <a href="/" class="btn btn-primary">Create Another Story</a>
+                        <a href="/stories" class="btn btn-accent">View All Stories</a>
+                    </div>
+                </div>
             </div>
-            <a href="/" class="back-link">Create another story</a>
-        </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <p>StoryMagic - AI-Powered Stories for Little Imaginations</p>
+                        <p>&copy; 2025 StoryMagic</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <script src="/static/js/base.js"></script>
     </body>
     </html>
     """
