@@ -11,3 +11,4 @@ pyvenv.cfg
 gp.sh
 nohup.out
 *.log
+.clineconfig

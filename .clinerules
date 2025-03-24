@@ -1,0 +1,78 @@
+# StoryMagic Project Rules
+
+## Project Structure
+
+- The project follows a standard Flask application structure with additional directories for queue management and story storage
+- All Flask routes are defined in app.py except for admin routes which are in admin/routes.py
+- Templates are stored in templates/ with admin templates in templates/admin/
+- Static files are stored in static/ with appropriate subdirectories (css, js, images)
+- The admin dashboard uses partial templates in templates/admin/_partials/
+
+## Code Patterns
+
+- The application uses a queue-based processing model with file-based storage
+- Story generation requests are placed in the queue/ directory as JSON files
+- The story_processor.py script monitors the queue directory and processes requests
+- Completed stories are saved as HTML files in the stories/ directory
+- Audio narration is saved as MP3 files in the audio/ directory
+- Error records are saved as JSON files in the errors/ directory
+
+## AI Integration
+
+- The application uses OpenRouter to access multiple AI providers
+- AI provider and model definitions are stored in child_storyteller_mcp.json
+- The MCP file defines AI providers with models as arrays, not dictionaries
+- Story generation prompts are constructed using templates from the MCP file
+- Audio generation uses OpenAI's TTS API with voice selection based on language
+
+## Template Patterns
+
+- Templates extend base.html which provides the common layout
+- Admin templates extend base.html but use admin-specific partials
+- The create_story.html template iterates over AI providers and models
+- The waiting.html template uses JavaScript polling to check story status
+- The story_view.html template displays the generated story with optional audio
+
+## JavaScript Patterns
+
+- Each admin dashboard tab has its own JavaScript file
+- JavaScript files are loaded in the extra_js block of templates
+- AJAX requests are used for admin dashboard functionality
+- Event listeners are attached in DOMContentLoaded events
+
+## Configuration
+
+- API keys are stored in .env and loaded by config_loader.py
+- Application settings are stored in config.ini
+- AI behavior is configured in child_storyteller_mcp.json
+- Admin credentials are stored in .env as ADMIN_USERNAME and ADMIN_PASSWORD
+
+## Known Issues
+
+- The admin dashboard has display issues with blank pages
+- The system-monitoring.js file appears to be empty or not properly loaded
+- There are inconsistencies between admin.html and admin/dashboard.html templates
+- The admin form action points to a non-existent route
+
+## Debugging Approach
+
+- Add console.log statements to JavaScript files to track execution
+- Check browser console for errors during page loading
+- Verify template rendering and data passing
+- Test functionality with different inputs and configurations
+
+## File Naming Conventions
+
+- JavaScript files use kebab-case (e.g., system-monitoring.js)
+- Python files use snake_case (e.g., story_processor.py)
+- Templates use snake_case (e.g., create_story.html)
+- Partial templates are prefixed with underscore (e.g., _monitoring.html)
+- CSS files use snake_case (e.g., story_list.css)
+
+## Code Style Preferences
+
+- Python: Follow PEP 8 guidelines
+- JavaScript: Use camelCase for variables and functions
+- HTML/CSS: Use kebab-case for classes and IDs
+- Indentation: 4 spaces for Python, 2 spaces for JavaScript/HTML/CSS
+- Quotes: Single quotes for JavaScript, double quotes for Python and HTML

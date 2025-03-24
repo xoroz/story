@@ -25,6 +25,9 @@ function initAutoRefresh() {
     // Get interval in seconds
     const interval = parseInt(refreshInterval.value) || 5;
     
+    // Rotate message before refreshing
+    rotateMessage();
+    
     // Set up auto-refresh
     setTimeout(function() {
         const refreshUrl = document.getElementById('refresh-url');
@@ -32,6 +35,63 @@ function initAutoRefresh() {
             window.location.href = refreshUrl.value;
         }
     }, interval * 1000);
+}
+
+/**
+ * Rotate to the next message
+ */
+function rotateMessage() {
+    const statusMessageElement = document.querySelector('.status-message p');
+    const waitingMessagesElement = document.getElementById('waiting-messages');
+    
+    if (!statusMessageElement || !waitingMessagesElement) return;
+    
+    // Parse messages
+    let messages = [];
+    try {
+        messages = JSON.parse(waitingMessagesElement.value);
+    } catch (e) {
+        return;
+    }
+    
+    if (!messages.length) return;
+    
+    // Get current index from localStorage or default to 0
+    let currentIndex = 0;
+    try {
+        const storedIndex = localStorage.getItem('waitingMessageIndex');
+        if (storedIndex !== null) {
+            currentIndex = parseInt(storedIndex);
+            if (isNaN(currentIndex) || currentIndex >= messages.length) {
+                currentIndex = 0;
+            }
+        }
+    } catch (e) {
+        console.error('Error accessing localStorage:', e);
+    }
+    
+    // Move to next message
+    currentIndex = (currentIndex + 1) % messages.length;
+    
+    // Fade out
+    statusMessageElement.style.opacity = 0;
+    
+    // Wait for fade out to complete
+    setTimeout(() => {
+        // Update message
+        statusMessageElement.textContent = messages[currentIndex];
+        console.log('Updated to message:', messages[currentIndex]);
+        
+        // Store new index
+        try {
+            localStorage.setItem('waitingMessageIndex', currentIndex.toString());
+        } catch (e) {
+            console.error('Error storing in localStorage:', e);
+        }
+        
+        // Fade in
+        statusMessageElement.style.opacity = 1;
+    }, 500);
 }
 
 /**
@@ -87,26 +147,23 @@ function initRotatingMessages() {
         return;
     }
     
-    // Set the initial message
-    statusMessageElement.textContent = messages[0];
+    // Get stored message index from localStorage or use 0
     let currentIndex = 0;
+    try {
+        const storedIndex = localStorage.getItem('waitingMessageIndex');
+        if (storedIndex !== null) {
+            currentIndex = parseInt(storedIndex);
+            // Ensure it's valid
+            if (isNaN(currentIndex) || currentIndex >= messages.length) {
+                currentIndex = 0;
+            }
+        }
+    } catch (e) {
+        console.error('Error accessing localStorage:', e);
+    }
     
-    // Update the message every 5 seconds
-    setInterval(() => {
-        // Fade out
-        statusMessageElement.style.opacity = 0;
-        
-        // Wait for fade out to complete
-        setTimeout(() => {
-            // Update message
-            currentIndex = (currentIndex + 1) % messages.length;
-            statusMessageElement.textContent = messages[currentIndex];
-            console.log('Updated to message:', messages[currentIndex]);
-            
-            // Fade in
-            statusMessageElement.style.opacity = 1;
-        }, 500);
-    }, 5000);
+    // Set the initial message
+    statusMessageElement.textContent = messages[currentIndex];
 }
 
 /**

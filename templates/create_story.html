@@ -109,8 +109,8 @@
                     <label for="{{ provider_id }}_model" class="form-label">{{ provider.display_name }} Model</label>
                     <select class="form-select" id="{{ provider_id }}_model" 
                             name="{% if loop.first %}ai_model{% else %}{{ provider_id }}_model{% endif %}">
-                        {% for model_id, model_name in provider.models.items() %}
-                            <option value="{{ model_id }}">{{ model_name }}</option>
+                        {% for model in provider.models %}
+                            <option value="{{ model }}">{{ model }}</option>
                         {% endfor %}
                     </select>
                 </div>

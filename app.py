@@ -2,9 +2,11 @@ import os
 import json
 import uuid
 import sys
+import re
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
 from config_loader import load_config
+#from admin import admin_bp
 
 # Load configuration
 config = load_config()
@@ -31,6 +33,9 @@ os.makedirs(AUDIO_FOLDER, exist_ok=True)
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = config['App']['secret_key']
+
+# Register blueprints
+#app.register_blueprint(admin_bp)
 
 # Path to the story metadata file
 METADATA_FILE = 'story_metadata.json'
@@ -216,6 +221,7 @@ def create_story():
         lessons=lessons,
         ai_providers=ai_providers
     )
+
 @app.route('/waiting/<request_id>')
 def waiting(request_id):
     # Check if request exists
@@ -330,13 +336,68 @@ def list_stories():
             # Get view count
             view_count = story_meta.get('views', 0)
             
+            # Try to find request_id from HTML content
+            request_id = None
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                # Look for audio path which contains request_id
+                audio_match = re.search(r'<source src="/audio/([a-f0-9-]+)\.mp3"', content)
+                if audio_match:
+                    request_id = audio_match.group(1)
+            
+            # Enhanced metadata from processed request
+            theme = age = model = provider = processing_time = audio_size = language_code = None
+            
+            # If we have a request_id, try to load the processed request file
+            if request_id:
+                processed_path = os.path.join(PROCESSED_FOLDER, f"{request_id}.json")
+                if os.path.exists(processed_path):
+                    try:
+                        with open(processed_path, 'r') as f:
+                            request_data = json.load(f)
+                            
+                        # Extract additional metadata
+                        params = request_data.get('parameters', {})
+                        theme = params.get('theme', '')
+                        age = params.get('age_range', '')
+                        language_code = params.get('language', '')
+                        
+                        # Get AI model info
+                        ai_info = request_data.get('ai_info', {})
+                        provider = ai_info.get('provider', '')
+                        model = ai_info.get('model', '')
+                        
+                        # Get processing time
+                        timing = request_data.get('timing', {})
+                        processing_time = timing.get('total_processing_seconds', 0)
+                        
+                        # Get audio file size if available
+                        audio_file = request_data.get('audio_file')
+                        if audio_file:
+                            audio_path = os.path.join(AUDIO_FOLDER, audio_file)
+                            if os.path.exists(audio_path):
+                                audio_size = os.path.getsize(audio_path) / (1024 * 1024)  # Size in MB
+                    except Exception as e:
+                        # If there's an error, continue without the enhanced metadata
+                        print(f"Error loading processed data for {request_id}: {e}")
+            
+            # Add all data to the story object
             story_files.append({
                 'path': file,
                 'title': title,
                 'created': created,
                 'avg_rating': avg_rating,
                 'rating_count': len(ratings),
-                'view_count': view_count
+                'view_count': view_count,
+                'request_id': request_id,
+                'theme': theme,
+                'age': age,
+                'model': model,
+                'provider': provider,
+                'processing_time': processing_time,
+                'audio_size': round(audio_size, 2) if audio_size else None,
+                'has_audio': audio_size is not None,
+                'language': get_language_name(language_code) if language_code else None
             })
     
     # Sort by creation time, newest first
@@ -361,7 +422,6 @@ def view_story(filename):
         content = f.read()
     
     # Extract title from the HTML content
-    import re
     title_match = re.search(r'<title>(.*?)</title>', content, re.IGNORECASE)
     title = title_match.group(1) if title_match else 'Story'
     
@@ -390,7 +450,6 @@ def view_story(filename):
         model = ai_info_match.group(2)
     
     # Current date
-    from datetime import datetime
     current_date = datetime.now().strftime('%B %d, %Y')
     
     # Increment view count

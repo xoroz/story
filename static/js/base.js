@@ -6,6 +6,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize flash message dismissal
     initFlashMessages();
+    
+    // Initialize mobile navigation
+    initMobileNavigation();
 });
 
 /**
@@ -39,4 +42,82 @@ function initFlashMessages() {
         // Add transition for smooth dismissal
         message.style.transition = 'opacity 0.3s ease';
     });
+}
+
+/**
+ * Initialize mobile navigation functionality
+ */
+function initMobileNavigation() {
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const body = document.body;
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    body.appendChild(overlay);
+    
+    // Toggle mobile menu
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            toggleMobileMenu(true);
+        });
+    }
+    
+    // Close mobile menu
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', function() {
+            toggleMobileMenu(false);
+        });
+    }
+    
+    // Close menu when clicking on overlay
+    overlay.addEventListener('click', function() {
+        toggleMobileMenu(false);
+    });
+    
+    // Close menu when clicking on a mobile nav link
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            toggleMobileMenu(false);
+        });
+    });
+    
+    // Toggle mobile menu function
+    function toggleMobileMenu(open) {
+        if (open) {
+            mobileNav.style.display = 'block';
+            setTimeout(() => {
+                mobileNav.classList.add('active');
+                overlay.classList.add('active');
+                
+                // Animate hamburger to X
+                const spans = mobileMenuToggle.querySelectorAll('span');
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                
+                // Prevent body scrolling
+                body.style.overflow = 'hidden';
+            }, 10);
+        } else {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            
+            // Animate X back to hamburger
+            const spans = mobileMenuToggle.querySelectorAll('span');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+            
+            // Re-enable body scrolling
+            body.style.overflow = '';
+            
+            setTimeout(() => {
+                mobileNav.style.display = 'none';
+            }, 300);
+        }
+    }
 }

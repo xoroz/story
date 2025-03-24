@@ -34,8 +34,7 @@
       "display_name": "Mistral AI",
       "models": [
         "mistralai/mistral-saba",
-        "mistralai/mistral-large-2411",
-        "mistralai/mistral-small-3.1-24b-instruct"
+        "mistralai/mistral-large-2411"
       ]
     }
   },

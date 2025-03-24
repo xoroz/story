@@ -54,27 +54,4 @@
 
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/waiting.js') }}"></script>
-<script>
-    // Debug: Log waiting messages
-    document.addEventListener('DOMContentLoaded', function() {
-        const waitingMessagesElement = document.getElementById('waiting-messages');
-        if (waitingMessagesElement) {
-            try {
-                const messages = JSON.parse(waitingMessagesElement.value);
-                console.log('Waiting messages from template:', messages);
-                
-                // Set initial message directly
-                if (messages && messages.length > 0) {
-                    const statusMessageElement = document.querySelector('.status-message p');
-                    if (statusMessageElement) {
-                        statusMessageElement.textContent = messages[0];
-                    }
-                }
-            } catch (e) {
-                console.error('Error parsing waiting messages:', e);
-                console.log('Raw value:', waitingMessagesElement.value);
-            }
-        }
-    });
-</script>
 {% endblock %}

@@ -1,0 +1,23 @@
+.env
+bin/
+lib/
+lib64
+.git/
+pyvenv.cfg
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+/build/
+/dist/
+/.next/
+/out/
+
+# Testing
+/coverage/
+
+# Environment variables
+.env

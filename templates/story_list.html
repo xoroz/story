@@ -5,33 +5,130 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/story.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/story_list.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/story_list.js') }}" defer></script>
 {% endblock %}
 
 {% block content %}
 <h1>All Stories</h1>
 
 {% if stories %}
-    <div class="story-list">
-        {% for story in stories %}
-            <div class="story-item">
-                <div class="story-title">{{ story.title }}</div>
-                <div class="story-date">Created: {{ story.created.strftime('%B %d, %Y at %I:%M %p') }}</div>
-                <div class="rating-view-info">
-                    <div class="stars-display">
-                        {% for i in range(1, 6) %}
-                            <span class="star {% if i <= story.avg_rating %}active{% endif %}">★</span>
-                        {% endfor %}
-                    </div>
-                    <span class="rating-value">{{ "%.1f"|format(story.avg_rating) }}</span>
-                    <span class="rating-count">({{ story.rating_count }} {{ 'rating' if story.rating_count == 1 else 'ratings' }})</span>
-                    <div class="view-count">
-                        <span class="view-count-icon">👁️</span>
-                        <span>{{ story.view_count }} {{ 'view' if story.view_count == 1 else 'views' }}</span>
-                    </div>
-                </div>
-                <a href="{{ url_for('view_story', filename=story.path) }}" class="btn btn-accent">Read Story</a>
+    <div class="story-list-controls">
+        <div class="filters">
+            <div class="filter-group">
+                <label for="theme-filter">Theme:</label>
+                <select id="theme-filter" class="filter-select">
+                    <option value="">All Themes</option>
+                    <!-- Themes will be populated by JS -->
+                </select>
             </div>
-        {% endfor %}
+            <div class="filter-group">
+                <label for="age-filter">Age Range:</label>
+                <select id="age-filter" class="filter-select">
+                    <option value="">All Ages</option>
+                    <!-- Age ranges will be populated by JS -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="model-filter">AI Model:</label>
+                <select id="model-filter" class="filter-select">
+                    <option value="">All Models</option>
+                    <!-- Models will be populated by JS -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="language-filter">Language:</label>
+                <select id="language-filter" class="filter-select">
+                    <option value="">All Languages</option>
+                    <!-- Languages will be populated by JS -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="search-filter">Search:</label>
+                <input type="text" id="search-filter" placeholder="Search titles...">
+            </div>
+        </div>
+        <div class="audio-controls">
+            <button id="play-selected" class="btn btn-accent" disabled>Play Selected</button>
+        </div>
+    </div>
+
+    <div class="story-table-container">
+        <table class="story-table">
+            <thead>
+                <tr>
+                    <th class="select-col"><input type="checkbox" id="select-all"></th>
+                    <th class="sortable" data-sort="title">Title</th>
+                    <th class="sortable" data-sort="date">Date</th>
+                    <th class="sortable" data-sort="theme">Theme</th>
+                    <th class="sortable" data-sort="age">Age</th>
+                    <th class="sortable" data-sort="model">AI Model</th>
+                    <th class="sortable" data-sort="language">Language</th>
+                    <th class="sortable" data-sort="processing">Processing Time</th>
+                    <th class="sortable" data-sort="audio">Audio Size</th>
+                    <th class="sortable" data-sort="rating">Rating</th>
+                    <th class="sortable" data-sort="views">Views</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for story in stories %}
+                <tr data-story-id="{{ story.request_id }}" 
+                    data-title="{{ story.title }}"
+                    data-theme="{{ story.theme or '' }}"
+                    data-age="{{ story.age or '' }}"
+                    data-model="{{ story.model or '' }}"
+                    data-provider="{{ story.provider or '' }}"
+                    data-language="{{ story.language or '' }}"
+                    data-has-audio="{{ 'true' if story.has_audio else 'false' }}">
+                    <td>
+                        {% if story.has_audio %}
+                        <input type="checkbox" class="story-select" data-audio-path="/audio/{{ story.request_id }}.mp3">
+                        {% endif %}
+                    </td>
+                    <td class="story-title-cell">{{ story.title }}</td>
+                    <td>{{ story.created.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ story.theme or '-' }}</td>
+                    <td>{{ story.age or '-' }}</td>
+                    <td>{{ story.provider or '' }} {{ story.model or '-' }}</td>
+                    <td>{{ story.language or '-' }}</td>
+                    <td>{{ "%.1f"|format(story.processing_time) if story.processing_time else '-' }}s</td>
+                    <td>{{ "%.2f"|format(story.audio_size) if story.audio_size else '-' }} MB</td>
+                    <td>
+                        <div class="rating-compact">
+                            <div class="stars-display">
+                                {% for i in range(1, 6) %}
+                                    <span class="star {% if i <= story.avg_rating %}active{% endif %}">★</span>
+                                {% endfor %}
+                            </div>
+                            <span class="rating-value">{{ story.avg_rating|int }}</span>
+                            <span class="rating-count">({{ story.rating_count }})</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="view-count">
+                            <span class="view-count-icon">👁️</span>
+                            <span>{{ story.view_count }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('view_story', filename=story.path) }}" class="btn btn-sm btn-accent">Read</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="audio-player-container" class="hidden">
+        <div class="audio-player-controls">
+            <span id="now-playing">Now Playing: <span id="current-title"></span></span>
+            <audio id="story-audio-player" controls></audio>
+            <button id="close-player" class="btn btn-sm">Close</button>
+        </div>
     </div>
 {% else %}
     <div class="no-stories">

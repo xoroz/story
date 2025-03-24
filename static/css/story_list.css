@@ -1,0 +1,210 @@
+/* Modern Story List Styles */
+.story-list-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    flex: 1;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-size: 12px;
+    color: var(--gray);
+    margin-bottom: 4px;
+}
+
+.filter-select, #search-filter {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--light-gray);
+    background-color: var(--white);
+    min-width: 120px;
+}
+
+#search-filter {
+    min-width: 200px;
+}
+
+/* Table Styles */
+.story-table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.story-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.story-table th, .story-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.story-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: var(--primary-color);
+    position: sticky;
+    top: 0;
+}
+
+.story-table tbody tr:hover {
+    background-color: #f5f8ff;
+}
+
+.story-table .sortable {
+    cursor: pointer;
+    position: relative;
+}
+
+.story-table .sortable:after {
+    content: '⇅';
+    position: absolute;
+    right: 8px;
+    color: #ccc;
+}
+
+.story-table .sortable.sort-asc:after {
+    content: '↑';
+    color: var(--primary-color);
+}
+
+.story-table .sortable.sort-desc:after {
+    content: '↓';
+    color: var(--primary-color);
+}
+
+/* Compact Rating Display */
+.rating-compact {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating-compact .stars-display {
+    font-size: 12px;
+}
+
+.rating-compact .rating-value {
+    font-weight: bold;
+}
+
+.rating-compact .rating-count {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+/* View Count */
+.view-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.view-count-icon {
+    font-size: 14px;
+}
+
+/* Action Buttons */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.play-icon {
+    font-size: 12px;
+}
+
+/* Audio Player */
+#audio-player-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+#audio-player-container.hidden {
+    display: none;
+}
+
+.audio-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+#story-audio-player {
+    flex: 1;
+}
+
+#now-playing {
+    min-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .story-table th, .story-table td {
+        padding: 10px;
+    }
+    
+    .filters {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .story-list-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filters {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-select, #search-filter {
+        width: 100%;
+    }
+    
+    .audio-player-controls {
+        flex-wrap: wrap;
+    }
+    
+    #now-playing {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

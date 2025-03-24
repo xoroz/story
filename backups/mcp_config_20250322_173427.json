@@ -1,0 +1,80 @@
+{
+  "waiting_messages": [
+    "We are working hard to create your amazing story...",
+    "Our storytellers are crafting a magical adventure just for you...",
+    "Adding colorful characters and exciting twists to your story...",
+    "Polishing the narrative to make it shine...",
+    "Almost there! Putting the final touches on your story...",
+    "Now we're getting the perfect voice for your amazing story...",
+    "Just a moment more while we prepare your story for reading..."
+  ],
+  
+  "system_prompt": "I am a master storyteller for children who creates engaging, age-appropriate stories that captivate young imaginations. I create original stories tailored to specific age groups, incorporating requested themes and characters while ensuring content is safe, educational, and emotionally engaging. I use clear, vivid language appropriate for the child's age with descriptive language that helps children visualize the story. I avoid scary content, mature themes, violence, or inappropriate elements, and I don't use complex vocabulary that would confuse the target age group.",
+  
+  "age_adaptation": {
+    "3-6": "Use very simple language and short sentences. Repetition is helpful. Focus on a simple lesson with clear cause and effect. Use more dialogue and sound effects.",
+    "7-9": "Use clear but more varied language with some challenging vocabulary explained in context. Include more detailed descriptions and humor. The moral lesson can have more depth but should still be clear.",
+    "10-12": "Use more sophisticated vocabulary and sentence structures. Characters can show complex emotions and growth. Moral lessons can be more nuanced and thought-provoking."
+  },
+  
+  "story_structure": "Begin with a clear introduction that establishes the setting and main characters. Create a simple engaging conflict or challenge. Develop the middle section with key events leading toward resolution. Include a satisfying conclusion that resolves the conflict and contains the lesson. End with a warm closing that reinforces the story's message.",
+  
+  "user_template": "Create an engaging children's story for age {age_range} with these main characters: {characters}. The story should be set in {theme_description} and is about: {story_about}. Teach a lesson about {lesson}. The story should be {length} (approximately {tokens} tokens) with appropriate pacing. IMPORTANT: Use the exact character names consistently throughout the story. Ensure it has a proper beginning, middle, and end, with a satisfying conclusion.",
+  
+  "token_lengths": {
+    "short": 2000,
+    "medium": 3000,
+    "long": 4000
+  },
+  
+  "themes": {
+    "forest": "mystical magic jungle with magical animals and talking plants, an old tree or magical animal serving as a guide",
+    "dinosaur": "vast prehistoric world teeming with diverse dinosaur creatures and volcanos",
+    "space": "futuristic age with robots, vibrant and colorful universe filled with various friendly alien species, space stations, and wondrous planets each with its own unique environment",
+    "city": "current age city with Family Dynamics, diverse neighborhoods, parks, and a sense of community. The setting is relatable, with scenes in schools, homes, and sport competition"
+  },
+  
+  "lessons": [
+    "family importance",
+    "friendship",
+    "trust",
+    "love",
+    "honesty",
+    "perseverance"
+  ],
+  "ai_providers": {
+    "openai": {
+      "display_name": "OpenAI",
+      "description": "Powered by GPT models",
+      "logo": "openai-logo.png",
+      "models": {
+        "openai/gpt-3.5-turbo": "GPT-3.5 Turbo",
+        "openai/gpt-4o": "GPT-4o",
+        "openai/o1-mini": "o1-mini",
+        "openai/o3-mini": "o3-mini",
+        "openai/gpt-4o-mini": "GPT-4o Mini"
+      },
+      "api_key_env": "OPENAI_API_KEY"
+    },
+    "anthropic": {
+      "display_name": "Claude",
+      "description": "Anthropic's advanced AI assistant",
+      "logo": "claude-logo.png",
+      "models": {
+        "anthropic/claude-3.5-haiku-20241022:beta": "claude-3.5-haiku beta",
+        "anthropic/claude-3.5-haiku": "claude-3.5-haiku"      
+      },
+      "api_key_env": "ANTHROPIC_API_KEY"
+    },
+    "mistral": {
+      "display_name": "Mistral AI",
+      "description": "Efficient models with strong reasoning",
+      "logo": "mistral-logo.png",
+      "models": {
+        "mistralai/mistral-saba": "mistral-saba",
+        "mistralai/mistral-large-2411": "Mistral Large"
+      },
+      "api_key_env": "MISTRAL_API_KEY"
+    }
+  }
+}
