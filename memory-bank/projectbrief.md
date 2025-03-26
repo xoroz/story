@@ -32,7 +32,6 @@ StoryMagic is an AI-powered children's story generator that creates personalized
 ### Administration
 - Admin dashboard for system monitoring and management
 - Story management (viewing, deleting)
-- System monitoring (processor status, queue status, resource usage)
 - Configuration management
 - Backup and restore functionality
 

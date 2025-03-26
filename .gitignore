@@ -12,3 +12,8 @@ gp.sh
 nohup.out
 *.log
 .clineconfig
+/pid
+/processed
+/backup
+/log
+**/CLAUDE.local.md

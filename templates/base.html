@@ -7,7 +7,11 @@
     
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% if request.path.startswith('/admin') or request.path == '/' and request.port == 8001 %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    {% endif %}
     {% block extra_css %}{% endblock %}
+    {% block head %}{% endblock %}
     
     <!-- Favicon would normally go here -->
     <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->

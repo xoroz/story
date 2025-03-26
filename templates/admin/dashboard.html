@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>StoryMagic Admin Dashboard</h1>
+    
+    
+    <div class="dashboard-content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Quick Stats</div>
+                    <div class="card-body">
+                        <p>Welcome to the StoryMagic Admin Dashboard</p>
+                        <p>Use the tabs above to navigate to different sections.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Admin Information</div>
+                    <div class="card-body">
+                        <p>Welcome to the admin dashboard. Use the navigation above to manage the system.</p>
+                        <p>Current time: {{ now.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

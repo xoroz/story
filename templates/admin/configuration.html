@@ -1,0 +1,120 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Configuration{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+    #mcp-editor {
+        width: 100%;
+        height: 600px;
+        font-family: monospace;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>Configuration</h1>
+    
+    
+    <div class="dashboard-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">MCP Configuration</div>
+                    <div class="card-body">
+                        <form action="{{ url_for('update_mcp') }}" method="post">
+                            <div class="mb-3">
+                                <textarea id="mcp-editor" name="mcp_json" class="form-control">{{ mcp_json }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-secondary" onclick="validateJson()">Validate JSON</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Application Configuration (config.ini)</div>
+                    <div class="card-body">
+                        <form action="{{ url_for('update_config_ini') }}" method="post">
+                            <div class="mb-3">
+                                <textarea id="config-editor" name="config_ini" class="form-control" style="width: 100%; height: 300px; font-family: monospace;">{{ config_ini_raw }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Save Config.ini</button>
+                                <button type="button" class="btn btn-secondary" onclick="validateIni()">Validate INI</button>
+                            </div>
+                        </form>
+                        <p class="text-muted">Warning: Be careful when editing configuration files. Invalid changes may cause system issues.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<script>
+function validateIni() {
+    // Basic validation: check for section headers and key=value pairs
+    const editor = document.getElementById('config-editor');
+    const lines = editor.value.split('\n');
+    let errors = [];
+    let currentSection = null;
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        // Skip empty lines and comments
+        if (!line || line.startsWith('#') || line.startsWith(';')) {
+            continue;
+        }
+        
+        // Check for section headers [Section]
+        if (line.startsWith('[') && line.endsWith(']')) {
+            currentSection = line.substring(1, line.length - 1);
+            continue;
+        }
+        
+        // Check for key=value pairs
+        if (line.includes('=')) {
+            if (!currentSection) {
+                errors.push(`Line ${i+1}: Key-value pair found outside of a section`);
+            }
+            
+            const parts = line.split('=');
+            if (parts.length < 2 || !parts[0].trim()) {
+                errors.push(`Line ${i+1}: Invalid key-value format`);
+            }
+        } else {
+            // Line is not empty, not a comment, not a section header, and not a key=value pair
+            errors.push(`Line ${i+1}: Invalid line format`);
+        }
+    }
+    
+    if (errors.length > 0) {
+        alert('INI validation errors:\n' + errors.join('\n'));
+    } else {
+        alert('Config.ini validation passed!');
+    }
+}
+</script>
+    </div>
+</div>
+
+<script>
+function validateJson() {
+    try {
+        const editor = document.getElementById('mcp-editor');
+        JSON.parse(editor.value);
+        alert('Valid JSON!');
+    } catch (e) {
+        alert('Invalid JSON: ' + e.message);
+    }
+}
+</script>
+{% endblock %}

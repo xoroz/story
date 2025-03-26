@@ -422,3 +422,19 @@ requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://op
 2025-03-24 02:10:38,640 - StoryProcessor - INFO - Story Processor started
 2025-03-24 02:15:22,091 - StoryProcessor - INFO - Story Processor started
 2025-03-24 02:16:09,001 - StoryProcessor - INFO - Story Processor started
+2025-03-26 00:28:39,736 - StoryProcessor - INFO - Story Processor started
+2025-03-26 00:28:39,736 - StoryProcessor - INFO - Processing request: e970cc08-c0ca-4403-87c6-173c1e096a5b.json
+2025-03-26 00:28:39,736 - StoryProcessor - INFO - Processing request e970cc08-c0ca-4403-87c6-173c1e096a5b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-03-26 00:28:39,736 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request e970cc08-c0ca-4403-87c6-173c1e096a5b
+2025-03-26 00:29:01,168 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 21.43 seconds
+2025-03-26 00:29:01,168 - StoryProcessor - INFO - Tokens: 343 prompt + 844 completion = 1187 total
+2025-03-26 00:29:01,168 - StoryProcessor - INFO - Generating audio for request e970cc08-c0ca-4403-87c6-173c1e096a5b
+2025-03-26 00:29:03,821 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-03-26 00:29:34,229 - StoryProcessor - INFO - Audio generated: e970cc08-c0ca-4403-87c6-173c1e096a5b.mp3
+2025-03-26 00:29:34,230 - StoryProcessor - INFO - Successfully processed request e970cc08-c0ca-4403-87c6-173c1e096a5b in 54.49 seconds
+2025-03-26 00:29:34,230 - StoryProcessor - INFO -   Story generation: 21.43s, Audio: 33.06s, HTML: 0.00s
+2025-03-26 00:32:27,865 - StoryProcessor - INFO - Story Processor started
+2025-03-26 00:41:01,984 - StoryProcessor - INFO - Story Processor started
+2025-03-26 00:50:40,869 - StoryProcessor - INFO - Story Processor started
+2025-03-26 00:51:07,469 - StoryProcessor - INFO - Story Processor started
+2025-03-26 01:10:14,827 - StoryProcessor - INFO - Story Processor started

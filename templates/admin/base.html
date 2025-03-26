@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StoryMagic Admin{% endblock %}</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Modern Header with Navigation -->
+    <header class="site-header modern-header">
+        <div class="container">
+            <div class="logo-container">
+                <a href="{{ url_for('admin_dashboard') }}" class="logo-link">
+                    <span class="logo-text">StoryMagic Admin</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="main-nav desktop-nav">
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('system_status') }}">System</a></li>
+                    <li><a href="{{ url_for('manage_stories') }}">Stories</a></li>
+                    <li><a href="{{ url_for('manage_config') }}">Configuration</a></li>
+                    <li><a href="{{ url_for('backup_system') }}">Backup</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="site-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>StoryMagic Admin Dashboard</p>
+                    <p>&copy; 2025 StoryMagic</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

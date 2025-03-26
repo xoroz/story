@@ -103,7 +103,9 @@ The application is designed to run as two separate processes:
    - Generates audio when requested
    - Formats and saves stories
    - Handles errors and logging
-
+3. **Admin Processor (admin.py)**:
+   - Runs as a background process
+   - On port 8081
 ## Security Considerations
 
 ### Authentication
@@ -144,8 +146,6 @@ The application is designed to run as two separate processes:
 ## Maintenance Tools
 
 ### Admin Dashboard
-- System monitoring (processor status, queue status, resource usage)
-- Story management (viewing, deleting)
 - Configuration management (viewing, editing, backing up)
 - Backup and restore functionality
 

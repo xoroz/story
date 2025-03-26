@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Backup & Restore{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>Backup & Restore</h1>
+    
+    
+    <div class="dashboard-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Create Backup</div>
+                    <div class="card-body">
+                        <p>Create a backup of your system configuration and data:</p>
+                        <form action="{{ url_for('create_backup') }}" method="post">
+                            <button type="submit" class="btn btn-primary">Create Backup</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Existing Backups</div>
+                    <div class="card-body">
+                        {% if backups %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Filename</th>
+                                    <th>Created</th>
+                                    <th>Size</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for backup in backups %}
+                                <tr>
+                                    <td>{{ backup.filename }}</td>
+                                    <td>{{ backup.created.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ backup.size_kb }} KB</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="{{ url_for('download_backup', filename=backup.filename) }}" class="btn btn-sm btn-primary">Download</a>
+                                            <form action="{{ url_for('restore_backup', filename=backup.filename) }}" method="post" onsubmit="return confirm('Are you sure you want to restore from this backup? Current configuration will be overwritten.')">
+                                                <button type="submit" class="btn btn-sm btn-warning">Restore</button>
+                                            </form>
+                                            <form action="{{ url_for('delete_backup', filename=backup.filename) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this backup?')">
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p>No backups found.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

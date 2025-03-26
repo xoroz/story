@@ -1,0 +1,125 @@
+{% extends "admin/base.html" %}
+
+{% block title %}System Status{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>System Status</h1>
+    
+    
+    <div class="dashboard-content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Process Status</div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tr>
+                                <td>Web Application:</td>
+                                <td>
+                                    {% if app_running %}
+                                        <span class="badge bg-success">Running</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Stopped</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if app_running %}
+                                        <form action="{{ url_for('control_process') }}" method="post">
+                                            <input type="hidden" name="process" value="app">
+                                            <input type="hidden" name="action" value="stop">
+                                            <button type="submit" class="btn btn-sm btn-danger">Stop</button>
+                                        </form>
+                                    {% else %}
+                                        <form action="{{ url_for('control_process') }}" method="post">
+                                            <input type="hidden" name="process" value="app">
+                                            <input type="hidden" name="action" value="start">
+                                            <button type="submit" class="btn btn-sm btn-success">Start</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Story Processor:</td>
+                                <td>
+                                    {% if processor_running %}
+                                        <span class="badge bg-success">Running</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Stopped</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if processor_running %}
+                                        <form action="{{ url_for('control_process') }}" method="post">
+                                            <input type="hidden" name="process" value="processor">
+                                            <input type="hidden" name="action" value="stop">
+                                            <button type="submit" class="btn btn-sm btn-danger">Stop</button>
+                                        </form>
+                                    {% else %}
+                                        <form action="{{ url_for('control_process') }}" method="post">
+                                            <input type="hidden" name="process" value="processor">
+                                            <input type="hidden" name="action" value="start">
+                                            <button type="submit" class="btn btn-sm btn-success">Start</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Admin Server:</td>
+                                <td>
+                                    <span class="badge bg-success">Running</span>
+                                </td>
+                                <td>
+                                    <form action="{{ url_for('control_process') }}" method="post">
+                                        <input type="hidden" name="process" value="admin">
+                                        <input type="hidden" name="action" value="restart">
+                                        <button type="submit" class="btn btn-sm btn-warning">Restart</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Queue Status</div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tr>
+                                <td>Pending Requests:</td>
+                                <td>{{ queue_count }}</td>
+                            </tr>
+                            <tr>
+                                <td>Processed Stories:</td>
+                                <td>{{ processed_count }}</td>
+                            </tr>
+                            <tr>
+                                <td>Error Records:</td>
+                                <td>{{ error_count }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Disk Usage</div>
+                    <div class="card-body">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ disk_usage.percent }}%" 
+                                 aria-valuenow="{{ disk_usage.percent }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ disk_usage.percent | round(1) }}%
+                            </div>
+                        </div>
+                        <p class="mt-2">{{ disk_usage.used }} GB used of {{ disk_usage.total }} GB ({{ disk_usage.free }} GB free)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

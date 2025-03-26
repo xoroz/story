@@ -38,11 +38,9 @@ flowchart TD
   - HTML formatting of generated stories
   - Error handling and logging
 
-### 3. Admin Dashboard (admin/*)
+### 3. Admin Dashboard (admin.py)
 - **Responsibility**: System monitoring and management
 - **Key Features**:
-  - Authentication and authorization
-  - System status monitoring
   - Story management
   - Configuration management
   - Backup and restore functionality
@@ -102,9 +100,7 @@ sequenceDiagram
 ```
 
 ### Admin Dashboard Flow
-1. Admin logs in with credentials
-2. Admin is redirected to dashboard
-3. Dashboard displays system status and statistics
+1. Admin logs in with basic credentials in port 8001
 4. Admin can perform various management actions
 5. Actions are processed by the web application
 6. Results are returned to the dashboard
@@ -121,20 +117,15 @@ sequenceDiagram
 - File-based queue system using filesystem directories
 - Status tracking through file movement between directories
 
-### 3. Blueprint Pattern (Flask)
-- Admin functionality encapsulated in a Flask Blueprint
-- Modular organization of routes and functionality
-- Clean separation of concerns
-
-### 4. Factory Pattern
+### 3. Factory Pattern
 - Story generation factory based on selected AI provider
 - Audio generation factory based on language and text length
 
-### 5. Template Method Pattern
+### 4. Template Method Pattern
 - Common story processing flow with provider-specific implementations
 - Standardized error handling and logging
 
-### 6. Observer Pattern
+### 5. Observer Pattern
 - Waiting page observes story generation status
 - Polling mechanism for status updates
 
@@ -144,7 +135,7 @@ sequenceDiagram
 story2/
 ├── app.py                  # Main Flask application
 ├── story_processor.py      # Background processor
-├── child_storyteller_mcp.json  # Model Control Protocol
+├── child_storyteller_mcp.json  # Model Control Protocol  JSON configureation
 ├── config.ini              # Configuration file
 ├── .env                    # Environment variables
 ├── templates/              # HTML templates
@@ -159,12 +150,6 @@ story2/
 │   ├── css/                # Stylesheets
 │   ├── js/                 # JavaScript files
 │   └── images/             # Images
-├── admin/                  # Admin functionality
-│   ├── __init__.py         # Blueprint initialization
-│   ├── routes.py           # Admin routes
-│   ├── auth.py             # Authentication
-│   ├── models.py           # Admin models
-│   └── utils.py            # Utility functions
 ├── queue/                  # Story request queue
 ├── processed/              # Processed requests
 ├── stories/                # Generated stories

@@ -1,21 +1,36 @@
 #!/bin/bash
 
-# Set the working directory
-cd /home/felix/story/story2
+# Set the working directory to script's location
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
 
-# Kill the processes
-if [ -f ./pids/app.pid ]; then
-    APP_PID=$(cat ./pids/app.pid)
-    echo "Stopping Flask App (PID: $APP_PID)..."
-    kill $APP_PID
-    rm ./pids/app.pid
-fi
+# Function to stop a service
+stop_service() {
+    local pid_file=$1
+    local service_name=$2
+    
+    if [ -f "$pid_file" ]; then
+        local pid=$(cat "$pid_file")
+        echo "Stopping $service_name (PID: $pid)..."
+        
+        # Check if process exists
+        if ps -p $pid > /dev/null; then
+            kill $pid
+            echo "$service_name stopped."
+        else
+            echo "$service_name is not running."
+        fi
+        
+        # Remove PID file
+        rm "$pid_file"
+    else
+        echo "$service_name is not running (no PID file)."
+    fi
+}
 
-if [ -f ./pids/processor.pid ]; then
-    PROCESSOR_PID=$(cat ./pids/processor.pid)
-    echo "Stopping Story Processor (PID: $PROCESSOR_PID)..."
-    kill $PROCESSOR_PID
-    rm ./pids/processor.pid
-fi
+# Stop all services
+stop_service "./pids/app.pid" "Flask App"
+stop_service "./pids/processor.pid" "Story Processor"
+stop_service "./pids/admin.pid" "Admin Server"
 
 echo "All services stopped."

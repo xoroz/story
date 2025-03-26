@@ -2,7 +2,7 @@
 
 ## Completed Features
 
-### Core Functionality
+### Core Functionality app.py
 - ✅ Story creation form with customizable parameters
 - ✅ Background processing system for story generation
 - ✅ Integration with multiple AI providers via OpenRouter
@@ -12,7 +12,7 @@
 - ✅ Audio narration generation using OpenAI TTS
 - ✅ Multi-language support (English, Spanish, Italian, Portuguese)
 
-### Admin Functionality
+### Admin Functionality admin.py (TODO)
 - ✅ Admin authentication system
 - ✅ Admin dashboard structure with tabs
 - ✅ System monitoring backend
@@ -28,28 +28,40 @@
 - ✅ Start/stop scripts for application control
 
 ## In Progress
+- ✅ Implemented testing framework with pytest and playwright
+- ✅ Created test suite for core functionality (home, stories, create story pages)
+- ✅ Added admin login tests
+- ✅ Configured HTML test reporting
+- ✅ Improved test robustness with better error handling
+- ✅ Created automatic browser installation in test script
+- ✅ Added test documentation
+- ⏳ Expand test coverage for more detailed functionality
+- ⏳ Implement integration tests for story creation flow
 
 ### Admin Dashboard
-- 🔄 Debugging admin dashboard display issues
-- 🔄 Adding console logging to JavaScript files
-- 🔄 Fixing template inconsistencies
-- 🔄 Resolving route configuration issues
-
-### Create Story Template
-- ✅ Fixed model iteration in create_story.html
-- 🔄 Testing with different AI providers
+- ✅ Basic admin.py server created with authentication
+- ✅ Admin dashboard templates and routes implemented
+- ✅ Story management functionality added
+- ✅ MCP configuration editing functionality added
+- ✅ Config.ini editing functionality added
+- ✅ Process control functionality (start/stop/restart)
+- ✅ Backup and restore functionality implemented
+- ✅ Cleaner navigation with top navbar only
+- ✅ Improved dashboard layout and usability
+- ✅ Integrated admin server into main start.sh and stop.sh scripts
+- ✅ Updated README with comprehensive documentation
+- ⏳ Add API endpoints for programmatic access
 
 ## Pending Features
 
 ### User Experience Improvements
-- ⏳ User accounts and authentication
+- ⏳ User accounts and authentication via external provide like github
 - ⏳ Story sharing functionality
 - ⏳ Enhanced story formatting options
 - ⏳ Mobile-optimized interface
 - ⏳ Story categories and tagging
 
 ### Admin Enhancements
-- ⏳ Advanced analytics dashboard
 - ⏳ User management
 - ⏳ Content moderation tools
 - ⏳ Batch operations for stories
@@ -63,24 +75,7 @@
 
 ## Known Issues
 
-### Critical
-- 🐛 Admin pages are blank with no console messages or errors
-- 🐛 Create story template error with model iteration (fixed but needs testing)
 
-### High Priority
-- 🐛 System-monitoring.js file appears to be empty or not properly loaded
-- 🐛 Inconsistency between admin.html and admin/dashboard.html templates
-- 🐛 Admin form action pointing to non-existent route
-
-### Medium Priority
-- 🐛 No error handling for API failures in the UI
-- 🐛 Limited feedback during story generation process
-- 🐛 No validation for story parameters beyond basic form validation
-
-### Low Priority
-- 🐛 No pagination for story listing
-- 🐛 Limited sorting and filtering options for stories
-- 🐛 Basic styling that could be improved
 
 ## Recent Milestones
 
@@ -99,16 +94,9 @@
 ## Next Milestones
 
 ### Short-term (1-2 days)
-- Fix admin dashboard display issues
-- Add comprehensive console logging
-- Ensure create_story template works with all providers
 - Update documentation with recent changes
 
 ### Medium-term (1-2 weeks)
-- Enhance error handling and user feedback
-- Improve admin dashboard functionality
-- Add pagination for story listing
-- Implement basic analytics
 
 ### Long-term (1-2 months)
 - Migrate to database storage
