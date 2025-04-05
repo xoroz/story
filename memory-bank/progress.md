@@ -28,15 +28,7 @@
 - ✅ Start/stop scripts for application control
 
 ## In Progress
-- ✅ Implemented testing framework with pytest and playwright
-- ✅ Created test suite for core functionality (home, stories, create story pages)
-- ✅ Added admin login tests
-- ✅ Configured HTML test reporting
-- ✅ Improved test robustness with better error handling
-- ✅ Created automatic browser installation in test script
-- ✅ Added test documentation
-- ⏳ Expand test coverage for more detailed functionality
-- ⏳ Implement integration tests for story creation flow
+User accounts and authentication localy simple local db, no roles, all are only users. we need a credit system for stories create consumption
 
 ### Admin Dashboard
 - ✅ Basic admin.py server created with authentication
@@ -50,12 +42,13 @@
 - ✅ Improved dashboard layout and usability
 - ✅ Integrated admin server into main start.sh and stop.sh scripts
 - ✅ Updated README with comprehensive documentation
-- ⏳ Add API endpoints for programmatic access
+
 
 ## Pending Features
+User accounts and authentication 
 
 ### User Experience Improvements
-- ⏳ User accounts and authentication via external provide like github
+- ⏳ User accounts and authentication
 - ⏳ Story sharing functionality
 - ⏳ Enhanced story formatting options
 - ⏳ Mobile-optimized interface

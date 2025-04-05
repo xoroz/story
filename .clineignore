@@ -4,6 +4,9 @@ lib/
 lib64
 .git/
 pyvenv.cfg
+backup/
+processed/
+
 # Dependencies
 node_modules/
 **/node_modules/
@@ -15,9 +18,28 @@ node_modules/
 /dist/
 /.next/
 /out/
-
+tests/
+logs/
+bin/
 # Testing
 /coverage/
 
 # Environment variables
-.env
+bin/
+errors/
+lib/
+lib64
+stories/
+.git/
+processed/
+story_processor.log
+pyvenv.cfg
+gp.sh
+nohup.out
+*.log
+.clineconfig
+/pid
+/processed
+/backup
+/log
+**/CLAUDE.local.md
