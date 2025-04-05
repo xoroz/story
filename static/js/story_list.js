@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const ages = new Set();
         const models = new Set();
         const languages = new Set();
+        const usernames = new Set();
         
         rows.forEach(row => {
             themes.add(row.dataset.theme);
@@ -38,6 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const language = row.dataset.language;
             if (language && language !== '-') {
                 languages.add(language);
+            }
+            // Get username from dataset
+            const username = row.dataset.username;
+            if (username && username !== '-') {
+                usernames.add(username);
             }
         });
         
@@ -88,6 +94,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     option.value = language;
                     option.textContent = language;
                     languageFilter.appendChild(option);
+                });
+        }
+        
+        // Add username filter if needed
+        if (document.getElementById('username-filter')) {
+            const usernameFilter = document.getElementById('username-filter');
+            Array.from(usernames)
+                .filter(username => username)
+                .sort()
+                .forEach(username => {
+                    const option = document.createElement('option');
+                    option.value = username;
+                    option.textContent = username;
+                    usernameFilter.appendChild(option);
                 });
         }
     }
@@ -157,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const ageFilter = document.getElementById('age-filter').value;
         const modelFilter = document.getElementById('model-filter').value;
         const languageFilter = document.getElementById('language-filter') ? document.getElementById('language-filter').value : '';
+        const usernameFilter = document.getElementById('username-filter') ? document.getElementById('username-filter').value : '';
         const searchText = searchFilter.value.toLowerCase();
         
         rows.forEach(row => {
@@ -164,15 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const age = row.dataset.age;
             const model = `${row.dataset.provider} ${row.dataset.model}`.trim();
             const language = row.dataset.language;
+            const username = row.dataset.username;
             const title = row.dataset.title.toLowerCase();
             
             const themeMatch = !themeFilter || theme === themeFilter;
             const ageMatch = !ageFilter || age === ageFilter;
             const modelMatch = !modelFilter || model === modelFilter;
             const languageMatch = !languageFilter || language === languageFilter;
+            const usernameMatch = !usernameFilter || username === usernameFilter;
             const searchMatch = !searchText || title.includes(searchText);
             
-            if (themeMatch && ageMatch && modelMatch && languageMatch && searchMatch) {
+            if (themeMatch && ageMatch && modelMatch && languageMatch && usernameMatch && searchMatch) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
@@ -204,9 +227,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     valueA = a.dataset.title;
                     valueB = b.dataset.title;
                     break;
+                case 'author':
+                    valueA = a.dataset.username || '';
+                    valueB = b.dataset.username || '';
+                    break;
                 case 'date':
-                    valueA = a.cells[2].textContent;
-                    valueB = b.cells[2].textContent;
+                    valueA = a.cells[3].textContent;
+                    valueB = b.cells[3].textContent;
                     break;
                 case 'theme':
                     valueA = a.dataset.theme || '';

@@ -28,6 +28,8 @@
 - ✅ Start/stop scripts for application control
 
 ## In Progress
+- story_process backend need to register username, and e-mail on the story json. also on admin it should be able to see and filter by that. 
+- on the view story we need to see also username and be able to filter by that.
 
 ### User Authentication
 - ✅ Created auth.py module with user registration, login, logout functionality
@@ -38,6 +40,10 @@
 - ✅ Implemented credit system for story creation
 - ✅ Added user profile page with credit display
 - ✅ Integrated authentication with the existing application
+- ✅ Added authentication check to story creation process
+- ✅ Implemented credit deduction when creating stories
+- ✅ Updated mobile navigation to include authentication links
+- ✅ Added user-story association in the database
 
 ### Admin Dashboard
 - ✅ Basic admin.py server created with authentication
@@ -54,7 +60,7 @@
 
 
 ## Pending Features
-User accounts and authentication 
+
 
 ### User Experience Improvements
 - ⏳ User accounts and authentication
@@ -87,6 +93,7 @@ User accounts and authentication
 - Created memory bank documentation for project context and tracking
 
 ### Previous Work
+- change so that only login users can create a new story, if not user is not login redirect to login/register page
 - Implemented admin dashboard structure with tabs
 - Added backup and restore functionality
 - Integrated multiple AI providers via OpenRouter

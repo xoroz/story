@@ -147,3 +147,27 @@ def get_user_credits(user_id):
     credits = cursor.execute('SELECT credits FROM users WHERE id = ?', (user_id,)).fetchone()
     conn.close()
     return credits['credits'] if credits else 0
+
+# Function to associate a story with a user
+def add_user_story(user_id, story_filename):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO user_stories (user_id, story_filename) VALUES (?, ?)',
+                  (user_id, story_filename))
+    conn.commit()
+    conn.close()
+
+# Function to get user information by user_id
+def get_user_info(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    user = cursor.execute('SELECT id, username, email FROM users WHERE id = ?', (user_id,)).fetchone()
+    conn.close()
+    
+    if user:
+        return {
+            'user_id': user['id'],
+            'username': user['username'],
+            'email': user['email']
+        }
+    return None

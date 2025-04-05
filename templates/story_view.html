@@ -15,6 +15,13 @@
 <div class="story-container">
     <h1>{{ title }}</h1>
     
+    {% if username %}
+    <div class="story-author">
+        <span class="author-label">Created by:</span>
+        <span class="author-name">{{ username }}</span>
+    </div>
+    {% endif %}
+    
     {% if story_about %}
     <div class="story-brief">
         <h3>Story Brief</h3>

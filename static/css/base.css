@@ -185,6 +185,25 @@ body {
     background-color: var(--light-bg);
 }
 
+/* Mobile Authentication Links */
+.mobile-auth-link {
+    background-color: rgba(106, 17, 203, 0.05);
+}
+
+.mobile-auth-link a {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.mobile-auth-link .credits-display {
+    display: block;
+    color: var(--text-color);
+    background-color: rgba(106, 17, 203, 0.1);
+    padding: 15px 20px;
+    border-radius: 0;
+    font-weight: 600;
+}
+
 /* Overlay */
 .nav-overlay {
     display: none;

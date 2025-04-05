@@ -10,6 +10,7 @@ from datetime import datetime
 
 import requests
 from config_loader import load_config
+from auth import add_user_story
 
 # Set up logging
 logging.basicConfig(
@@ -413,7 +414,7 @@ def generate_audio(text, language, request_id):
         logger.error(f"Error generating audio: {e}")
         return None
 
-def story_to_html(story, title, request_id, audio_path, language='en', backend='openai', model='gpt-3.5-turbo', story_about=None):
+def story_to_html(story, title, request_id, audio_path, language='en', backend='openai', model='gpt-3.5-turbo', story_about=None, username=None):
     """
     Convert a story to an HTML document
     """
@@ -454,6 +455,16 @@ def story_to_html(story, title, request_id, audio_path, language='en', backend='
         </div>
         """
     
+    # Add username info if provided
+    username_html = ""
+    if username:
+        username_html = f"""
+        <div class="story-author">
+            <span class="author-label">Created by:</span>
+            <span class="author-name">{username}</span>
+        </div>
+        """
+    
     # Create HTML with links to static CSS
     html = f"""
     <!DOCTYPE html>
@@ -485,6 +496,7 @@ def story_to_html(story, title, request_id, audio_path, language='en', backend='
             <div class="container">
                 <div class="story-container">
                     <h1>{title}</h1>
+                    {username_html}
                     {story_about_html}
                     <div class="story-content">
                         {"".join(html_paragraphs)}
@@ -582,7 +594,10 @@ def process_request(request_path):
             'meta': 'Meta AI'
         }.get(provider, provider.title())
         
-        # Convert to HTML - pass provider and model info
+        # Get username if available
+        username = request_data.get('username', None)
+        
+        # Convert to HTML - pass provider, model, and username info
         html_start_time = time.time()
         html = story_to_html(
             story=story, 
@@ -591,7 +606,9 @@ def process_request(request_path):
             audio_path=audio_path, 
             language=language,
             backend=provider_display,
-            model=model_name
+            model=model_name,
+            story_about=params.get('story_about', None),
+            username=username
         )
         html_time = time.time() - html_start_time
         
@@ -604,6 +621,15 @@ def process_request(request_path):
         # Save the story
         with open(html_path, 'w', encoding='utf-8') as f:
             f.write(html)
+            
+        # Associate the story with the user if user_id is present
+        if 'user_id' in request_data:
+            try:
+                user_id = request_data['user_id']
+                add_user_story(user_id, html_filename)
+                logger.info(f"Associated story {html_filename} with user {user_id}")
+            except Exception as user_error:
+                logger.error(f"Error associating story with user: {user_error}")
         
         # Calculate total processing time
         process_total_time = time.time() - process_start_time

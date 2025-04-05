@@ -480,3 +480,38 @@ requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://op
 2025-04-05 04:27:49,297 - StoryProcessor - INFO - Combined audio saved to 32fe0431-0882-45e0-b476-99c021dd12d0.mp3
 2025-04-05 04:27:49,300 - StoryProcessor - INFO - Successfully processed request 32fe0431-0882-45e0-b476-99c021dd12d0 in 100.59 seconds
 2025-04-05 04:27:49,300 - StoryProcessor - INFO -   Story generation: 32.87s, Audio: 67.72s, HTML: 0.00s
+2025-04-05 14:17:27,601 - StoryProcessor - INFO - Story Processor started
+2025-04-05 14:19:15,120 - StoryProcessor - INFO - Processing request: b4ead063-7150-4a8e-98e4-15155bffe128.json
+2025-04-05 14:19:15,120 - StoryProcessor - INFO - Processing request b4ead063-7150-4a8e-98e4-15155bffe128 - Generating story using model openai/gpt-3.5-turbo
+2025-04-05 14:19:15,121 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-3.5-turbo for request b4ead063-7150-4a8e-98e4-15155bffe128
+2025-04-05 14:19:23,981 - StoryProcessor - INFO - Story generated using model: openai/gpt-3.5-turbo in 8.86 seconds
+2025-04-05 14:19:23,981 - StoryProcessor - INFO - Tokens: 353 prompt + 810 completion = 1163 total
+2025-04-05 14:19:23,983 - StoryProcessor - INFO - Generating audio for request b4ead063-7150-4a8e-98e4-15155bffe128
+2025-04-05 14:19:26,018 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-05 14:19:58,950 - StoryProcessor - INFO - Audio generated: b4ead063-7150-4a8e-98e4-15155bffe128.mp3
+2025-04-05 14:19:58,958 - StoryProcessor - INFO - Associated story ninja-_20250405141958.html with user 1
+2025-04-05 14:19:58,960 - StoryProcessor - INFO - Successfully processed request b4ead063-7150-4a8e-98e4-15155bffe128 in 43.84 seconds
+2025-04-05 14:19:58,960 - StoryProcessor - INFO -   Story generation: 8.86s, Audio: 34.97s, HTML: 0.00s
+2025-04-05 17:40:43,293 - StoryProcessor - INFO - Processing request: 877229c4-8a2b-4170-a02b-707e055deefe.json
+2025-04-05 17:40:43,294 - StoryProcessor - INFO - Processing request 877229c4-8a2b-4170-a02b-707e055deefe - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-05 17:40:43,295 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request 877229c4-8a2b-4170-a02b-707e055deefe
+2025-04-05 17:41:04,331 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 21.04 seconds
+2025-04-05 17:41:04,332 - StoryProcessor - INFO - Tokens: 328 prompt + 1062 completion = 1390 total
+2025-04-05 17:41:04,335 - StoryProcessor - INFO - Generating audio for request 877229c4-8a2b-4170-a02b-707e055deefe
+2025-04-05 17:41:06,995 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-05 17:41:29,229 - StoryProcessor - INFO - Audio generated: 877229c4-8a2b-4170-a02b-707e055deefe.mp3
+2025-04-05 17:41:29,237 - StoryProcessor - INFO - Associated story magic-dog_20250405174129.html with user 1
+2025-04-05 17:41:29,239 - StoryProcessor - INFO - Successfully processed request 877229c4-8a2b-4170-a02b-707e055deefe in 45.94 seconds
+2025-04-05 17:41:29,239 - StoryProcessor - INFO -   Story generation: 21.04s, Audio: 24.89s, HTML: 0.00s
+2025-04-05 18:05:16,666 - StoryProcessor - INFO - Story Processor started
+2025-04-05 18:06:44,182 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-05 18:06:44,182 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-05 18:06:44,183 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-05 18:07:05,125 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 20.94 seconds
+2025-04-05 18:07:05,126 - StoryProcessor - INFO - Tokens: 370 prompt + 1121 completion = 1491 total
+2025-04-05 18:07:05,128 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-05 18:07:07,586 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-05 18:07:50,859 - StoryProcessor - INFO - Audio generated: f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-05 18:07:50,868 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250405180750.html with user 1
+2025-04-05 18:07:50,870 - StoryProcessor - INFO - Successfully processed request f5cf5452-cf7b-44df-9a37-e0e05872e35b in 66.69 seconds
+2025-04-05 18:07:50,871 - StoryProcessor - INFO -   Story generation: 20.94s, Audio: 45.73s, HTML: 0.00s

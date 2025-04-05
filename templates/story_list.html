@@ -47,6 +47,13 @@
                 </select>
             </div>
             <div class="filter-group">
+                <label for="username-filter">Author:</label>
+                <select id="username-filter" class="filter-select">
+                    <option value="">All Authors</option>
+                    <!-- Usernames will be populated by JS -->
+                </select>
+            </div>
+            <div class="filter-group">
                 <label for="search-filter">Search:</label>
                 <input type="text" id="search-filter" placeholder="Search titles...">
             </div>
@@ -62,6 +69,7 @@
                 <tr>
                     <th class="select-col"><input type="checkbox" id="select-all"></th>
                     <th class="sortable" data-sort="title">Title</th>
+                    <th class="sortable" data-sort="author">Author</th>
                     <th class="sortable" data-sort="date">Date</th>
                     <th class="sortable" data-sort="theme">Theme</th>
                     <th class="sortable" data-sort="age">Age</th>
@@ -83,13 +91,15 @@
                     data-model="{{ story.model or '' }}"
                     data-provider="{{ story.provider or '' }}"
                     data-language="{{ story.language or '' }}"
-                    data-has-audio="{{ 'true' if story.has_audio else 'false' }}">
+                    data-has-audio="{{ 'true' if story.has_audio else 'false' }}"
+                    data-username="{{ story.username or '' }}">
                     <td>
                         {% if story.has_audio %}
                         <input type="checkbox" class="story-select" data-audio-path="/audio/{{ story.request_id }}.mp3">
                         {% endif %}
                     </td>
                     <td class="story-title-cell">{{ story.title }}</td>
+                    <td>{{ story.username or '-' }}</td>
                     <td>{{ story.created.strftime('%Y-%m-%d') }}</td>
                     <td>{{ story.theme or '-' }}</td>
                     <td>{{ story.age or '-' }}</td>

@@ -112,6 +112,11 @@ def index():
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_story():
+    # Check if user is logged in
+    if 'user_id' not in session:
+        flash('Please log in to create a story')
+        return redirect(url_for('auth.login'))
+        
     # Load MCP - will exit if not found
     mcp = load_mcp()
     
@@ -174,10 +179,17 @@ def create_story():
             tokens=max_tokens
         )
         
+        # Get user information
+        from auth import get_user_info
+        user_info = get_user_info(session['user_id'])
+        
         # Create request data
         request_data = {
             "request_id": request_id,
             "timestamp": datetime.now().isoformat(),
+            "user_id": session['user_id'],
+            "username": user_info['username'] if user_info else "Unknown",
+            "email": user_info['email'] if user_info else "unknown@example.com",
             "parameters": {
                 "age_range": age_range,
                 "theme": theme_id,
@@ -207,6 +219,13 @@ def create_story():
         filename = f"{QUEUE_FOLDER}/{request_id}.json"
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(request_data, f, indent=2)
+        
+        # Deduct credits from user account
+        from auth import use_credit
+        use_credit(session['user_id'])
+        
+        # Update session credits
+        session['credits'] = session['credits'] - 1
             
         # Redirect to waiting page
         return redirect(url_for('waiting', request_id=request_id))
@@ -347,7 +366,7 @@ def list_stories():
                     request_id = audio_match.group(1)
             
             # Enhanced metadata from processed request
-            theme = age = model = provider = processing_time = audio_size = language_code = None
+            theme = age = model = provider = processing_time = audio_size = language_code = username = None
             
             # If we have a request_id, try to load the processed request file
             if request_id:
@@ -371,6 +390,9 @@ def list_stories():
                         # Get processing time
                         timing = request_data.get('timing', {})
                         processing_time = timing.get('total_processing_seconds', 0)
+                        
+                        # Get username if available
+                        username = request_data.get('username', None)
                         
                         # Get audio file size if available
                         audio_file = request_data.get('audio_file')
@@ -398,7 +420,8 @@ def list_stories():
                 'processing_time': processing_time,
                 'audio_size': round(audio_size, 2) if audio_size else None,
                 'has_audio': audio_size is not None,
-                'language': get_language_name(language_code) if language_code else None
+                'language': get_language_name(language_code) if language_code else None,
+                'username': username
             })
     
     # Sort by creation time, newest first
@@ -450,6 +473,24 @@ def view_story(filename):
         provider_display = ai_info_match.group(1)
         model = ai_info_match.group(2)
     
+    # Extract username if available
+    username = None
+    username_match = re.search(r'<span class="author-name">(.*?)</span>', content)
+    if username_match:
+        username = username_match.group(1)
+    
+    # If username not found in HTML, try to find it from the request_id
+    if not username and audio_match:
+        request_id = audio_match.group(1)
+        processed_path = os.path.join(PROCESSED_FOLDER, f"{request_id}.json")
+        if os.path.exists(processed_path):
+            try:
+                with open(processed_path, 'r') as f:
+                    request_data = json.load(f)
+                username = request_data.get('username', None)
+            except Exception as e:
+                print(f"Error loading processed data for username: {e}")
+    
     # Current date
     current_date = datetime.now().strftime('%B %d, %Y')
     
@@ -485,7 +526,8 @@ def view_story(filename):
         filename=filename,
         avg_rating=avg_rating,
         rating_count=rating_count,
-        view_count=view_count
+        view_count=view_count,
+        username=username
     )
 
 @app.route('/rate-story', methods=['POST'])

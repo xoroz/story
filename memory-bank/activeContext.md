@@ -4,6 +4,7 @@
 
 - Implementing user authentication and credit system
 - Integrating authentication with the existing application
+- Ensuring only logged-in users can create stories
 
 ## Recent Changes
 
@@ -15,11 +16,15 @@
 - Implemented credit system for story creation
 - Added user profile page with credit display
 - Integrated authentication with the existing application
+- Added authentication check to story creation process
+- Implemented credit deduction when creating stories
+- Updated mobile navigation to include authentication links
+- Added user-story association in the database
+- Added styling for mobile authentication links
 
 ## Current Issues
 
-- Need to integrate credit system with story creation process
-- Mobile navigation needs to be updated to include authentication links
+- Need to add user_id in processed JSON files for admin and view references
 
 ## Debugging Strategy
 

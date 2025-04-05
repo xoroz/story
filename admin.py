@@ -4,6 +4,7 @@ import sys
 import shutil
 import time
 import subprocess
+import re
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file
 from configparser import ConfigParser
@@ -325,13 +326,39 @@ def manage_stories():
                 ratings = story_meta.get('ratings', [])
                 avg_rating = sum(ratings) / len(ratings) if ratings else 0
                 
+                # Try to find request_id from HTML content
+                request_id = None
+                username = None
+                email = None
+                
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    # Look for audio path which contains request_id
+                    audio_match = re.search(r'<source src="/audio/([a-f0-9-]+)\.mp3"', content)
+                    if audio_match:
+                        request_id = audio_match.group(1)
+                
+                # If we have a request_id, try to load the processed request file
+                if request_id:
+                    processed_path = os.path.join(PROCESSED_FOLDER, f"{request_id}.json")
+                    if os.path.exists(processed_path):
+                        try:
+                            with open(processed_path, 'r') as f:
+                                request_data = json.load(f)
+                            username = request_data.get('username', None)
+                            email = request_data.get('email', None)
+                        except Exception as e:
+                            print(f"Error loading processed data for {request_id}: {e}")
+                
                 stories.append({
                     'filename': filename,
                     'title': ' '.join(filename.split('_')[:-1]).replace('-', ' ').title(),
                     'created': created,
                     'views': story_meta.get('views', 0),
                     'rating_count': len(ratings),
-                    'avg_rating': avg_rating
+                    'avg_rating': avg_rating,
+                    'username': username,
+                    'email': email
                 })
     
     # Sort by creation date, newest first

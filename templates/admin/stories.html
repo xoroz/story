@@ -16,6 +16,8 @@
                     <thead>
                         <tr>
                             <th>Title</th>
+                            <th>Author</th>
+                            <th>Email</th>
                             <th>Created</th>
                             <th>Views</th>
                             <th>Rating</th>
@@ -26,6 +28,8 @@
                         {% for story in stories %}
                         <tr>
                             <td>{{ story.title }}</td>
+                            <td>{{ story.username or '-' }}</td>
+                            <td>{{ story.email or '-' }}</td>
                             <td>{{ story.created.strftime('%Y-%m-%d %H:%M') }}</td>
                             <td>{{ story.views }}</td>
                             <td>
