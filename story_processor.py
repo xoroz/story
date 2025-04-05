@@ -626,8 +626,11 @@ def process_request(request_path):
         if 'user_id' in request_data:
             try:
                 user_id = request_data['user_id']
-                add_user_story(user_id, html_filename)
-                logger.info(f"Associated story {html_filename} with user {user_id}")
+                # Check if story is marked as private
+                is_private = request_data.get('parameters', {}).get('is_private', False)
+                # Add story to database with is_private flag
+                add_user_story(user_id, html_filename, is_private=is_private)
+                logger.info(f"Associated story {html_filename} with user {user_id} (Private: {is_private})")
             except Exception as user_error:
                 logger.error(f"Error associating story with user: {user_error}")
         
@@ -661,6 +664,20 @@ def process_request(request_path):
         
         # Remove from queue
         os.remove(request_path)
+        
+        # Update database with story information
+        try:
+            # Import here to avoid circular imports
+            from db_utils import populate_story_db
+            
+            # Populate database with story information
+            populate_result = populate_story_db(processed_path, force=True)
+            if populate_result:
+                logger.info(f"Successfully added story to database for request {request_id}")
+            else:
+                logger.warning(f"Failed to add story to database for request {request_id}")
+        except Exception as db_error:
+            logger.error(f"Error updating database for request {request_id}: {str(db_error)}")
         
         logger.info(f"Successfully processed request {request_id} in {process_total_time:.2f} seconds")
         logger.info(f"  Story generation: {story_time:.2f}s, Audio: {audio_time:.2f}s, HTML: {html_time:.2f}s")

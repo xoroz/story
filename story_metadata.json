@@ -73,12 +73,30 @@
       "views": 1
     },
     "magic-dog_20250405174129.html": {
-      "ratings": [],
-      "views": 1
+      "ratings": [
+        4
+      ],
+      "views": 3
     },
     "about-a-boy-named-luca_20250405180750.html": {
       "ratings": [
         5
+      ],
+      "views": 1
+    },
+    "a-shark-life_20250406001739.html": {
+      "ratings": [
+        5
+      ],
+      "views": 1
+    },
+    "a-fast-bike_20250406010016.html": {
+      "ratings": [],
+      "views": 1
+    },
+    "cat-out_20250406011747.html": {
+      "ratings": [
+        4
       ],
       "views": 1
     }

@@ -515,3 +515,49 @@ requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://op
 2025-04-05 18:07:50,868 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250405180750.html with user 1
 2025-04-05 18:07:50,870 - StoryProcessor - INFO - Successfully processed request f5cf5452-cf7b-44df-9a37-e0e05872e35b in 66.69 seconds
 2025-04-05 18:07:50,871 - StoryProcessor - INFO -   Story generation: 20.94s, Audio: 45.73s, HTML: 0.00s
+2025-04-06 00:02:12,315 - StoryProcessor - INFO - Story Processor started
+2025-04-06 00:08:54,956 - StoryProcessor - INFO - Story Processor started
+2025-04-06 00:16:49,000 - StoryProcessor - INFO - Story Processor started
+2025-04-06 00:16:59,002 - StoryProcessor - INFO - Processing request: 653815f4-135b-4a88-82e0-5e8f700c440c.json
+2025-04-06 00:16:59,003 - StoryProcessor - INFO - Processing request 653815f4-135b-4a88-82e0-5e8f700c440c - Generating story using model mistralai/mistral-saba
+2025-04-06 00:16:59,004 - StoryProcessor - INFO - Sending request to OpenRouter: mistralai/mistral-saba for request 653815f4-135b-4a88-82e0-5e8f700c440c
+2025-04-06 00:17:13,048 - StoryProcessor - INFO - Story generated using model: mistralai/mistral-saba in 14.04 seconds
+2025-04-06 00:17:13,049 - StoryProcessor - INFO - Tokens: 370 prompt + 965 completion = 1335 total
+2025-04-06 00:17:13,050 - StoryProcessor - INFO - Generating audio for request 653815f4-135b-4a88-82e0-5e8f700c440c
+2025-04-06 00:17:15,609 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 00:17:39,372 - StoryProcessor - INFO - Audio generated: 653815f4-135b-4a88-82e0-5e8f700c440c.mp3
+2025-04-06 00:17:39,380 - StoryProcessor - INFO - Associated story a-shark-life_20250406001739.html with user 1
+2025-04-06 00:17:39,383 - DBUtils - WARNING - No fields to update for a-shark-life_20250406001739.html
+2025-04-06 00:17:39,384 - StoryProcessor - INFO - Successfully added story to database for request 653815f4-135b-4a88-82e0-5e8f700c440c
+2025-04-06 00:17:39,384 - StoryProcessor - INFO - Successfully processed request 653815f4-135b-4a88-82e0-5e8f700c440c in 40.38 seconds
+2025-04-06 00:17:39,384 - StoryProcessor - INFO -   Story generation: 14.05s, Audio: 26.32s, HTML: 0.00s
+2025-04-06 00:57:50,899 - StoryProcessor - INFO - Story Processor started
+2025-04-06 00:59:10,914 - StoryProcessor - INFO - Processing request: b82d8292-8f45-4b34-9195-93956142f49d.json
+2025-04-06 00:59:10,915 - StoryProcessor - INFO - Processing request b82d8292-8f45-4b34-9195-93956142f49d - Generating story using model anthropic/claude-3.5-haiku
+2025-04-06 00:59:10,915 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku for request b82d8292-8f45-4b34-9195-93956142f49d
+2025-04-06 00:59:34,450 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku in 23.53 seconds
+2025-04-06 00:59:34,450 - StoryProcessor - INFO - Tokens: 354 prompt + 1162 completion = 1516 total
+2025-04-06 00:59:34,451 - StoryProcessor - INFO - Generating audio for request b82d8292-8f45-4b34-9195-93956142f49d
+2025-04-06 00:59:36,398 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 01:00:16,210 - StoryProcessor - INFO - Audio generated: b82d8292-8f45-4b34-9195-93956142f49d.mp3
+2025-04-06 01:00:16,219 - StoryProcessor - INFO - Associated story a-fast-bike_20250406010016.html with user 1
+2025-04-06 01:00:16,224 - DBUtils - INFO - Updated existing story record for a-fast-bike_20250406010016.html
+2025-04-06 01:00:16,231 - StoryProcessor - INFO - Successfully added story to database for request b82d8292-8f45-4b34-9195-93956142f49d
+2025-04-06 01:00:16,231 - StoryProcessor - INFO - Successfully processed request b82d8292-8f45-4b34-9195-93956142f49d in 65.31 seconds
+2025-04-06 01:00:16,231 - StoryProcessor - INFO -   Story generation: 23.54s, Audio: 41.76s, HTML: 0.00s
+2025-04-06 01:09:05,802 - StoryProcessor - INFO - Story Processor started
+2025-04-06 01:11:02,517 - StoryProcessor - INFO - Story Processor started
+2025-04-06 01:16:07,618 - StoryProcessor - INFO - Story Processor started
+2025-04-06 01:16:55,125 - StoryProcessor - INFO - Processing request: c0ba2323-10e2-4d3c-a844-edfe82e6fdb1.json
+2025-04-06 01:16:55,125 - StoryProcessor - INFO - Processing request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1 - Generating story using model openai/gpt-3.5-turbo
+2025-04-06 01:16:55,126 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-3.5-turbo for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 01:17:03,123 - StoryProcessor - INFO - Story generated using model: openai/gpt-3.5-turbo in 8.00 seconds
+2025-04-06 01:17:03,124 - StoryProcessor - INFO - Tokens: 319 prompt + 920 completion = 1239 total
+2025-04-06 01:17:03,126 - StoryProcessor - INFO - Generating audio for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 01:17:04,863 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 01:17:47,009 - StoryProcessor - INFO - Audio generated: c0ba2323-10e2-4d3c-a844-edfe82e6fdb1.mp3
+2025-04-06 01:17:47,018 - StoryProcessor - INFO - Associated story cat-out_20250406011747.html with user 2 (Private: False)
+2025-04-06 01:17:47,022 - DBUtils - INFO - Updated existing story record for cat-out_20250406011747.html
+2025-04-06 01:17:47,027 - StoryProcessor - INFO - Successfully added story to database for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 01:17:47,027 - StoryProcessor - INFO - Successfully processed request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1 in 51.89 seconds
+2025-04-06 01:17:47,027 - StoryProcessor - INFO -   Story generation: 8.00s, Audio: 43.88s, HTML: 0.00s

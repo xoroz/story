@@ -60,9 +60,15 @@ function submitRating(filename, rating) {
     formData.append('filename', filename);
     formData.append('rating', rating);
     
+    // Get CSRF token from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
     // Send AJAX request
     fetch('/rate-story', {
         method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
         body: formData
     })
     .then(response => {

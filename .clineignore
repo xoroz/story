@@ -3,40 +3,25 @@ bin/
 lib/
 lib64
 .git/
-pyvenv.cfg
-backup/
-processed/
-
-# Dependencies
 node_modules/
 **/node_modules/
 .pnp
 .pnp.js
-
 # Build outputs
 /build/
 /dist/
 /.next/
 /out/
-tests/
-
 bin/
-# Testing
-/coverage/
 
-# Environment variables
-bin/
-errors/
-lib/
+elib/
 lib64
 stories/
 .git/
-processed/
 pyvenv.cfg
 gp.sh
 nohup.out
 .clineconfig
 /pid
-/processed
 /backup
 **/CLAUDE.local.md

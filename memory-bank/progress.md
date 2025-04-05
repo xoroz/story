@@ -28,8 +28,7 @@
 - ✅ Start/stop scripts for application control
 
 ## In Progress
-- story_process backend need to register username, and e-mail on the story json. also on admin it should be able to see and filter by that. 
-- on the view story we need to see also username and be able to filter by that.
+
 
 ### User Authentication
 - ✅ Created auth.py module with user registration, login, logout functionality
@@ -60,8 +59,7 @@
 
 
 ## Pending Features
-
-
+-
 ### User Experience Improvements
 - ⏳ User accounts and authentication
 - ⏳ Story sharing functionality
@@ -75,7 +73,7 @@
 - ⏳ Batch operations for stories
 
 ### Technical Enhancements
-- ⏳ Database integration (replacing file-based storage)
+- ✅ Database integration (hybrid with file-based storage)
 - ⏳ API endpoints for programmatic access
 - ⏳ Automated testing suite
 - ⏳ CI/CD pipeline
@@ -83,10 +81,31 @@
 
 ## Known Issues
 
+- Private stories are still visible to logged-out users - needs to be fixed to properly filter private stories in the list_stories route
+- CSRF token implementation needs to be tested thoroughly to ensure all forms are protected
 
 
 ## Recent Milestones
 
+### April 6, 2025
+- Fixed login/register buttons to respect navbar and current app theme
+- Added CSRF protection to all forms in the application
+- Added input validation for username and password fields
+- Modified create story form to have a "Private" checkbox (default unchecked)
+- Made "enable_audio" checkbox checked by default
+- Updated backend to handle the private story setting
+- Added database integration with hybrid approach (keeping file-based storage)
+- Added private setting for users to control story visibility
+- Added auth_type field for future authentication methods
+- Updated story_processor.py to automatically update database after story creation
+- Created process_stories.py script for manual database updates
+- Added database structure definitions to config.ini
+- Updated init_db.py to use database structure from config.ini
+- Made database functions more robust to handle missing columns
+
+### Previous Milestones
+- Story process backend now registers username and email in the story JSON
+- Added username display and filtering on story view pages
 ### March 24, 2025
 - Fixed create_story.html template to handle models as a list instead of a dictionary
 - Identified issues with admin dashboard templates and routes
@@ -103,6 +122,7 @@
 ## Next Milestones
 
 ### Short-term (1-2 days)
+- Fix bug with private stories being visible to logged-out users
 - Update documentation with recent changes
 
 ### Medium-term (1-2 weeks)

@@ -1,19 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile - StoryMagic</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
-</head>
-<body>
-    <header>
-        <h1>User Profile</h1>
-    </header>
-    <main>
-        <h2>Welcome, {{ username }}!</h2>
-        <p>Your remaining credits: {{ credits }}</p>
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-    </main>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}User Profile - StoryMagic{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container card">
+    <div class="card-header">User Profile</div>
+    <div class="card-body">
+        <div class="profile-info">
+            <h2>Welcome, {{ username }}!</h2>
+            <p class="credits">Your remaining credits: <span class="credit-count">{{ credits }}</span></p>
+            
+            <div class="profile-settings">
+                <h3>Account Settings</h3>
+                
+                <form action="{{ url_for('auth.update_profile') }}" method="post" class="profile-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="form-group">
+                        <label for="private">
+                            <input type="checkbox" id="private" name="private" {% if private %}checked{% endif %}>
+                            Make all my stories private by default
+                        </label>
+                        <p class="help-text">When enabled, new stories will be private by default</p>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="profile-actions">
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="user-stories-container card">
+    <div class="card-header">Your Stories</div>
+    <div class="card-body">
+        {% if user_stories %}
+            <table class="story-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Created</th>
+                        <th>Theme</th>
+                        <th>Privacy</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for story in user_stories %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('view_story', filename=story.story_filename) }}">
+                                    {{ story.title if story.title else story.story_filename }}
+                                </a>
+                            </td>
+                            <td>{{ story.created_at }}</td>
+                            <td>{{ story.theme if story.theme else '-' }}</td>
+                            <td>
+                                <form action="{{ url_for('auth.update_story_privacy') }}" method="post" class="privacy-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="story_id" value="{{ story.id }}">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" name="is_private" {% if story.is_private %}checked{% endif %} onchange="this.form.submit()">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label">{{ 'Private' if story.is_private else 'Public' }}</span>
+                                    </label>
+                                </form>
+                            </td>
+                            <td class="story-actions">
+                                <a href="{{ url_for('view_story', filename=story.story_filename) }}" class="btn btn-sm btn-accent">View</a>
+                                <a href="{{ url_for('recreate_story', story_id=story.id) }}" class="btn btn-sm btn-primary">Recreate</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You haven't created any stories yet.</p>
+            <a href="{{ url_for('create_story') }}" class="btn btn-primary">Create Your First Story</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

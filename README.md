@@ -24,6 +24,20 @@ run git ls-files to list all files
 - Story rating system
 - Audio narration using OpenAI TTS
 
+### User Features
+- User registration and login system
+- User profile page with credit management
+- Story ownership and association with users
+- Privacy controls for stories (public/private)
+- Credit system for story creation
+
+### Database Integration
+- SQLite database for user and story data
+- Hybrid approach maintaining file-based storage for stories
+- Database schema defined in config.ini
+- Automatic database updates when stories are created
+- Manual database update tools for batch processing
+
 ### Admin Dashboard
 - System monitoring (process status, queue status, disk usage)
 - Process control (start/stop/restart web app and processor)
@@ -103,22 +117,33 @@ Test coverage includes:
 ├── README.md
 ├── admin.py              # Admin dashboard server (port 8001)
 ├── app.py                # Main web application (port 8000)
+├── auth.py               # User authentication module
 ├── backups/              # Backup files for config and system
 ├── child_storyteller_mcp.json  # Model Control Protocol configuration
-├── config.ini            # Application configuration
+├── config.ini            # Application configuration (includes DB schema)
 ├── config_loader.py      # Configuration loader utility
+├── database.db           # SQLite database for users and stories
+├── db_utils.py           # Database utility functions
+├── init_db.py            # Database initialization script
 ├── logs/                 # Log files
 │   └── prompts/          # Detailed logs of AI requests
 ├── memory-bank/          # Project documentation
 ├── pids/                 # Process ID files
+├── process_stories.py    # Script to process stories into database
 ├── processed/            # Processed story requests
 ├── queue/                # Queue for story requests
 ├── requirements.txt      # Python dependencies
 ├── start.sh              # Start script for all services
 ├── static/               # Static assets (CSS, JS, images)
 │   ├── css/
+│   │   ├── admin.css
+│   │   ├── auth.css      # Styles for authentication pages
+│   │   ├── base.css
+│   │   └── ...
 │   ├── images/
 │   └── js/
+│       ├── auth.js       # JavaScript for authentication
+│       └── ...
 ├── stop.sh               # Stop script for all services
 ├── stories/              # Generated stories in HTML
 │   └── audio/            # Generated audio narration
@@ -126,5 +151,9 @@ Test coverage includes:
 ├── story_processor.py    # Background story processing service
 └── templates/            # HTML templates
     ├── admin/            # Admin dashboard templates
+    ├── auth/             # Authentication templates
+    │   ├── login.html
+    │   ├── profile.html
+    │   └── register.html
     └── ...               # Main application templates
 ```

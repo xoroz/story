@@ -3,10 +3,15 @@ import json
 import uuid
 import sys
 import re
+import time
+import threading
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
+from flask_wtf.csrf import CSRFProtect
+from db_utils import get_story_details
 from config_loader import load_config
 from auth import auth_bp
+from db_utils import populate_story_db, process_json_directory, get_stories_for_user, get_all_stories
 
 # Load configuration
 config = load_config()
@@ -34,9 +39,15 @@ os.makedirs(AUDIO_FOLDER, exist_ok=True)
 app = Flask(__name__)
 app.secret_key = config['App']['secret_key']
 
+# Initialize CSRF protection
+csrf = CSRFProtect(app)
+
 # Register blueprints
 #app.register_blueprint(admin_bp)
 app.register_blueprint(auth_bp)
+
+# Path to the processed folder
+PROCESSED_FOLDER = config['Paths']['processed_folder']
 
 # Path to the story metadata file
 METADATA_FILE = 'story_metadata.json'
@@ -202,7 +213,8 @@ def create_story():
                 "max_tokens": max_tokens,
                 "language": language,
                 "ai_model": request.form.get('ai_model', 'openai/gpt-3.5-turbo'),
-                "enable_audio": request.form.get('enable_audio') == 'true'
+                "enable_audio": request.form.get('enable_audio') == 'true',
+                "is_private": request.form.get('is_private') == 'true'
             },
             "prompts": {
                 "system_prompt": system_prompt,
@@ -235,12 +247,54 @@ def create_story():
     lessons = mcp.get("lessons", [])
     ai_providers = mcp.get("ai_providers", {})
     
+    # Check if we have prefill data from recreate_story
+    prefill_data = session.pop('prefill_data', None)
+    
     return render_template(
         'create_story.html', 
         themes=themes, 
         lessons=lessons,
-        ai_providers=ai_providers
+        ai_providers=ai_providers,
+        prefill=prefill_data
     )
+
+@app.route('/recreate-story/<int:story_id>')
+def recreate_story(story_id):
+    # Check if user is logged in
+    if 'user_id' not in session:
+        flash('Please log in to recreate a story')
+        return redirect(url_for('auth.login'))
+    
+    # Get story details from database
+    story_details = get_story_details(story_id)
+    
+    if not story_details:
+        flash('Story not found')
+        return redirect(url_for('auth.profile'))
+    
+    # Check if the story belongs to the current user
+    if story_details['user_id'] != session['user_id']:
+        flash('You do not have permission to recreate this story')
+        return redirect(url_for('auth.profile'))
+    
+    # Create prefill data for the create story form
+    prefill_data = {
+        'title': story_details.get('title', ''),
+        'theme': story_details.get('theme', ''),
+        'age_range': story_details.get('age_range', '10-12'),
+        'lesson': story_details.get('lesson', ''),
+        'characters': story_details.get('characters', ''),
+        'story_about': story_details.get('story_about', ''),
+        'language': story_details.get('language', 'en'),
+        'ai_model': story_details.get('ai_model', ''),
+        'provider': story_details.get('provider', 'openai')
+    }
+    
+    # Store prefill data in session
+    session['prefill_data'] = prefill_data
+    
+    # Redirect to create story page
+    return redirect(url_for('create_story'))
 
 @app.route('/waiting/<request_id>')
 def waiting(request_id):
@@ -330,7 +384,45 @@ def check_story_status(request_id):
 
 @app.route('/stories')
 def list_stories():
-    # Get list of HTML files in stories directory
+    # Get list of stories from database
+    if 'user_id' in session:
+        # If user is logged in, get all stories plus their private stories
+        stories_db = get_all_stories()
+        
+        # Filter out private stories from other users
+        from db_utils import get_user_private_setting
+        
+        # Create a set of user IDs with private stories
+        private_users = set()
+        for story in stories_db:
+            user_id = story.get('user_id')
+            if user_id and user_id != session['user_id']:
+                is_private = get_user_private_setting(user_id)
+                if is_private:
+                    private_users.add(user_id)
+        
+        # Filter out stories from private users
+        stories_db = [s for s in stories_db if s.get('user_id') not in private_users]
+    else:
+        # If not logged in, get only public stories
+        stories_db = get_all_stories()
+        
+        # Filter out all private stories
+        from db_utils import get_user_private_setting
+        
+        # Create a set of user IDs with private stories
+        private_users = set()
+        for story in stories_db:
+            user_id = story.get('user_id')
+            if user_id:
+                is_private = get_user_private_setting(user_id)
+                if is_private:
+                    private_users.add(user_id)
+        
+        # Filter out stories from private users
+        stories_db = [s for s in stories_db if s.get('user_id') not in private_users]
+    
+    # Get story metadata from file system
     story_files = []
     
     # Get story metadata
@@ -366,7 +458,7 @@ def list_stories():
                     request_id = audio_match.group(1)
             
             # Enhanced metadata from processed request
-            theme = age = model = provider = processing_time = audio_size = language_code = username = None
+            theme = age = model = provider = processing_time = audio_size = language_code = username = user_id = None
             
             # If we have a request_id, try to load the processed request file
             if request_id:
@@ -391,7 +483,8 @@ def list_stories():
                         timing = request_data.get('timing', {})
                         processing_time = timing.get('total_processing_seconds', 0)
                         
-                        # Get username if available
+                        # Get user info
+                        user_id = request_data.get('user_id')
                         username = request_data.get('username', None)
                         
                         # Get audio file size if available
@@ -403,6 +496,14 @@ def list_stories():
                     except Exception as e:
                         # If there's an error, continue without the enhanced metadata
                         print(f"Error loading processed data for {request_id}: {e}")
+            
+            # Check if this story should be private
+            if user_id and user_id != session.get('user_id'):
+                from db_utils import get_user_private_setting
+                is_private = get_user_private_setting(user_id)
+                if is_private:
+                    # Skip this story if it's private and not owned by the current user
+                    continue
             
             # Add all data to the story object
             story_files.append({
@@ -421,7 +522,8 @@ def list_stories():
                 'audio_size': round(audio_size, 2) if audio_size else None,
                 'has_audio': audio_size is not None,
                 'language': get_language_name(language_code) if language_code else None,
-                'username': username
+                'username': username,
+                'user_id': user_id
             })
     
     # Sort by creation time, newest first
@@ -440,6 +542,38 @@ def view_story(filename):
     if not os.path.exists(file_path):
         flash('Story not found')
         return redirect(url_for('list_stories'))
+    
+    # Check if this story is private
+    # Try to find request_id from HTML content
+    request_id = None
+    user_id = None
+    
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+        # Look for audio path which contains request_id
+        audio_match = re.search(r'<source src="/audio/([a-f0-9-]+)\.mp3"', content)
+        if audio_match:
+            request_id = audio_match.group(1)
+    
+    # If we have a request_id, try to load the processed request file
+    if request_id:
+        processed_path = os.path.join(PROCESSED_FOLDER, f"{request_id}.json")
+        if os.path.exists(processed_path):
+            try:
+                with open(processed_path, 'r') as f:
+                    request_data = json.load(f)
+                user_id = request_data.get('user_id')
+            except Exception as e:
+                print(f"Error loading processed data for user_id: {e}")
+    
+    # Check if this story should be private
+    if user_id and user_id != session.get('user_id'):
+        from db_utils import get_user_private_setting
+        is_private = get_user_private_setting(user_id)
+        if is_private:
+            # Redirect if it's private and not owned by the current user
+            flash('This story is private and can only be viewed by its creator')
+            return redirect(url_for('list_stories'))
     
     # Read the HTML file content
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -531,6 +665,7 @@ def view_story(filename):
     )
 
 @app.route('/rate-story', methods=['POST'])
+@csrf.exempt
 def rate_story():
     """Handle story rating submissions via AJAX"""
     # Get form data
@@ -599,5 +734,23 @@ def get_audio(filename):
     
     return send_file(file_path)
 
+# Route to manually trigger database update from processed folder
+@app.route('/admin/update-db', methods=['GET'])
+def update_db():
+    """
+    Manually trigger database update from processed folder
+    """
+    # Check if user is logged in and is admin
+    if 'user_id' not in session:
+        flash('Please log in to access admin functions')
+        return redirect(url_for('auth.login'))
+    
+    # Process all JSON files in the processed folder
+    success_count, failure_count = process_json_directory(PROCESSED_FOLDER)
+    
+    flash(f"Processed {success_count + failure_count} files: {success_count} successful, {failure_count} failed")
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
+    # Run the Flask app
     app.run(debug=True, port=8000, host='0.0.0.0')
