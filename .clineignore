@@ -19,7 +19,7 @@ node_modules/
 /.next/
 /out/
 tests/
-logs/
+
 bin/
 # Testing
 /coverage/
@@ -32,14 +32,11 @@ lib64
 stories/
 .git/
 processed/
-story_processor.log
 pyvenv.cfg
 gp.sh
 nohup.out
-*.log
 .clineconfig
 /pid
 /processed
 /backup
-/log
 **/CLAUDE.local.md

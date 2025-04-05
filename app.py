@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
 from config_loader import load_config
-#from admin import admin_bp
+from auth import auth_bp
 
 # Load configuration
 config = load_config()
@@ -36,6 +36,7 @@ app.secret_key = config['App']['secret_key']
 
 # Register blueprints
 #app.register_blueprint(admin_bp)
+app.register_blueprint(auth_bp)
 
 # Path to the story metadata file
 METADATA_FILE = 'story_metadata.json'

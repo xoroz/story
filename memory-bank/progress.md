@@ -28,7 +28,16 @@
 - ✅ Start/stop scripts for application control
 
 ## In Progress
-User accounts and authentication localy simple local db, no roles, all are only users. we need a credit system for stories create consumption
+
+### User Authentication
+- ✅ Created auth.py module with user registration, login, logout functionality
+- ✅ Implemented secure password hashing with bcrypt
+- ✅ Added SQLite database with users and user_stories tables
+- ✅ Created login, registration, and profile templates
+- ✅ Added navigation links for login/register/logout
+- ✅ Implemented credit system for story creation
+- ✅ Added user profile page with credit display
+- ✅ Integrated authentication with the existing application
 
 ### Admin Dashboard
 - ✅ Basic admin.py server created with authentication

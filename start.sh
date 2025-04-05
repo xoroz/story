@@ -4,6 +4,8 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SCRIPT_DIR"
 
+P=bin/python3.12
+
 # Create PID directory if it doesn't exist
 mkdir -p pids
 mkdir -p logs
@@ -14,21 +16,21 @@ mkdir -p logs
 
 # Start the Flask app in background
 echo "Starting Flask App (port 8000)..."
-python app.py > logs/app.log 2>&1 &
+$P app.py > logs/app.log 2>&1 &
 FLASK_PID=$!
 echo "Flask App started with PID: $FLASK_PID"
 echo $FLASK_PID > ./pids/app.pid
 
 # Start the processor in background
 echo "Starting Story Processor..."
-python story_processor.py > logs/processor.log 2>&1 &
+$P story_processor.py > logs/processor.log 2>&1 &
 PROCESSOR_PID=$!
 echo "Story Processor started with PID: $PROCESSOR_PID"
 echo $PROCESSOR_PID > ./pids/processor.pid
 
 # Start the admin server in background
 echo "Starting Admin Server (port 8001)..."
-python admin.py > logs/admin.log 2>&1 &
+$P admin.py > logs/admin.log 2>&1 &
 ADMIN_PID=$!
 echo "Admin Server started with PID: $ADMIN_PID"
 echo $ADMIN_PID > ./pids/admin.pid

@@ -65,18 +65,18 @@ body {
 }
 
 /* Desktop Navigation */
-.desktop-nav ul {
+.desktop-nav ul, .user-nav ul {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.desktop-nav li {
+.desktop-nav li, .user-nav li {
     margin-left: 24px;
 }
 
-.desktop-nav a {
+.desktop-nav a, .user-nav a {
     color: var(--white);
     text-decoration: none;
     font-weight: 500;
@@ -85,8 +85,21 @@ body {
     transition: background-color 0.3s;
 }
 
-.desktop-nav a:hover {
+.desktop-nav a:hover, .user-nav a:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* User Navigation */
+.user-nav {
+    margin-left: 20px;
+}
+
+.credits-display {
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 /* Mobile Menu Toggle */

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - StoryMagic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+    <header>
+        <h1>User Profile</h1>
+    </header>
+    <main>
+        <h2>Welcome, {{ username }}!</h2>
+        <p>Your remaining credits: {{ credits }}</p>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+    </main>
+</body>
+</html>

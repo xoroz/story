@@ -34,6 +34,20 @@
                     <li><a href="{{ url_for('list_stories') }}">View Stories</a></li>
                 </ul>
             </nav>
+            <nav class="user-nav">
+                {% if 'user_id' not in session %}
+                    <ul>
+                        <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li><span class="credits-display">Credits: {{ session.get('credits', 0) }}</span></li>
+                        <li><a href="{{ url_for('auth.profile') }}">{{ session.get('username', 'Profile') }}</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    </ul>
+                {% endif %}
+            </nav>
             
             <!-- Mobile Navigation Toggle -->
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
