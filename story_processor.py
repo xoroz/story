@@ -11,6 +11,10 @@ from datetime import datetime
 import requests
 from config_loader import load_config
 from auth import add_user_story
+import send_email as email_sender  # Import the email module
+
+# Ensure logs directory exists
+os.makedirs('logs', exist_ok=True)
 
 # Set up logging
 logging.basicConfig(
@@ -678,6 +682,34 @@ def process_request(request_path):
                 logger.warning(f"Failed to add story to database for request {request_id}")
         except Exception as db_error:
             logger.error(f"Error updating database for request {request_id}: {str(db_error)}")
+        
+        # Send email notification if email is provided in the request data
+        try:
+            if 'email' in request_data and request_data['email']:
+                # Get the base URL from config
+                base_url = config['App'].get('url', 'https://texgo.it')
+                
+                # Construct the story link
+                story_link = f"{base_url}/stories/{html_filename}"
+                
+                # Get recipient name if available
+                recipient_name = request_data.get('name', request_data.get('username', 'Valued Contributor'))
+                
+                # Send email notification
+                email_result = email_sender.send_story_notification(
+                    email=request_data['email'],
+                    name=recipient_name,
+                    title=title,
+                    story_about=params.get('story_about', ''),
+                    link=story_link
+                )
+                
+                if email_result:
+                    logger.info(f"Email notification sent to {request_data['email']} for story {html_filename}")
+                else:
+                    logger.warning(f"Failed to send email notification to {request_data['email']} for story {html_filename}")
+        except Exception as email_error:
+            logger.error(f"Error sending email notification: {str(email_error)}")
         
         logger.info(f"Successfully processed request {request_id} in {process_total_time:.2f} seconds")
         logger.info(f"  Story generation: {story_time:.2f}s, Audio: {audio_time:.2f}s, HTML: {html_time:.2f}s")

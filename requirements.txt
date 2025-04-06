@@ -30,3 +30,4 @@ anthropic
 Flask-Bcrypt==1.0.0
 Flask-Login==0.6.0
 flask_wtf
+mailersend

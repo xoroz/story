@@ -6,8 +6,18 @@
 - Implementing privacy controls for user stories
 - Ensuring robust database operations with error handling
 - Maintaining hybrid approach with file-based storage
+- Improving email notification system integration
 
 ## Recent Changes
+
+### Email Notification System Integration (April 7, 2025)
+- Renamed send-email.py to send_email.py to make it importable as a module
+- Removed queue scanning/waiting functionality from email module
+- Created a send_story_notification function that accepts direct parameters
+- Updated story_processor.py to call the email notification function after story processing
+- Updated the story link construction to use the URL from config.ini
+- Ensured all logs go to the appropriate log files
+- Fixed module import issues for better integration
 
 ### Database Integration (April 6, 2025)
 - Added database structure definitions to config.ini

@@ -561,3 +561,147 @@ requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://op
 2025-04-06 01:17:47,027 - StoryProcessor - INFO - Successfully added story to database for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
 2025-04-06 01:17:47,027 - StoryProcessor - INFO - Successfully processed request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1 in 51.89 seconds
 2025-04-06 01:17:47,027 - StoryProcessor - INFO -   Story generation: 8.00s, Audio: 43.88s, HTML: 0.00s
+2025-04-06 16:23:46,008 - StoryProcessor - INFO - Processing request: c0ba2323-10e2-4d3c-a844-edfe82e6fdb1.json
+2025-04-06 16:23:46,009 - StoryProcessor - INFO - Processing request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1 - Generating story using model openai/gpt-3.5-turbo
+2025-04-06 16:23:46,010 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-3.5-turbo for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 16:23:52,851 - StoryProcessor - INFO - Story generated using model: openai/gpt-3.5-turbo in 6.84 seconds
+2025-04-06 16:23:52,851 - StoryProcessor - INFO - Tokens: 319 prompt + 825 completion = 1144 total
+2025-04-06 16:23:52,853 - StoryProcessor - INFO - Generating audio for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 16:23:54,053 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 16:24:25,142 - StoryProcessor - INFO - Audio generated: c0ba2323-10e2-4d3c-a844-edfe82e6fdb1.mp3
+2025-04-06 16:24:25,149 - StoryProcessor - INFO - Associated story cat-out_20250406162425.html with user 2 (Private: False)
+2025-04-06 16:24:25,152 - DBUtils - INFO - Updated existing story record for cat-out_20250406162425.html
+2025-04-06 16:24:25,158 - StoryProcessor - INFO - Successfully added story to database for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 16:24:25,159 - StoryProcessor - INFO - Successfully processed request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1 in 39.14 seconds
+2025-04-06 16:24:25,159 - StoryProcessor - INFO -   Story generation: 6.84s, Audio: 32.29s, HTML: 0.00s
+2025-04-06 22:23:23,335 - StoryProcessor - INFO - Processing request: c0ba2323-10e2-4d3c-a844-edfe82e6fdb1.json
+2025-04-06 22:23:23,337 - StoryProcessor - INFO - Processing request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1 - Generating story using model openai/gpt-3.5-turbo
+2025-04-06 22:23:23,338 - StoryProcessor - INFO - Sending request to OpenRouter: openai/gpt-3.5-turbo for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 22:23:30,727 - StoryProcessor - INFO - Story generated using model: openai/gpt-3.5-turbo in 7.39 seconds
+2025-04-06 22:23:30,727 - StoryProcessor - INFO - Tokens: 319 prompt + 868 completion = 1187 total
+2025-04-06 22:23:30,729 - StoryProcessor - INFO - Generating audio for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 22:23:32,776 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 22:23:54,725 - StoryProcessor - INFO - Audio generated: c0ba2323-10e2-4d3c-a844-edfe82e6fdb1.mp3
+2025-04-06 22:23:54,732 - StoryProcessor - INFO - Associated story cat-out_20250406222354.html with user 2 (Private: False)
+2025-04-06 22:23:54,735 - DBUtils - INFO - Updated existing story record for cat-out_20250406222354.html
+2025-04-06 22:23:54,739 - StoryProcessor - INFO - Successfully added story to database for request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1
+2025-04-06 22:23:54,740 - StoryProcessor - INFO - Successfully processed request c0ba2323-10e2-4d3c-a844-edfe82e6fdb1 in 31.40 seconds
+2025-04-06 22:23:54,740 - StoryProcessor - INFO -   Story generation: 7.39s, Audio: 24.00s, HTML: 0.00s
+2025-04-06 22:24:07,745 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-06 22:24:07,746 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-06 22:24:07,746 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:24:30,015 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 22.27 seconds
+2025-04-06 22:24:30,016 - StoryProcessor - INFO - Tokens: 370 prompt + 1161 completion = 1531 total
+2025-04-06 22:24:30,017 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:24:31,962 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 22:25:12,418 - StoryProcessor - INFO - Audio generated: f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-06 22:25:12,427 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250406222512.html with user 1 (Private: False)
+2025-04-06 22:25:12,431 - DBUtils - INFO - Updated existing story record for about-a-boy-named-luca_20250406222512.html
+2025-04-06 22:25:12,436 - StoryProcessor - INFO - Successfully added story to database for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:25:12,437 - StoryProcessor - INFO - Successfully processed request f5cf5452-cf7b-44df-9a37-e0e05872e35b in 64.68 seconds
+2025-04-06 22:25:12,437 - StoryProcessor - INFO -   Story generation: 22.27s, Audio: 42.40s, HTML: 0.00s
+2025-04-06 22:28:55,487 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-06 22:28:55,487 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-06 22:28:55,487 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:29:21,037 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 25.55 seconds
+2025-04-06 22:29:21,038 - StoryProcessor - INFO - Tokens: 370 prompt + 1310 completion = 1680 total
+2025-04-06 22:29:21,040 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:29:21,041 - StoryProcessor - INFO - Text exceeds 4096 character limit. Splitting into chunks for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:29:21,041 - StoryProcessor - INFO - Split text into 2 chunks for audio generation
+2025-04-06 22:29:23,086 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 22:30:11,768 - StoryProcessor - INFO - Generated audio chunk 1/2
+2025-04-06 22:30:14,594 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 22:30:19,356 - StoryProcessor - INFO - Generated audio chunk 2/2
+2025-04-06 22:30:21,634 - StoryProcessor - INFO - Combined audio saved to f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-06 22:30:21,642 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250406223021.html with user 1 (Private: False)
+2025-04-06 22:30:21,643 - DBUtils - INFO - Updated existing story record for about-a-boy-named-luca_20250406223021.html
+2025-04-06 22:30:21,647 - StoryProcessor - INFO - Successfully added story to database for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:30:21,647 - StoryProcessor - INFO - Successfully processed request f5cf5452-cf7b-44df-9a37-e0e05872e35b in 86.16 seconds
+2025-04-06 22:30:21,647 - StoryProcessor - INFO -   Story generation: 25.55s, Audio: 60.60s, HTML: 0.00s
+2025-04-06 22:54:04,968 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-06 22:54:04,969 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-06 22:54:04,970 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:54:27,979 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 23.01 seconds
+2025-04-06 22:54:27,979 - StoryProcessor - INFO - Tokens: 370 prompt + 1264 completion = 1634 total
+2025-04-06 22:54:27,982 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:54:27,982 - StoryProcessor - INFO - Text exceeds 4096 character limit. Splitting into chunks for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:54:27,983 - StoryProcessor - INFO - Split text into 2 chunks for audio generation
+2025-04-06 22:54:30,947 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 22:54:55,123 - StoryProcessor - INFO - Generated audio chunk 1/2
+2025-04-06 22:54:57,460 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 22:54:59,440 - StoryProcessor - INFO - Generated audio chunk 2/2
+2025-04-06 22:55:01,635 - StoryProcessor - INFO - Combined audio saved to f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-06 22:55:01,642 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250406225501.html with user 1 (Private: False)
+2025-04-06 22:55:01,644 - DBUtils - INFO - Updated existing story record for about-a-boy-named-luca_20250406225501.html
+2025-04-06 22:55:01,647 - StoryProcessor - INFO - Successfully added story to database for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 22:55:01,648 - StoryProcessor - INFO - Successfully processed request f5cf5452-cf7b-44df-9a37-e0e05872e35b in 56.67 seconds
+2025-04-06 22:55:01,648 - StoryProcessor - INFO -   Story generation: 23.01s, Audio: 33.66s, HTML: 0.00s
+2025-04-06 23:33:27,680 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-06 23:33:27,683 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-06 23:33:27,683 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:33:51,153 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 23.47 seconds
+2025-04-06 23:33:51,154 - StoryProcessor - INFO - Tokens: 370 prompt + 1186 completion = 1556 total
+2025-04-06 23:33:51,157 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:33:51,157 - StoryProcessor - INFO - Text exceeds 4096 character limit. Splitting into chunks for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:33:51,158 - StoryProcessor - INFO - Split text into 2 chunks for audio generation
+2025-04-06 23:33:52,605 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 23:34:26,655 - StoryProcessor - INFO - Generated audio chunk 1/2
+2025-04-06 23:34:28,548 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 23:34:30,129 - StoryProcessor - INFO - Generated audio chunk 2/2
+2025-04-06 23:34:32,605 - StoryProcessor - INFO - Combined audio saved to f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-06 23:34:32,616 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250406233432.html with user 1 (Private: False)
+2025-04-06 23:34:32,618 - DBUtils - INFO - Updated existing story record for about-a-boy-named-luca_20250406233432.html
+2025-04-06 23:34:32,623 - StoryProcessor - INFO - Successfully added story to database for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:34:32,624 - StoryProcessor - INFO - Successfully processed request f5cf5452-cf7b-44df-9a37-e0e05872e35b in 64.93 seconds
+2025-04-06 23:34:32,624 - StoryProcessor - INFO -   Story generation: 23.47s, Audio: 41.45s, HTML: 0.00s
+2025-04-06 23:35:50,643 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-06 23:35:50,645 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-06 23:35:50,645 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:36:11,868 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 21.22 seconds
+2025-04-06 23:36:11,869 - StoryProcessor - INFO - Tokens: 370 prompt + 1143 completion = 1513 total
+2025-04-06 23:36:11,871 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:36:13,610 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 23:36:49,157 - StoryProcessor - INFO - Audio generated: f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-06 23:36:49,165 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250406233649.html with user 1 (Private: False)
+2025-04-06 23:36:49,167 - StoryProcessor - ERROR - Error processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b after 58.52s: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:36:49,169 - StoryProcessor - ERROR - Traceback (most recent call last):
+  File "/home/felix/projects/story/story_processor.py", line 666, in process_request
+    os.remove(request_path)
+FileNotFoundError: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+
+2025-04-06 23:36:49,170 - StoryProcessor - ERROR - Could not read original request: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:36:49,171 - StoryProcessor - ERROR - Could not remove request from queue: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:39:54,711 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-06 23:39:54,712 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-06 23:39:54,713 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:40:16,706 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 21.99 seconds
+2025-04-06 23:40:16,707 - StoryProcessor - INFO - Tokens: 370 prompt + 1159 completion = 1529 total
+2025-04-06 23:40:16,709 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:40:18,551 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 23:40:59,692 - StoryProcessor - INFO - Audio generated: f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-06 23:40:59,700 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250406234059.html with user 1 (Private: False)
+2025-04-06 23:40:59,702 - StoryProcessor - ERROR - Error processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b after 64.99s: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:40:59,704 - StoryProcessor - ERROR - Traceback (most recent call last):
+  File "/home/felix/projects/story/story_processor.py", line 666, in process_request
+    os.remove(request_path)
+FileNotFoundError: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+
+2025-04-06 23:40:59,705 - StoryProcessor - ERROR - Could not read original request: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:40:59,706 - StoryProcessor - ERROR - Could not remove request from queue: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:48:37,805 - StoryProcessor - INFO - Processing request: f5cf5452-cf7b-44df-9a37-e0e05872e35b.json
+2025-04-06 23:48:37,806 - StoryProcessor - INFO - Processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b - Generating story using model anthropic/claude-3.5-haiku-20241022:beta
+2025-04-06 23:48:37,807 - StoryProcessor - INFO - Sending request to OpenRouter: anthropic/claude-3.5-haiku-20241022:beta for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:48:59,716 - StoryProcessor - INFO - Story generated using model: anthropic/claude-3.5-haiku-20241022 in 21.91 seconds
+2025-04-06 23:48:59,716 - StoryProcessor - INFO - Tokens: 370 prompt + 1121 completion = 1491 total
+2025-04-06 23:48:59,718 - StoryProcessor - INFO - Generating audio for request f5cf5452-cf7b-44df-9a37-e0e05872e35b
+2025-04-06 23:49:01,514 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/audio/speech "HTTP/1.1 200 OK"
+2025-04-06 23:49:37,927 - StoryProcessor - INFO - Audio generated: f5cf5452-cf7b-44df-9a37-e0e05872e35b.mp3
+2025-04-06 23:49:37,935 - StoryProcessor - INFO - Associated story about-a-boy-named-luca_20250406234937.html with user 1 (Private: False)
+2025-04-06 23:49:37,936 - StoryProcessor - ERROR - Error processing request f5cf5452-cf7b-44df-9a37-e0e05872e35b after 60.13s: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:49:37,938 - StoryProcessor - ERROR - Traceback (most recent call last):
+  File "/home/felix/projects/story/story_processor.py", line 666, in process_request
+    os.remove(request_path)
+FileNotFoundError: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+
+2025-04-06 23:49:37,939 - StoryProcessor - ERROR - Could not read original request: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'
+2025-04-06 23:49:37,940 - StoryProcessor - ERROR - Could not remove request from queue: [Errno 2] No such file or directory: 'queue/f5cf5452-cf7b-44df-9a37-e0e05872e35b.json'

@@ -29,7 +29,6 @@
 
 ## In Progress
 
-
 ### User Authentication
 - ✅ Created auth.py module with user registration, login, logout functionality
 - ✅ Implemented secure password hashing with bcrypt
@@ -86,6 +85,16 @@
 
 
 ## Recent Milestones
+
+### April 7, 2025
+- Improved email notification system by integrating it with story_processor.py
+- Renamed send-email.py to send_email.py to make it importable as a module
+- Removed queue scanning/waiting functionality from email module
+- Created a send_story_notification function that accepts direct parameters
+- Updated story_processor.py to call the email notification function after story processing
+- Updated the story link construction to use the URL from config.ini
+- Ensured all logs go to the appropriate log files
+- Fixed module import issues for better integration
 
 ### April 6, 2025
 - Fixed login/register buttons to respect navbar and current app theme
