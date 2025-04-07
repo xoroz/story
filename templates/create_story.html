@@ -9,7 +9,7 @@
 {% block content %}
 <h1>{% if prefill %}Recreate{% else %}Create{% endif %} a Magical Story</h1>
 
-<form method="POST" action="{{ url_for('create_story') }}">
+<form method="POST" action="{{ url_for('story.create_story') }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="card">
         <div class="card-header">Story Details</div>

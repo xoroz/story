@@ -45,7 +45,7 @@
     
     <!-- Hidden fields for JavaScript -->
     <input type="hidden" id="refresh-interval" value="{{ check_interval // 1000 }}">
-    <input type="hidden" id="refresh-url" value="{{ url_for('check_story_status', request_id=request_id) }}">
+    <input type="hidden" id="refresh-url" value="{{ url_for('story.check_story_status_route', request_id=request_id) }}">
     <input type="hidden" id="start-time" value="{{ request_time|default(0) }}">
     <input type="hidden" id="waiting-messages" value="{{ waiting_messages|safe }}">
     <div id="elapsed-time" style="display: none;"></div>

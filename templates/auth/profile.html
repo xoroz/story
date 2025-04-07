@@ -58,7 +58,7 @@
                     {% for story in user_stories %}
                         <tr>
                             <td>
-                                <a href="{{ url_for('view_story', filename=story.story_filename) }}">
+                                <a href="{{ url_for('story.view_story', filename=story.story_filename) }}">
                                     {{ story.title if story.title else story.story_filename }}
                                 </a>
                             </td>
@@ -76,8 +76,8 @@
                                 </form>
                             </td>
                             <td class="story-actions">
-                                <a href="{{ url_for('view_story', filename=story.story_filename) }}" class="btn btn-sm btn-accent">View</a>
-                                <a href="{{ url_for('recreate_story', story_id=story.id) }}" class="btn btn-sm btn-primary">Recreate</a>
+                                <a href="{{ url_for('story.view_story', filename=story.story_filename) }}" class="btn btn-sm btn-accent">View</a>
+                                <a href="{{ url_for('story.recreate_story', story_id=story.id) }}" class="btn btn-sm btn-primary">Recreate</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -85,7 +85,7 @@
             </table>
         {% else %}
             <p>You haven't created any stories yet.</p>
-            <a href="{{ url_for('create_story') }}" class="btn btn-primary">Create Your First Story</a>
+            <a href="{{ url_for('story.create_story') }}" class="btn btn-primary">Create Your First Story</a>
         {% endif %}
     </div>
 </div>

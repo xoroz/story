@@ -22,7 +22,7 @@
     <header class="site-header modern-header">
         <div class="container">
             <div class="logo-container">
-                <a href="{{ url_for('index') }}" class="logo-link">
+                <a href="{{ url_for('main.index') }}" class="logo-link">
                     <span class="logo-text">StoryMagic</span>
                 </a>
             </div>
@@ -30,9 +30,9 @@
             <!-- Desktop Navigation -->
             <nav class="main-nav desktop-nav">
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
-                    <li><a href="{{ url_for('create_story') }}">Create Story</a></li>
-                    <li><a href="{{ url_for('list_stories') }}">View Stories</a></li>
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('story.create_story') }}">Create Story</a></li>
+                    <li><a href="{{ url_for('story.list_stories') }}">View Stories</a></li>
                 </ul>
             </nav>
             <nav class="user-nav">
@@ -60,15 +60,15 @@
             <!-- Mobile Navigation Menu -->
             <div class="mobile-nav">
                 <div class="mobile-nav-header">
-                    <a href="{{ url_for('index') }}" class="logo-link">
+                    <a href="{{ url_for('main.index') }}" class="logo-link">
                         <span class="logo-text">StoryMagic</span>
                     </a>
                     <button class="mobile-menu-close" aria-label="Close menu">×</button>
                 </div>
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
-                    <li><a href="{{ url_for('create_story') }}">Create Story</a></li>
-                    <li><a href="{{ url_for('list_stories') }}">View Stories</a></li>
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('story.create_story') }}">Create Story</a></li>
+                    <li><a href="{{ url_for('story.list_stories') }}">View Stories</a></li>
                     
                     <!-- Authentication links for mobile -->
                     {% if 'user_id' not in session %}

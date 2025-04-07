@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to StoryMagic</title>
+    <style>
+        /* Reset styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #6a4c93;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        /* Content */
+        .content {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 8px 8px;
+            border: 1px solid #e0e0e0;
+            border-top: none;
+        }
+        
+        /* Welcome message */
+        .welcome-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        /* Features */
+        .features {
+            margin: 30px 0;
+        }
+        
+        .feature {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            width: 30px;
+            text-align: center;
+            margin-right: 10px;
+            font-size: 20px;
+            color: #6a4c93;
+        }
+        
+        .feature-text {
+            flex: 1;
+        }
+        
+        /* Button */
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #6a4c93;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            color: #6a4c93;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to StoryMagic!</h1>
+        </div>
+        
+        <div class="content">
+            <div class="welcome-message">
+                <p>Hello <strong>{{username}}</strong>,</p>
+                <p>Thank you for joining StoryMagic! We're excited to have you as part of our creative community where imagination comes to life through personalized stories.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">✨</div>
+                    <div class="feature-text">
+                        <strong>Personalized Stories</strong>: Create stories tailored to specific age groups, themes, and educational lessons.
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-text">
+                        <strong>Multiple Languages</strong>: Generate stories in English, Spanish, Italian, and Portuguese.
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🎧</div>
+                    <div class="feature-text">
+                        <strong>Audio Narration</strong>: Bring your stories to life with high-quality audio narration.
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-text">
+                        <strong>AI-Powered</strong>: Leverage multiple AI providers for diverse storytelling styles.
+                    </div>
+                </div>
+            </div>
+            
+            <p>Your account has been credited with initial story credits. Start creating magical stories today!</p>
+            
+            <div class="button-container">
+                <a href="https://storymagic.app/create" class="button">Create Your First Story</a>
+            </div>
+            
+            <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+            
+            <p>Happy storytelling!</p>
+            
+            <p>The StoryMagic Team</p>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2025 StoryMagic. All rights reserved.</p>
+            <p>This email was sent to you because you registered for a StoryMagic account.</p>
+        </div>
+    </div>
+</body>
+</html>

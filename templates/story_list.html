@@ -95,7 +95,7 @@
                     data-username="{{ story.username or '' }}">
                     <td>
                         {% if story.has_audio %}
-                        <input type="checkbox" class="story-select" data-audio-path="/audio/{{ story.request_id }}.mp3">
+                        <input type="checkbox" class="story-select" data-audio-path="{{ url_for('story.get_audio', filename=story.request_id + '.mp3') }}">
                         {% endif %}
                     </td>
                     <td class="story-title-cell">{{ story.title }}</td>
@@ -125,7 +125,7 @@
                         </div>
                     </td>
                     <td>
-                        <a href="{{ url_for('view_story', filename=story.path) }}" class="btn btn-sm btn-accent">Read</a>
+                        <a href="{{ url_for('story.view_story', filename=story.path) }}" class="btn btn-sm btn-accent">Read</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -143,7 +143,7 @@
 {% else %}
     <div class="no-stories">
         <p>No stories have been created yet.</p>
-        <a href="{{ url_for('create_story') }}" class="btn btn-secondary">Create Your First Story</a>
+        <a href="{{ url_for('story.create_story') }}" class="btn btn-secondary">Create Your First Story</a>
     </div>
 {% endif %}
 {% endblock %}

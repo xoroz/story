@@ -37,7 +37,7 @@
     <div class="audio-player">
         <h3>Listen to the story:</h3>
         <audio controls>
-            <source src="/{{ audio_path }}" type="audio/mpeg">
+            <source src="{{ url_for('story.get_audio', filename=audio_path.split('/')[-1]) }}" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
     </div>
@@ -69,8 +69,8 @@
     </div>
     
     <div class="story-actions">
-        <a href="{{ url_for('create_story') }}" class="btn btn-primary">Create Another Story</a>
-        <a href="{{ url_for('list_stories') }}" class="btn btn-accent">View All Stories</a>
+        <a href="{{ url_for('story.create_story') }}" class="btn btn-primary">Create Another Story</a>
+        <a href="{{ url_for('story.list_stories') }}" class="btn btn-accent">View All Stories</a>
     </div>
 </div>
 {% endblock %}

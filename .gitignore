@@ -18,3 +18,5 @@ ackup
 logs/
 **/CLAUDE.local.md
 error/
+database.db
+pids/

@@ -1,12 +1,11 @@
 # Active Context
 
 ## Current Focus
+- Need to fix  privacy settings when not login, we should not see the private stories.
+- We need to create a template for new user welcome, with very welcome text and 
+have only username as needed parameter. and set the trigger in user creation to send out the email, same way
+we already do with the new story, just changing the content and args.
 
-- Enhancing database integration for story management
-- Implementing privacy controls for user stories
-- Ensuring robust database operations with error handling
-- Maintaining hybrid approach with file-based storage
-- Improving email notification system integration
 
 ## Recent Changes
 
@@ -46,9 +45,7 @@
 - Added styling for mobile authentication links
 
 ## Current Issues
-
 - Need to ensure all processed JSON files have user_id for proper database integration
-- Need to test privacy settings with various user scenarios
 - Need to verify database updates are working correctly for all story operations
 
 ## Debugging Strategy

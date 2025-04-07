@@ -64,7 +64,7 @@ function submitRating(filename, rating) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
     // Send AJAX request
-    fetch('/rate-story', {
+    fetch('/api/rate-story', {
         method: 'POST',
         headers: {
             'X-CSRFToken': csrfToken

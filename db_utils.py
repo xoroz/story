@@ -223,7 +223,26 @@ def get_stories_for_user(user_id, limit=None):
                 # Convert to boolean
                 story_dict['is_private'] = bool(story_dict['is_private'])
             
-            story_list.append(story_dict)
+            # Check if the story file still exists
+            story_filename = story_dict.get('story_filename')
+            if story_filename:
+                # Get the output folder from config
+                from config_loader import load_config
+                config = load_config()
+                output_folder = config['Paths']['output_folder']
+                
+                # Check if the file exists
+                story_path = os.path.join(output_folder, story_filename)
+                if os.path.exists(story_path):
+                    story_list.append(story_dict)
+                else:
+                    # Story file doesn't exist, delete from database
+                    logger.info(f"Story file {story_filename} not found, removing from database")
+                    cursor.execute('DELETE FROM user_stories WHERE id = ?', (story_dict['id'],))
+                    conn.commit()
+            else:
+                # No filename, include it anyway
+                story_list.append(story_dict)
         
         conn.close()
         return story_list
@@ -271,10 +290,35 @@ def get_all_stories(limit=None):
             query += f' LIMIT {int(limit)}'
         
         stories = cursor.execute(query).fetchall()
-        conn.close()
         
-        # Convert to list of dictionaries
-        return [dict(story) for story in stories]
+        # Get the output folder from config
+        from config_loader import load_config
+        config = load_config()
+        output_folder = config['Paths']['output_folder']
+        
+        # Convert to list of dictionaries and check if files exist
+        story_list = []
+        for story in stories:
+            story_dict = dict(story)
+            
+            # Check if the story file still exists
+            story_filename = story_dict.get('story_filename')
+            if story_filename:
+                # Check if the file exists
+                story_path = os.path.join(output_folder, story_filename)
+                if os.path.exists(story_path):
+                    story_list.append(story_dict)
+                else:
+                    # Story file doesn't exist, delete from database
+                    logger.info(f"Story file {story_filename} not found, removing from database")
+                    cursor.execute('DELETE FROM user_stories WHERE id = ?', (story_dict['id'],))
+                    conn.commit()
+            else:
+                # No filename, include it anyway
+                story_list.append(story_dict)
+        
+        conn.close()
+        return story_list
         
     except Exception as e:
         logger.error(f"Error getting all stories: {str(e)}")
@@ -509,10 +553,31 @@ def get_story_details(story_id):
             SELECT * FROM user_stories WHERE id = ?
         ''', (story_id,)).fetchone()
         
-        conn.close()
-        
         if story:
-            return dict(story)
+            story_dict = dict(story)
+            
+            # Check if the story file still exists
+            story_filename = story_dict.get('story_filename')
+            if story_filename:
+                # Get the output folder from config
+                from config_loader import load_config
+                config = load_config()
+                output_folder = config['Paths']['output_folder']
+                
+                # Check if the file exists
+                story_path = os.path.join(output_folder, story_filename)
+                if not os.path.exists(story_path):
+                    # Story file doesn't exist, delete from database
+                    logger.info(f"Story file {story_filename} not found, removing from database")
+                    cursor.execute('DELETE FROM user_stories WHERE id = ?', (story_dict['id'],))
+                    conn.commit()
+                    conn.close()
+                    return None
+            
+            conn.close()
+            return story_dict
+        
+        conn.close()
         return None
         
     except Exception as e:

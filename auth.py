@@ -4,6 +4,7 @@ import sqlite3
 import os
 import json
 from config_loader import load_config
+from services.email_service import send_welcome_email
 
 # Initialize Flask-Bcrypt
 bcrypt = Bcrypt()
@@ -139,6 +140,13 @@ def register():
         conn.commit()
         conn.close()
 
+        # Send welcome email
+        try:
+            send_welcome_email(email, username)
+        except Exception as e:
+            print(f"Error sending welcome email: {e}")
+            # Don't fail registration if email fails
+
         flash('Registration successful! Please log in.')
         return redirect(url_for('auth.login'))
 
@@ -161,7 +169,7 @@ def login():
             session['username'] = user['username']
             session['credits'] = user['credits']
             flash('Login successful!')
-            return redirect(url_for('index'))
+            return redirect(url_for('main.index'))
         else:
             flash('Invalid username or password.')
 
@@ -174,7 +182,7 @@ def logout():
     session.pop('username', None)
     session.pop('credits', None)
     flash('You have been logged out successfully.')
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 # User profile route
 @auth_bp.route('/profile')
