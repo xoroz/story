@@ -1,0 +1,740 @@
+# Italian translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-04-13 01:06+0200\n"
+"PO-Revision-Date: 2025-04-13 01:06+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: it\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: lib/python3.12/site-packages/click/_termui_impl.py:556
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/_termui_impl.py:560
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:1124
+msgid "Aborted!"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:1349
+#: lib/python3.12/site-packages/click/core.py:1379
+#, python-brace-format
+msgid "(Deprecated) {text}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:1396
+msgid "Options"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:1422
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/click/core.py:1438
+#, python-brace-format
+msgid "DeprecationWarning: The command {name!r} is deprecated."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:1645
+msgid "Commands"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:1677
+msgid "Missing command."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:1755
+#, python-brace-format
+msgid "No such command {name!r}."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:2313
+msgid "Value must be an iterable."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:2334
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/click/core.py:2783
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:2813
+msgid "(dynamic)"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:2828
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/core.py:2841
+msgid "required"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/decorators.py:457
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/decorators.py:520
+msgid "Show the version and exit."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/decorators.py:541
+msgid "Show this message and exit."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:49
+#: lib/python3.12/site-packages/click/exceptions.py:88
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:80
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:129
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:131
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:187
+msgid "Missing argument"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:189
+msgid "Missing option"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:191
+msgid "Missing parameter"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:193
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:200
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:220
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:232
+#, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:270
+msgid "unknown error"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/exceptions.py:277
+#, python-brace-format
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/formatting.py:156
+msgid "Usage:"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/parser.py:233
+#, python-brace-format
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/parser.py:415
+#, python-brace-format
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/parser.py:476
+#, python-brace-format
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/click/shell_completion.py:326
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/shell_completion.py:333
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/termui.py:158
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/termui.py:176
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/termui.py:243
+msgid "Error: invalid input"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/termui.py:773
+msgid "Press any key to continue..."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:267
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:299
+#, python-brace-format
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/click/types.py:393
+#, python-brace-format
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/click/types.py:415
+#, python-brace-format
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:471
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:612
+#, python-brace-format
+msgid "{value!r} is not a valid boolean."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:636
+#, python-brace-format
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:826
+msgid "file"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:828
+msgid "directory"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:830
+msgid "path"
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:881
+#, python-brace-format
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:890
+#, python-brace-format
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:898
+#, python-brace-format
+msgid "{name} {filename!r} is a directory."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:907
+#, python-brace-format
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:916
+#, python-brace-format
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:925
+#, python-brace-format
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: lib/python3.12/site-packages/click/types.py:992
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/flask_wtf/file.py:55
+#: lib/python3.12/site-packages/wtforms/validators.py:293
+#: lib/python3.12/site-packages/wtforms/validators.py:323
+msgid "This field is required."
+msgstr ""
+
+#: lib/python3.12/site-packages/flask_wtf/file.py:94
+#, python-brace-format
+msgid "File does not have an approved extension: {extensions}"
+msgstr ""
+
+#: lib/python3.12/site-packages/flask_wtf/file.py:101
+msgid "File does not have an approved extension."
+msgstr ""
+
+#: lib/python3.12/site-packages/httplib2/__init__.py:408
+#, python-format
+msgid "Content purported to be compressed with %s but failed to decompress."
+msgstr ""
+
+#: lib/python3.12/site-packages/httplib2/__init__.py:572
+#, python-format
+msgid "Unsupported value for qop: %s."
+msgstr ""
+
+#: lib/python3.12/site-packages/httplib2/__init__.py:576
+#: lib/python3.12/site-packages/httplib2/__init__.py:654
+#, python-format
+msgid "Unsupported value for algorithm: %s.algorithm"
+msgstr ""
+
+#: lib/python3.12/site-packages/httplib2/__init__.py:649
+msgid "The challenge doesn't contain a server nonce, or this one is empty."
+msgstr ""
+
+#: lib/python3.12/site-packages/httplib2/__init__.py:659
+#, python-format
+msgid "Unsupported value for pw-algorithm: %s.pw-algorithm"
+msgstr ""
+
+#: lib/python3.12/site-packages/httplib2/__init__.py:1468
+msgid "Redirected but the response is missing a Location: header."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:86
+#, python-format
+msgid "Invalid field name '%s'."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:99
+#, python-format
+msgid "Field must be equal to %(other_name)s."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:146
+#, python-format
+msgid "Field must be at least %(min)d character long."
+msgid_plural "Field must be at least %(min)d characters long."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:152
+#, python-format
+msgid "Field cannot be longer than %(max)d character."
+msgid_plural "Field cannot be longer than %(max)d characters."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:158
+#, python-format
+msgid "Field must be exactly %(max)d character long."
+msgid_plural "Field must be exactly %(max)d characters long."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:164
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:216
+#, python-format
+msgid "Number must be at least %(min)s."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:219
+#, python-format
+msgid "Number must be at most %(max)s."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:222
+#, python-format
+msgid "Number must be between %(min)s and %(max)s."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:358
+msgid "Invalid input."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:422
+msgid "Invalid email address."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:460
+msgid "Invalid IP address."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:503
+msgid "Invalid Mac address."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:540
+msgid "Invalid URL."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:561
+msgid "Invalid UUID."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:595
+#, python-format
+msgid "Invalid value, must be one of: %(values)s."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:631
+#, python-format
+msgid "Invalid value, can't be any of: %(values)s."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:700
+msgid "This field cannot be edited."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/validators.py:716
+msgid "This field is disabled and cannot have a value."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/csrf/core.py:96
+msgid "Invalid CSRF Token."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/csrf/session.py:64
+msgid "CSRF token missing."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/csrf/session.py:72
+msgid "CSRF failed."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/csrf/session.py:77
+msgid "CSRF token expired."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:142
+msgid "Invalid Choice: could not coerce."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:149
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:203
+msgid "Choices cannot be None."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:155
+msgid "Not a valid choice."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:194
+msgid "Invalid choice(s): one or more data inputs could not be coerced."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:212
+#, python-format
+msgid "'%(value)s' is not a valid choice for this field."
+msgid_plural "'%(value)s' are not valid choices for this field."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python3.12/site-packages/wtforms/fields/datetime.py:52
+msgid "Not a valid datetime value."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/datetime.py:78
+msgid "Not a valid date value."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/datetime.py:104
+msgid "Not a valid time value."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/datetime.py:149
+msgid "Not a valid week value."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/numeric.py:82
+#: lib/python3.12/site-packages/wtforms/fields/numeric.py:92
+msgid "Not a valid integer value."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/numeric.py:168
+msgid "Not a valid decimal value."
+msgstr ""
+
+#: lib/python3.12/site-packages/wtforms/fields/numeric.py:197
+msgid "Not a valid float value."
+msgstr ""
+
+#: templates/base.html:7 templates/base.html:26 templates/base.html:80
+#: templates/base.html:137 templates/index.html:72
+msgid "StoryMagic"
+msgstr "StoryMagic"
+
+#: templates/base.html:33 templates/base.html:85
+msgid "Home"
+msgstr "Home"
+
+#: templates/base.html:34 templates/base.html:86
+#: templates/create_story.html:152
+msgid "Create Story"
+msgstr "Crea Storia"
+
+#: templates/base.html:35 templates/base.html:87 templates/index.html:95
+msgid "View Stories"
+msgstr "Visualizza Storie"
+
+#: templates/base.html:41 templates/base.html:91
+msgid "Login"
+msgstr "Accedi"
+
+#: templates/base.html:42 templates/base.html:92
+msgid "Register"
+msgstr "Registrati"
+
+#: templates/base.html:54 templates/base.html:94
+msgid "Credits"
+msgstr "Crediti"
+
+#: templates/base.html:55 templates/base.html:95
+msgid "Profile"
+msgstr "Profilo"
+
+#: templates/base.html:56 templates/base.html:96
+msgid "Logout"
+msgstr "Esci"
+
+#: templates/base.html:136
+msgid "StoryMagic - AI-Powered Stories for Little Imaginations"
+msgstr "StoryMagic - Storie Alimentate dall'IA per Piccole Immaginazioni"
+
+#: templates/create_story.html:3
+msgid "Create a Story - StoryMagic"
+msgstr "Crea una Storia - StoryMagic"
+
+#: templates/create_story.html:16
+msgid "Recreate"
+msgstr "Ricrea"
+
+#: templates/create_story.html:16
+msgid "Create"
+msgstr "Crea"
+
+#: templates/create_story.html:16
+msgid "a Magical Story"
+msgstr "una Storia Magica"
+
+#: templates/create_story.html:20
+msgid "Fill with Random Story"
+msgstr "Riempi con Storia Casuale"
+
+#: templates/create_story.html:32
+msgid "Story Details"
+msgstr "Dettagli della Storia"
+
+#: templates/create_story.html:35
+msgid "Story Title"
+msgstr "Titolo della Storia"
+
+#: templates/create_story.html:37
+msgid "Enter a title for your story"
+msgstr "Inserisci un titolo per la tua storia"
+
+#: templates/create_story.html:43
+msgid "Age Range"
+msgstr "Fascia d'Età"
+
+#: templates/create_story.html:45
+msgid "Young Children (3-6 years)"
+msgstr "Bambini Piccoli (3-6 anni)"
+
+#: templates/create_story.html:46
+msgid "Children (7-9 years)"
+msgstr "Bambini (7-9 anni)"
+
+#: templates/create_story.html:47
+msgid "Older Children (10-12 years)"
+msgstr "Bambini Più Grandi (10-12 anni)"
+
+#: templates/create_story.html:52
+msgid "Theme"
+msgstr "Tema"
+
+#: templates/create_story.html:61
+msgid "What is the story about?"
+msgstr "Di cosa parla la storia?"
+
+#: templates/create_story.html:63
+msgid "Describe what should happen in the story"
+msgstr "Descrivi cosa dovrebbe accadere nella storia"
+
+#: templates/create_story.html:65
+msgid ""
+"Add specific details about the adventures, challenges, or special "
+"elements."
+msgstr ""
+
+#: templates/create_story.html:69
+msgid "Lesson"
+msgstr "Lezione"
+
+#: templates/create_story.html:78
+msgid "Main Characters"
+msgstr "Personaggi Principali"
+
+#: templates/create_story.html:80
+msgid "Describe characters (e.g., 'a brave girl, a wise owl')"
+msgstr "Descrivi i personaggi (es., 'una ragazza coraggiosa, un gufo saggio')"
+
+#: templates/create_story.html:86
+msgid "Story Length"
+msgstr "Lunghezza della Storia"
+
+#: templates/create_story.html:88
+msgid "Short (5 min read)"
+msgstr "Breve (5 min di lettura)"
+
+#: templates/create_story.html:89
+msgid "Medium (10 min read)"
+msgstr "Media (10 min di lettura)"
+
+#: templates/create_story.html:90
+msgid "Long (15 min read)"
+msgstr "Lunga (15 min di lettura)"
+
+#: templates/create_story.html:95
+msgid "Language"
+msgstr "Lingua"
+
+#: templates/create_story.html:97
+msgid "English"
+msgstr "Inglese"
+
+#: templates/create_story.html:98
+msgid "Spanish"
+msgstr "Spagnolo"
+
+#: templates/create_story.html:99
+msgid "Italian"
+msgstr "Italiano"
+
+#: templates/create_story.html:100
+msgid "Portuguese"
+msgstr "Portoghese"
+
+#: templates/create_story.html:107
+msgid "Generate audio narration"
+msgstr "Genera narrazione audio"
+
+#: templates/create_story.html:114
+msgid "Private story (only visible to you)"
+msgstr "Storia privata (visibile solo a te)"
+
+#: templates/create_story.html:121
+msgid "Choose AI Provider"
+msgstr "Scegli Fornitore di IA"
+
+#: templates/create_story.html:139
+#, python-format
+msgid "%(provider)s Model"
+msgstr "Modello %(provider)s"
+
+#: templates/index.html:3
+msgid "StoryMagic - AI-Powered Children's Stories"
+msgstr "StoryMagic - Storie per Bambini Alimentate dall'IA"
+
+#: templates/index.html:73
+msgid "AI-Powered Stories for Little Imaginations"
+msgstr "Storie Alimentate dall'IA per Piccole Immaginazioni"
+
+#: templates/index.html:78
+msgid "Creative Stories"
+msgstr "Storie Creative"
+
+#: templates/index.html:79
+msgid ""
+"Generate unique, imaginative stories tailored to your child's interests "
+"and age group."
+msgstr ""
+
+#: templates/index.html:83
+msgid "Educational"
+msgstr "Educativo"
+
+#: templates/index.html:84
+msgid ""
+"Stories can include educational themes and valuable life lessons in an "
+"engaging format."
+msgstr ""
+
+#: templates/index.html:88
+msgid "Age-Appropriate"
+msgstr "Adatto all'Età"
+
+#: templates/index.html:89
+msgid ""
+"Content is crafted specifically for your child's age range with "
+"appropriate vocabulary and themes."
+msgstr ""
+
+#: templates/index.html:94
+msgid "Create a Story"
+msgstr "Crea una Storia"
+

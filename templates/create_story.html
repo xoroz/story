@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Create a Story - StoryMagic{% endblock %}
+{% block title %}{{ _('Create a Story - StoryMagic') }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
@@ -13,11 +13,11 @@
 {% endblock %}
 
 {% block content %}
-<h1>{% if prefill %}Recreate{% else %}Create{% endif %} a Magical Story</h1>
+<h1>{% if prefill %}{{ _('Recreate') }}{% else %}{{ _('Create') }}{% endif %} {{ _('a Magical Story') }}</h1>
 
 <div class="random-story-container">
     <button type="button" id="random-story-btn" class="btn btn-outline-primary">
-        Fill with Random Story
+        {{ _('Fill with Random Story') }}
     </button>
 </div>
 
@@ -29,27 +29,27 @@
 <form method="POST" action="{{ url_for('story.create_story') }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="card">
-        <div class="card-header">Story Details</div>
+        <div class="card-header">{{ _('Story Details') }}</div>
         <div class="card-body">
             <div class="form-group">
-                <label for="title" class="form-label">Story Title</label>
+                <label for="title" class="form-label">{{ _('Story Title') }}</label>
                 <input type="text" class="form-control" id="title" name="title" 
-                       placeholder="Enter a title for your story" 
+                       placeholder="{{ _('Enter a title for your story') }}" 
                        value="{{ prefill.title if prefill else '' }}" 
                        maxlength="40" required>
             </div>
 
             <div class="form-group">
-                <label for="age_range" class="form-label">Age Range</label>
+                <label for="age_range" class="form-label">{{ _('Age Range') }}</label>
                 <select class="form-select" id="age_range" name="age_range" required>
-                    <option value="3-6" {% if prefill and prefill.age_range == '3-6' %}selected{% endif %}>Young Children (3-6 years)</option>
-                    <option value="7-9" {% if prefill and prefill.age_range == '7-9' %}selected{% endif %}>Children (7-9 years)</option>
-                    <option value="10-12" {% if not prefill or prefill.age_range == '10-12' %}selected{% endif %}>Older Children (10-12 years)</option>
+                    <option value="3-6" {% if prefill and prefill.age_range == '3-6' %}selected{% endif %}>{{ _('Young Children (3-6 years)') }}</option>
+                    <option value="7-9" {% if prefill and prefill.age_range == '7-9' %}selected{% endif %}>{{ _('Children (7-9 years)') }}</option>
+                    <option value="10-12" {% if not prefill or prefill.age_range == '10-12' %}selected{% endif %}>{{ _('Older Children (10-12 years)') }}</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="theme" class="form-label">Theme</label>
+                <label for="theme" class="form-label">{{ _('Theme') }}</label>
                 <select class="form-select" id="theme" name="theme" required>
                     {% for theme_id, theme_description in themes.items() %}
                         <option value="{{ theme_id }}" {% if prefill and prefill.theme == theme_id %}selected{% endif %}>{{ theme_id|title }}</option>
@@ -58,15 +58,15 @@
             </div>
             
             <div class="form-group">
-                <label for="story_about" class="form-label">What is the story about?</label>
+                <label for="story_about" class="form-label">{{ _('What is the story about?') }}</label>
                 <textarea class="form-control" id="story_about" name="story_about" 
-                    rows="3" placeholder="Describe what should happen in the story" 
+                    rows="3" placeholder="{{ _('Describe what should happen in the story') }}" 
                     maxlength="600">{{ prefill.story_about if prefill else '' }}</textarea>
-                <div class="form-text">Add specific details about the adventures, challenges, or special elements.</div>
+                <div class="form-text">{{ _('Add specific details about the adventures, challenges, or special elements.') }}</div>
             </div>
             
             <div class="form-group">
-                <label for="lesson" class="form-label">Lesson</label>
+                <label for="lesson" class="form-label">{{ _('Lesson') }}</label>
                 <select class="form-select" id="lesson" name="lesson" required>
                     {% for lesson in lessons %}
                         <option value="{{ lesson }}" {% if prefill and prefill.lesson == lesson %}selected{% endif %}>{{ lesson|title }}</option>
@@ -75,50 +75,50 @@
             </div>
 
             <div class="form-group">
-                <label for="characters" class="form-label">Main Characters</label>
+                <label for="characters" class="form-label">{{ _('Main Characters') }}</label>
                 <input type="text" class="form-control" id="characters" name="characters" 
-                    placeholder="Describe characters (e.g., 'a brave girl, a wise owl')" 
+                    placeholder="{{ _('Describe characters (e.g., \'a brave girl, a wise owl\')') }}" 
                     value="{{ prefill.characters if prefill else '' }}" 
                     maxlength="40" required>
             </div>
 
             <div class="form-group">
-                <label for="length" class="form-label">Story Length</label>
+                <label for="length" class="form-label">{{ _('Story Length') }}</label>
                 <select class="form-select" id="length" name="length">
-                    <option value="short">Short (5 min read)</option>
-                    <option value="medium" selected>Medium (10 min read)</option>
-                    <option value="long">Long (15 min read)</option>
+                    <option value="short">{{ _('Short (5 min read)') }}</option>
+                    <option value="medium" selected>{{ _('Medium (10 min read)') }}</option>
+                    <option value="long">{{ _('Long (15 min read)') }}</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="language" class="form-label">Language</label>
+                <label for="language" class="form-label">{{ _('Language') }}</label>
                 <select class="form-select" id="language" name="language">
-                    <option value="en" {% if not prefill or prefill.language == 'en' %}selected{% endif %}>English</option>
-                    <option value="es" {% if prefill and prefill.language == 'es' %}selected{% endif %}>Spanish</option>
-                    <option value="it" {% if prefill and prefill.language == 'it' %}selected{% endif %}>Italian</option>
-                    <option value="pt" {% if prefill and prefill.language == 'pt' %}selected{% endif %}>Portuguese</option>
+                    <option value="en" {% if not prefill or prefill.language == 'en' %}selected{% endif %}>{{ _('English') }}</option>
+                    <option value="es" {% if prefill and prefill.language == 'es' %}selected{% endif %}>{{ _('Spanish') }}</option>
+                    <option value="it" {% if prefill and prefill.language == 'it' %}selected{% endif %}>{{ _('Italian') }}</option>
+                    <option value="pt" {% if prefill and prefill.language == 'pt' %}selected{% endif %}>{{ _('Portuguese') }}</option>
                 </select>
             </div>
 
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="true" id="enable_audio" name="enable_audio" checked>
                 <label class="form-check-label" for="enable_audio">
-                    Generate audio narration
+                    {{ _('Generate audio narration') }}
                 </label>
             </div>
             
             <div class="form-check mt-3">
                 <input class="form-check-input" type="checkbox" value="true" id="is_private" name="is_private">
                 <label class="form-check-label" for="is_private">
-                    Private story (only visible to you)
+                    {{ _('Private story (only visible to you)') }}
                 </label>
             </div>
         </div>
     </div>
 
     <div class="card">
-        <div class="card-header">Choose AI Provider</div>
+        <div class="card-header">{{ _('Choose AI Provider') }}</div>
         <div class="card-body">
             <div class="backend-selector">
                 {% for provider_id, provider in ai_providers.items() %}
@@ -136,7 +136,7 @@
             {% for provider_id, provider in ai_providers.items() %}
                 <div id="{{ provider_id }}-models" class="model-selection" 
                      style="display: {% if loop.first %}block{% else %}none{% endif %};">
-                    <label for="{{ provider_id }}_model" class="form-label">{{ provider.display_name }} Model</label>
+                    <label for="{{ provider_id }}_model" class="form-label">{{ _('%(provider)s Model', provider=provider.display_name) }}</label>
                     <select class="form-select" id="{{ provider_id }}_model" 
                             name="{% if loop.first %}ai_model{% else %}{{ provider_id }}_model{% endif %}">
                         {% for model in provider.models %}
@@ -149,7 +149,7 @@
     </div>
 
     <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Create Story</button>
+        <button type="submit" class="btn btn-primary">{{ _('Create Story') }}</button>
     </div>
 </form>
 {% endblock %}

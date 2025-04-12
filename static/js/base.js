@@ -9,7 +9,43 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize mobile navigation
     initMobileNavigation();
+    
+    // Sync language selectors
+    syncLanguageSelectors();
 });
+
+/**
+ * Change the site language
+ * @param {string} lang - The language code (en, es, pt, it)
+ */
+function changeLanguage(lang) {
+    // Create URL for language change with current page as next parameter
+    const currentUrl = encodeURIComponent(window.location.href);
+    const langUrl = `/set-language?lang=${lang}&next=${currentUrl}`;
+    
+    // Redirect to the language change route
+    window.location.href = langUrl;
+}
+
+/**
+ * Sync desktop and mobile language selectors
+ */
+function syncLanguageSelectors() {
+    const desktopSelector = document.getElementById('language-select');
+    const mobileSelector = document.getElementById('mobile-language-select');
+    
+    if (desktopSelector && mobileSelector) {
+        // Sync mobile to desktop
+        desktopSelector.addEventListener('change', function() {
+            mobileSelector.value = desktopSelector.value;
+        });
+        
+        // Sync desktop to mobile
+        mobileSelector.addEventListener('change', function() {
+            desktopSelector.value = mobileSelector.value;
+        });
+    }
+}
 
 /**
  * Initialize flash message dismissal functionality

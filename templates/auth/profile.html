@@ -27,6 +27,17 @@
                         <p class="help-text">When enabled, new stories will be private by default</p>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="preferred_language">Preferred Language</label>
+                        <select id="preferred_language" name="preferred_language" class="form-control">
+                            <option value="en" {% if preferred_language == 'en' %}selected{% endif %}>English</option>
+                            <option value="es" {% if preferred_language == 'es' %}selected{% endif %}>Español</option>
+                            <option value="pt" {% if preferred_language == 'pt' %}selected{% endif %}>Português</option>
+                            <option value="it" {% if preferred_language == 'it' %}selected{% endif %}>Italiano</option>
+                        </select>
+                        <p class="help-text">Select your preferred language for the website</p>
+                    </div>
+                    
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">Save Settings</button>
                     </div>

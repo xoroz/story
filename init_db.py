@@ -35,7 +35,8 @@ def init_db():
             credits INTEGER DEFAULT {initial_credits},
             last_login TIMESTAMP,
             private BOOLEAN DEFAULT 0,
-            auth_type TEXT DEFAULT 'local'
+            auth_type TEXT DEFAULT 'local',
+            preferred_language TEXT DEFAULT 'en'
         )
         ''')
         print("Created/updated users table (using fallback structure)")

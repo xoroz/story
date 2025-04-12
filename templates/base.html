@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ g.get('locale', 'en') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{% block title %}StoryMagic{% endblock %}</title>
+    <title>{% block title %}{{ _('StoryMagic') }}{% endblock %}</title>
     
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
@@ -23,29 +23,45 @@
         <div class="container">
             <div class="logo-container">
                 <a href="{{ url_for('main.index') }}" class="logo-link">
-                    <span class="logo-text">StoryMagic</span>
+                    <span class="logo-text">{{ _('StoryMagic') }}</span>
                 </a>
             </div>
             
             <!-- Desktop Navigation -->
             <nav class="main-nav desktop-nav">
                 <ul>
-                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                    <li><a href="{{ url_for('story.create_story') }}">Create Story</a></li>
-                    <li><a href="{{ url_for('story.list_stories') }}">View Stories</a></li>
+                    <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
+                    <li><a href="{{ url_for('story.create_story') }}">{{ _('Create Story') }}</a></li>
+                    <li><a href="{{ url_for('story.list_stories') }}">{{ _('View Stories') }}</a></li>
                 </ul>
             </nav>
             <nav class="user-nav">
                 {% if 'user_id' not in session %}
                     <ul>
-                        <li><a href="{{ url_for('auth.login') }}">Login</a></li>
-                        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                        <li><a href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
+                        <li><a href="{{ url_for('auth.register') }}">{{ _('Register') }}</a></li>
+                        <li class="language-selector">
+                            <select id="language-select" onchange="changeLanguage(this.value)">
+                                <option value="en" {% if g.get('locale', 'en') == 'en' %}selected{% endif %}>EN</option>
+                                <option value="es" {% if g.get('locale', 'en') == 'es' %}selected{% endif %}>ES</option>
+                                <option value="pt" {% if g.get('locale', 'en') == 'pt' %}selected{% endif %}>PT</option>
+                                <option value="it" {% if g.get('locale', 'en') == 'it' %}selected{% endif %}>IT</option>
+                            </select>
+                        </li>
                     </ul>
                 {% else %}
                     <ul>
-                        <li><span class="credits-display">Credits: {{ session.get('credits', 0) }}</span></li>
-                        <li><a href="{{ url_for('auth.profile') }}">{{ session.get('username', 'Profile') }}</a></li>
-                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        <li><span class="credits-display">{{ _('Credits') }}: {{ session.get('credits', 0) }}</span></li>
+                        <li><a href="{{ url_for('auth.profile') }}">{{ session.get('username', _('Profile')) }}</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+                        <li class="language-selector">
+                            <select id="language-select" onchange="changeLanguage(this.value)">
+                                <option value="en" {% if g.get('locale', 'en') == 'en' %}selected{% endif %}>EN</option>
+                                <option value="es" {% if g.get('locale', 'en') == 'es' %}selected{% endif %}>ES</option>
+                                <option value="pt" {% if g.get('locale', 'en') == 'pt' %}selected{% endif %}>PT</option>
+                                <option value="it" {% if g.get('locale', 'en') == 'it' %}selected{% endif %}>IT</option>
+                            </select>
+                        </li>
                     </ul>
                 {% endif %}
             </nav>
@@ -61,24 +77,34 @@
             <div class="mobile-nav">
                 <div class="mobile-nav-header">
                     <a href="{{ url_for('main.index') }}" class="logo-link">
-                        <span class="logo-text">StoryMagic</span>
+                        <span class="logo-text">{{ _('StoryMagic') }}</span>
                     </a>
                     <button class="mobile-menu-close" aria-label="Close menu">×</button>
                 </div>
                 <ul>
-                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                    <li><a href="{{ url_for('story.create_story') }}">Create Story</a></li>
-                    <li><a href="{{ url_for('story.list_stories') }}">View Stories</a></li>
+                    <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
+                    <li><a href="{{ url_for('story.create_story') }}">{{ _('Create Story') }}</a></li>
+                    <li><a href="{{ url_for('story.list_stories') }}">{{ _('View Stories') }}</a></li>
                     
                     <!-- Authentication links for mobile -->
                     {% if 'user_id' not in session %}
-                        <li class="mobile-auth-link"><a href="{{ url_for('auth.login') }}">Login</a></li>
-                        <li class="mobile-auth-link"><a href="{{ url_for('auth.register') }}">Register</a></li>
+                        <li class="mobile-auth-link"><a href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
+                        <li class="mobile-auth-link"><a href="{{ url_for('auth.register') }}">{{ _('Register') }}</a></li>
                     {% else %}
-                        <li class="mobile-auth-link"><span class="credits-display">Credits: {{ session.get('credits', 0) }}</span></li>
-                        <li class="mobile-auth-link"><a href="{{ url_for('auth.profile') }}">{{ session.get('username', 'Profile') }}</a></li>
-                        <li class="mobile-auth-link"><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        <li class="mobile-auth-link"><span class="credits-display">{{ _('Credits') }}: {{ session.get('credits', 0) }}</span></li>
+                        <li class="mobile-auth-link"><a href="{{ url_for('auth.profile') }}">{{ session.get('username', _('Profile')) }}</a></li>
+                        <li class="mobile-auth-link"><a href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     {% endif %}
+                    
+                    <!-- Language selector for mobile -->
+                    <li class="mobile-auth-link language-selector">
+                        <select id="mobile-language-select" onchange="changeLanguage(this.value)">
+                            <option value="en" {% if g.get('locale', 'en') == 'en' %}selected{% endif %}>English</option>
+                            <option value="es" {% if g.get('locale', 'en') == 'es' %}selected{% endif %}>Español</option>
+                            <option value="pt" {% if g.get('locale', 'en') == 'pt' %}selected{% endif %}>Português</option>
+                            <option value="it" {% if g.get('locale', 'en') == 'it' %}selected{% endif %}>Italiano</option>
+                        </select>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -107,8 +133,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>StoryMagic - AI-Powered Stories for Little Imaginations</p>
-                    <p>&copy; 2025 StoryMagic</p>
+                    <p>{{ _('StoryMagic - AI-Powered Stories for Little Imaginations') }}</p>
+                    <p>&copy; 2025 {{ _('StoryMagic') }}</p>
                 </div>
             </div>
         </div>

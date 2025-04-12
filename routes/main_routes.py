@@ -1,7 +1,35 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, g
 
 # Create a Blueprint for main routes
 main_bp = Blueprint('main', __name__)
+
+@main_bp.route('/set-language')
+def set_language():
+    """Set the user's preferred language"""
+    lang = request.args.get('lang', 'en')
+    
+    # Validate language code
+    if lang not in ['en', 'es', 'pt', 'it']:
+        lang = 'en'
+    
+    # If user is logged in, update their preferred language in the database
+    if 'user_id' in session:
+        from auth import get_db_connection
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            'UPDATE users SET preferred_language = ? WHERE id = ?',
+            (lang, session['user_id'])
+        )
+        conn.commit()
+        conn.close()
+    
+    # Store language in session for non-logged in users
+    session['language'] = lang
+    
+    # Redirect back to the referring page or home page
+    next_url = request.args.get('next') or request.referrer or url_for('main.index')
+    return redirect(next_url)
 
 @main_bp.route('/')
 def index():

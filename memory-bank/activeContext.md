@@ -1,6 +1,13 @@
 # Active Context
 
 ## Current Focus
+ ok this is a big one, we need multilanguage on our site!
+lets add on main page navbar Language for now only: pt,it,en,es
+lets use flask_babel for it  
+lets create a very detailed plan so we do not break application!
+Also we need user to have in the DB what language is his default.
+we should get default lang from browser
+
 
 
 
@@ -26,6 +33,51 @@
 ## Recent Changes
 - improve the create story form, we need to limit input chars on title and Main Characters  to 40.
 lets create a random button on the very top to fill entire form with 8 random, pre-created and defined inside config.ini under [App] example_stories It should be able to populate all fields!
+Multilanguage Support Implementation Complete
+I've successfully implemented multilanguage support for the StoryMagic application with the following languages:
+
+English (en) - Default
+Spanish (es)
+Portuguese (pt)
+Italian (it)
+What was implemented:
+Flask-Babel Integration:
+
+Configured Flask-Babel with supported languages
+Implemented locale selection based on user preferences and browser settings
+Fixed an issue with the Babel API by updating the locale selector implementation
+User Interface Updates:
+
+Added language selectors in the navigation bar
+Updated CSS to ensure proper display of language dropdown options
+Added language preference setting in user profiles
+Template Internationalization:
+
+Updated base.html with translation markers
+Updated index.html with translation markers
+Updated create_story.html with translation markers for all form elements
+Translation Management:
+
+Created babel.cfg configuration file
+Set up extract_translations.sh and compile_translations.sh scripts
+Created translation files for English, Spanish, Portuguese, and Italian
+Implemented update scripts for each language to easily maintain translations
+Database Support:
+
+Added preferred_language field to the users table
+Updated user profile page to allow setting preferred language
+Implemented language persistence in user sessions
+Documentation:
+
+Created MULTILANGUAGE_SUPPORT.md with detailed documentation
+Documented the translation process and how to add new languages
+The multilanguage system is now fully functional. Users can:
+
+Change the site language using the dropdown in the navigation bar
+Set their preferred language in their profile settings
+Create stories in different languages
+View the interface in their preferred language
+
 
 ### Email Notification System Integration (April 7, 2025)
 - Renamed send-email.py to send_email.py to make it importable as a module

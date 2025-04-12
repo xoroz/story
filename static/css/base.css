@@ -102,6 +102,56 @@ body {
     font-weight: 500;
 }
 
+/* Language Selector */
+.language-selector {
+    position: relative;
+}
+
+.language-selector select {
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--white);
+    padding: 8px 28px 8px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Fix for dropdown options */
+.language-selector select option {
+    background-color: var(--white);
+    color: var(--text-color);
+}
+
+.language-selector::after {
+    content: '▼';
+    font-size: 10px;
+    color: var(--white);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.mobile-nav .language-selector {
+    padding: 15px 20px;
+}
+
+.mobile-nav .language-selector select {
+    width: 100%;
+    background-color: rgba(106, 17, 203, 0.1);
+    color: var(--text-color);
+    padding: 10px 30px 10px 15px;
+}
+
+.mobile-nav .language-selector::after {
+    color: var(--text-color);
+    right: 30px;
+}
+
 /* Mobile Menu Toggle */
 .mobile-menu-toggle {
     display: none;

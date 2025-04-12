@@ -25,7 +25,7 @@ def init_db():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     
-    # Check if private and auth_type columns exist in users table
+    # Check if private, auth_type, and preferred_language columns exist in users table
     cursor.execute("PRAGMA table_info(users)")
     columns = [column[1] for column in cursor.fetchall()]
     
@@ -53,6 +53,11 @@ def init_db():
     if 'auth_type' not in columns and 'id' in columns:
         print("Adding 'auth_type' column to users table")
         cursor.execute("ALTER TABLE users ADD COLUMN auth_type TEXT DEFAULT 'local'")
+    
+    # Add preferred_language column if it doesn't exist
+    if 'preferred_language' not in columns and 'id' in columns:
+        print("Adding 'preferred_language' column to users table")
+        cursor.execute("ALTER TABLE users ADD COLUMN preferred_language TEXT DEFAULT 'en'")
     
     # Check if is_private column exists in user_stories table
     cursor.execute("PRAGMA table_info(user_stories)")
@@ -203,6 +208,7 @@ def profile():
         username=session['username'], 
         credits=session['credits'],
         private=user_info.get('private', False),
+        preferred_language=user_info.get('preferred_language', 'en'),
         user_stories=user_stories
     )
 
@@ -215,10 +221,17 @@ def update_profile():
     
     # Get form data
     private = 'private' in request.form
+    preferred_language = request.form.get('preferred_language', 'en')
     
     # Update user settings
-    from db_utils import update_user_private_setting
-    update_user_private_setting(session['user_id'], private)
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        'UPDATE users SET private = ?, preferred_language = ? WHERE id = ?',
+        (1 if private else 0, preferred_language, session['user_id'])
+    )
+    conn.commit()
+    conn.close()
     
     flash('Profile updated successfully!')
     return redirect(url_for('auth.profile'))
@@ -332,7 +345,7 @@ def add_user_story(user_id, story_filename, is_private=False, **kwargs):
 def get_user_info(user_id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    user = cursor.execute('SELECT id, username, email, private, auth_type FROM users WHERE id = ?', (user_id,)).fetchone()
+    user = cursor.execute('SELECT id, username, email, private, auth_type, preferred_language FROM users WHERE id = ?', (user_id,)).fetchone()
     conn.close()
     
     if user:
@@ -341,6 +354,7 @@ def get_user_info(user_id):
             'username': user['username'],
             'email': user['email'],
             'private': bool(user['private']) if 'private' in user.keys() else False,
-            'auth_type': user['auth_type'] if 'auth_type' in user.keys() else 'local'
+            'auth_type': user['auth_type'] if 'auth_type' in user.keys() else 'local',
+            'preferred_language': user['preferred_language'] if 'preferred_language' in user.keys() else 'en'
         }
     return None

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}StoryMagic - AI-Powered Children's Stories{% endblock %}
+{% block title %}{{ _('StoryMagic - AI-Powered Children\'s Stories') }}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -69,29 +69,29 @@
 
 {% block content %}
 <div class="home-header">
-    <h1>StoryMagic</h1>
-    <div class="tagline">AI-Powered Stories for Little Imaginations</div>
+    <h1>{{ _('StoryMagic') }}</h1>
+    <div class="tagline">{{ _('AI-Powered Stories for Little Imaginations') }}</div>
 </div>
 
 <div class="features">
     <div class="feature">
-        <h2>Creative Stories</h2>
-        <p>Generate unique, imaginative stories tailored to your child's interests and age group.</p>
+        <h2>{{ _('Creative Stories') }}</h2>
+        <p>{{ _('Generate unique, imaginative stories tailored to your child\'s interests and age group.') }}</p>
     </div>
     
     <div class="feature">
-        <h2>Educational</h2>
-        <p>Stories can include educational themes and valuable life lessons in an engaging format.</p>
+        <h2>{{ _('Educational') }}</h2>
+        <p>{{ _('Stories can include educational themes and valuable life lessons in an engaging format.') }}</p>
     </div>
     
     <div class="feature">
-        <h2>Age-Appropriate</h2>
-        <p>Content is crafted specifically for your child's age range with appropriate vocabulary and themes.</p>
+        <h2>{{ _('Age-Appropriate') }}</h2>
+        <p>{{ _('Content is crafted specifically for your child\'s age range with appropriate vocabulary and themes.') }}</p>
     </div>
 </div>
 
 <div class="cta">
-    <a href="{{ url_for('story.create_story') }}" class="btn btn-secondary">Create a Story</a>
-    <a href="{{ url_for('story.list_stories') }}" class="btn btn-accent">View Stories</a>
+    <a href="{{ url_for('story.create_story') }}" class="btn btn-secondary">{{ _('Create a Story') }}</a>
+    <a href="{{ url_for('story.list_stories') }}" class="btn btn-accent">{{ _('View Stories') }}</a>
 </div>
 {% endblock %}
