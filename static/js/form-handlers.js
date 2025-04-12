@@ -12,17 +12,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize form validation
     initFormValidation();
+    
+    // Initialize random story button
+    initRandomStoryButton();
 });
 
 /**
- * Initialize character counters for textareas with maxlength
+ * Initialize character counters for inputs and textareas with maxlength
  */
 function initCharacterCounters() {
-    const textareas = document.querySelectorAll('textarea[maxlength]');
+    // Handle both input fields and textareas with maxlength
+    const elements = document.querySelectorAll('input[maxlength], textarea[maxlength]');
     
-    textareas.forEach(textarea => {
-        const maxLength = textarea.getAttribute('maxlength');
-        const counterId = textarea.id + '_counter';
+    elements.forEach(element => {
+        const maxLength = element.getAttribute('maxlength');
+        const counterId = element.id + '_counter';
         
         // Create counter element if it doesn't exist
         let counter = document.getElementById(counterId);
@@ -30,12 +34,12 @@ function initCharacterCounters() {
             counter = document.createElement('div');
             counter.id = counterId;
             counter.className = 'char-counter';
-            textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+            element.parentNode.insertBefore(counter, element.nextSibling);
         }
         
         // Update counter on input
         function updateCounter() {
-            const currentLength = textarea.value.length;
+            const currentLength = element.value.length;
             counter.textContent = `${currentLength}/${maxLength} characters`;
             
             // Add warning class when approaching limit
@@ -50,7 +54,7 @@ function initCharacterCounters() {
         updateCounter();
         
         // Add event listener
-        textarea.addEventListener('input', updateCounter);
+        element.addEventListener('input', updateCounter);
     });
 }
 
@@ -101,6 +105,83 @@ function initBackendSelector() {
                 }
             }
         });
+    });
+}
+
+/**
+ * Initialize random story button functionality
+ */
+function initRandomStoryButton() {
+    const randomButton = document.getElementById('random-story-btn');
+    if (!randomButton) return;
+    
+    randomButton.addEventListener('click', function() {
+        // Use the global exampleStories variable
+        if (!window.exampleStories || !window.exampleStories.length) {
+            console.error('No example stories available');
+            return;
+        }
+        
+        try {
+            // Select a random story
+            const randomStory = window.exampleStories[Math.floor(Math.random() * window.exampleStories.length)];
+            
+            // Fill form fields
+            document.getElementById('title').value = randomStory.title || '';
+            
+            // Set age range
+            const ageRangeSelect = document.getElementById('age_range');
+            if (ageRangeSelect) {
+                const ageOption = Array.from(ageRangeSelect.options).find(option => option.value === randomStory.age_range);
+                if (ageOption) ageRangeSelect.value = randomStory.age_range;
+            }
+            
+            // Set theme
+            const themeSelect = document.getElementById('theme');
+            if (themeSelect && randomStory.theme) {
+                themeSelect.value = randomStory.theme;
+            }
+            
+            // Set story about
+            const storyAboutTextarea = document.getElementById('story_about');
+            if (storyAboutTextarea) {
+                storyAboutTextarea.value = randomStory.story_about || '';
+            }
+            
+            // Set lesson
+            const lessonSelect = document.getElementById('lesson');
+            if (lessonSelect && randomStory.lesson) {
+                const lessonOption = Array.from(lessonSelect.options).find(option => option.value === randomStory.lesson);
+                if (lessonOption) lessonSelect.value = randomStory.lesson;
+            }
+            
+            // Set characters
+            const charactersInput = document.getElementById('characters');
+            if (charactersInput) {
+                charactersInput.value = randomStory.characters || '';
+            }
+            
+            // Set length
+            const lengthSelect = document.getElementById('length');
+            if (lengthSelect && randomStory.length) {
+                const lengthOption = Array.from(lengthSelect.options).find(option => option.value === randomStory.length);
+                if (lengthOption) lengthSelect.value = randomStory.length;
+            }
+            
+            // Set language
+            const languageSelect = document.getElementById('language');
+            if (languageSelect && randomStory.language) {
+                const languageOption = Array.from(languageSelect.options).find(option => option.value === randomStory.language);
+                if (languageOption) languageSelect.value = randomStory.language;
+            }
+            
+            // Trigger input events to update character counters
+            document.querySelectorAll('input[maxlength], textarea[maxlength]').forEach(el => {
+                el.dispatchEvent(new Event('input'));
+            });
+        } catch (error) {
+            console.error('Error parsing example stories:', error);
+        }
     });
 }
 

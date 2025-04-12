@@ -5,6 +5,7 @@ import shutil
 import time
 import subprocess
 import re
+import sqlite3
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file
 from configparser import ConfigParser
@@ -16,6 +17,13 @@ config = load_config()
 # Create a separate Flask app for admin
 admin_app = Flask(__name__)
 admin_app.secret_key = config['App']['secret_key']
+
+# Database connection function
+def get_db_connection():
+    """Get a connection to the SQLite database with row factory"""
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # Get path information from config
 OUTPUT_FOLDER = config['Paths']['output_folder']
@@ -612,6 +620,153 @@ def delete_backup(filename):
         flash(f'Backup file not found: {filename}')
     
     return redirect(url_for('backup_system'))
+
+# User Management Routes
+@admin_app.route('/users')
+@auth_required
+def manage_users():
+    """User management page"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    users = cursor.execute('SELECT * FROM users ORDER BY id').fetchall()
+    conn.close()
+    
+    # Convert to list of dictionaries
+    user_list = [dict(user) for user in users]
+    
+    return render_template('admin/users.html', users=user_list)
+
+@admin_app.route('/users/update_credits', methods=['POST'])
+@auth_required
+def update_user_credits():
+    """Update user credits"""
+    user_id = request.form.get('user_id')
+    credits = request.form.get('credits')
+    
+    if not user_id or not credits:
+        flash('Missing user ID or credits value')
+        return redirect(url_for('manage_users'))
+    
+    try:
+        # Validate inputs
+        user_id = int(user_id)
+        credits = int(credits)
+        
+        if credits < 0:
+            flash('Credits cannot be negative')
+            return redirect(url_for('manage_users'))
+        
+        # Update the database
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE users SET credits = ? WHERE id = ?', (credits, user_id))
+        conn.commit()
+        conn.close()
+        
+        flash(f'Credits updated successfully for user ID {user_id}')
+    except ValueError:
+        flash('Invalid user ID or credits value')
+    except Exception as e:
+        flash(f'Error updating credits: {str(e)}')
+    
+    return redirect(url_for('manage_users'))
+
+@admin_app.route('/users/delete', methods=['POST'])
+@auth_required
+def delete_user():
+    """Delete a user"""
+    user_id = request.form.get('user_id')
+    
+    if not user_id:
+        flash('Missing user ID')
+        return redirect(url_for('manage_users'))
+    
+    try:
+        # Validate input
+        user_id = int(user_id)
+        
+        # Delete the user
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # First check if the user exists
+        user = cursor.execute('SELECT username FROM users WHERE id = ?', (user_id,)).fetchone()
+        if not user:
+            conn.close()
+            flash(f'User with ID {user_id} not found')
+            return redirect(url_for('manage_users'))
+        
+        username = user['username']
+        
+        # Delete user's stories
+        cursor.execute('DELETE FROM user_stories WHERE user_id = ?', (user_id,))
+        
+        # Delete the user
+        cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
+        conn.commit()
+        conn.close()
+        
+        flash(f'User "{username}" (ID: {user_id}) deleted successfully')
+    except ValueError:
+        flash('Invalid user ID')
+    except Exception as e:
+        flash(f'Error deleting user: {str(e)}')
+    
+    return redirect(url_for('manage_users'))
+
+@admin_app.route('/users/rename', methods=['POST'])
+@auth_required
+def rename_user():
+    """Rename a user"""
+    user_id = request.form.get('user_id')
+    new_username = request.form.get('new_username')
+    
+    if not user_id or not new_username:
+        flash('Missing user ID or new username')
+        return redirect(url_for('manage_users'))
+    
+    try:
+        # Validate input
+        user_id = int(user_id)
+        
+        # Check if username is valid
+        if not new_username.strip():
+            flash('Username cannot be empty')
+            return redirect(url_for('manage_users'))
+        
+        # Update the username
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # First check if the user exists
+        user = cursor.execute('SELECT username FROM users WHERE id = ?', (user_id,)).fetchone()
+        if not user:
+            conn.close()
+            flash(f'User with ID {user_id} not found')
+            return redirect(url_for('manage_users'))
+        
+        old_username = user['username']
+        
+        # Check if the new username already exists
+        existing = cursor.execute('SELECT id FROM users WHERE username = ? AND id != ?', 
+                                 (new_username, user_id)).fetchone()
+        if existing:
+            conn.close()
+            flash(f'Username "{new_username}" is already taken')
+            return redirect(url_for('manage_users'))
+        
+        # Update the username
+        cursor.execute('UPDATE users SET username = ? WHERE id = ?', (new_username, user_id))
+        conn.commit()
+        conn.close()
+        
+        flash(f'Username changed from "{old_username}" to "{new_username}" successfully')
+    except ValueError:
+        flash('Invalid user ID')
+    except Exception as e:
+        flash(f'Error renaming user: {str(e)}')
+    
+    return redirect(url_for('manage_users'))
 
 # JSON API endpoints for direct manipulation
 @admin_app.route('/api/mcp', methods=['GET'])

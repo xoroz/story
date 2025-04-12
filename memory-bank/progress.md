@@ -28,11 +28,7 @@
 - ✅ Start/stop scripts for application control
 
 ## In Progress
-- Need to fix  privacy settings when not login, we should not see the private stories.
-- We need to create a template for new user welcome, with very welcome text and 
-have only username as needed parameter. and set the trigger in user creation (will happen on app.py) to send out the email, same way
-we already do with the new story, just changing the content and args.
-- give ideas on how to improve app.py to break it into differente modules, because now its too big and hard to maintain
+
 
 ### User Authentication
 - ✅ Created auth.py module with user registration, login, logout functionality

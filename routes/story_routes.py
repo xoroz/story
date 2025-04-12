@@ -66,6 +66,15 @@ def create_story():
     lessons = mcp.get("lessons", [])
     ai_providers = mcp.get("ai_providers", {})
     
+    # Get example stories from config
+    try:
+        example_stories_str = config['App'].get('example_stories', '[]')
+        # Clean up the string to ensure it's valid JSON
+        example_stories = json.loads(example_stories_str)
+    except json.JSONDecodeError:
+        print("Error parsing example_stories from config.ini")
+        example_stories = []
+    
     # Check if we have prefill data from recreate_story
     prefill_data = session.pop('prefill_data', None)
     
@@ -74,7 +83,8 @@ def create_story():
         themes=themes, 
         lessons=lessons,
         ai_providers=ai_providers,
-        prefill=prefill_data
+        prefill=prefill_data,
+        example_stories=example_stories
     )
 
 @story_bp.route('/recreate-story/<int:story_id>')
@@ -117,12 +127,22 @@ def waiting(request_id):
         flash("Story request not found")
         return redirect(url_for('story.create_story'))
     
-    # Load MCP to get waiting messages
-    mcp = load_mcp()
-    waiting_messages = mcp.get('waiting_messages', [
-        "We are working hard to create your amazing story...",
-        "Please wait while we generate your story..."
-    ])
+    # Get waiting messages from config
+    try:
+        waiting_messages_str = config['App'].get('waiting_messages', '["Please wait while we generate your story..."]')
+        waiting_messages = json.loads(waiting_messages_str)
+    except json.JSONDecodeError:
+        # Fallback to default messages if JSON parsing fails
+        waiting_messages = [
+            "Please wait while we generate your story...",
+            "Our AI is crafting a unique tale just for you...",
+            "Creating characters and settings for your story...",
+            "Weaving together an exciting plot...",
+            "Adding educational elements to your story...",
+            "Polishing the narrative for maximum enjoyment...",
+            "Almost there! Finalizing your story...",
+            "Just a moment more for story magic to happen..."
+        ]
     
     # Convert waiting messages to JSON for JavaScript
     waiting_messages_json = json.dumps(waiting_messages)
@@ -201,11 +221,26 @@ def view_story(filename):
                 except Exception as e:
                     print(f"Error checking story privacy: {e}")
         
-        # Check if the user has set all their stories to private
-        is_user_private = check_story_privacy(user_id, session.get('user_id'))
+        # Get story ID if available
+        story_id = None
+        if request_id:
+            # Try to find the story ID from the database
+            from db_utils import get_db_connection
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            result = cursor.execute(
+                'SELECT id FROM user_stories WHERE story_filename = ?', 
+                (filename,)
+            ).fetchone()
+            if result:
+                story_id = result['id']
+            conn.close()
         
-        # If either the story or the user is private, redirect
-        if is_story_private or is_user_private:
+        # Check if the story should be private
+        is_private = check_story_privacy(story_id, user_id, session.get('user_id'))
+        
+        # If the story is private, redirect
+        if is_private:
             flash('This story is private and can only be viewed by its creator')
             return redirect(url_for('story.list_stories'))
     

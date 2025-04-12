@@ -16,27 +16,37 @@ StoryMagic addresses these challenges by providing an AI-powered platform that g
 
 ### Story Creation
 1. User visits the StoryMagic website
-2. User selects "Create Story" from the navigation menu
-3. User customizes story parameters:
+2. User login or Register
+3. User selects "Create Story" from the navigation menu
+4. User customizes story parameters:
    - Enters a title for the story
    - Selects an age range appropriate for the target audience
-   - Chooses a theme (forest, dinosaur, space, city)
-   - Describes what the story should be about (optional)
-   - Selects an educational lesson to incorporate
+   - Chooses a theme (forest, dinosaur, space, city, etc...)
+   - Describes what the story should be about 
+   - Selects an educational lesson to incorporate ("family importance", "friendship", "trust","love","honesty",
+    "perseverance" etc..)
    - Describes the main characters
-   - Selects story length and language
+   - Selects story length : short,medium, long
+   - Select language: en, pt, it, es
    - Chooses whether to include audio narration
+   - Chooeses if story is private or public
    - Selects an AI provider and model
 4. User submits the request and is redirected to a waiting page
 5. Once the story is generated, user is automatically redirected to view it
 
 ### Story Viewing
 1. User reads the generated story with formatted HTML
-2. User can listen to audio narration if enabled
+2. User can listen to audio narration if enabled, also liste to multiple stories one after the other
 3. User can rate the story (1-5 stars)
-4. User can create another story or view all stories
+4. If not login user should not see private stories
 
-### Story Management
+### Story Management via Profile
+1. User can change a story to private 
+2. User can delete a story
+3. User can recreate a story
+
+
+### Story Management via ADMIN
 1. User can view a list of all generated stories
 2. Stories are displayed with metadata (creation date, theme, age range, etc.)
 3. User can sort and filter stories

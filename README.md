@@ -1,9 +1,11 @@
 # StoryMagic - AI-Powered Children's Story Generator
 
 A Flask web application that generates personalized children's stories using multiple AI providers (OpenAI, Claude, Mistral AI) through the OpenRouter API.
+
 ## Context Priming
 read README.md memory-bank/*  
-run git ls-files to list all files
+run tree  --gitignore -I '*pyc' -I __pycache__ -I include -I backups -f -i |egrep '.py|.html|.css|.js'
+ to list all files
 
 ## Features
 
@@ -23,6 +25,7 @@ run git ls-files to list all files
 - Story listing with metadata
 - Story rating system
 - Audio narration using OpenAI TTS
+- User auth local cred with db 
 
 ### User Features
 - User registration and login system
@@ -63,7 +66,13 @@ run git ls-files to list all files
    OPENAI_API_KEY=your_openai_api_key
    OPENROUTER_API_KEY=your_openrouter_api_key
    ADMIN_USERNAME=your_admin_username (default: admin)
-   ADMIN_PASSWORD=your_admin_password (default: admin123)
+   ADMIN_PASSWORD=your_admin_password (default: admin123456)
+   SENDER_NAME=Story Magic
+   SENDER_EMAIL=storymagictexemail@gmail.com 
+   EMAIL_SUBJECT=Your story submission
+   SENDER_EMAIL=info@test.mlsender.net
+   MAILERSENDTOKEN=m463a9f7d64bc0e
+   MAILERSEND_TEMPLATE_ID=asdasd
    ```
 
 ### Running the Application
@@ -74,8 +83,8 @@ Start all components with a single command:
 ```
 
 This will start:
-- Web application (port 8000)
-- Story processor (background)
+- Web application (port 8000)  - web frontend
+- Story processor (background) - listens queue folder for json file
 - Admin dashboard (port 8001)
 
 To stop all services:
@@ -87,29 +96,6 @@ To stop all services:
 - Main application: http://localhost:8000
 - Admin dashboard: http://localhost:8001 (login with configured credentials)
 
-### Running Tests
-StoryMagic includes an automated test suite using pytest and Playwright. To run the tests:
-
-1. Install test dependencies:
-   ```
-   pip install -r requirements.txt
-   playwright install  # Install browser binaries
-   ```
-
-2. Run all tests:
-   ```
-   ./test-all.sh
-   ```
-
-3. View test results:
-   The HTML test report will be available at `test-results/report.html`
-
-Test coverage includes:
-- Home page functionality
-- Stories listing page
-- Create story form
-- Admin dashboard login
-- Admin functionality
 
 ## Project Structure
 ```

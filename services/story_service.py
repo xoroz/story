@@ -7,7 +7,7 @@ from flask import session, flash, redirect, url_for
 from auth import get_user_info, use_credit
 from utils.file_utils import get_story_metadata, save_story_metadata, load_mcp
 from utils.template_utils import get_language_name
-from db_utils import get_user_private_setting, get_story_details
+from db_utils import get_user_private_setting, get_story_private_setting, get_story_details
 
 def create_story_request(form_data, user_id):
     """
@@ -333,11 +333,12 @@ def extract_story_metadata(content, filename, processed_folder, audio_folder):
         'request_id': request_id,
     }
 
-def check_story_privacy(user_id, session_user_id):
+def check_story_privacy(story_id, user_id, session_user_id):
     """
-    Check if a story should be private based on user settings
+    Check if a story should be private based on story and user settings
     
     Args:
+        story_id: Story ID
         user_id: Story owner user ID
         session_user_id: Current session user ID
         
@@ -352,9 +353,16 @@ def check_story_privacy(user_id, session_user_id):
     if user_id == session_user_id:
         return False
     
-    # Check user's privacy setting
-    is_private = get_user_private_setting(user_id)
-    return is_private
+    # Check if the specific story is private
+    if story_id:
+        is_story_private = get_story_private_setting(story_id)
+        if is_story_private:
+            return True
+    
+    # Check if the user has set all their stories to private
+    is_user_private = get_user_private_setting(user_id)
+    
+    return is_user_private
 
 def update_story_view_count(filename):
     """
@@ -456,6 +464,12 @@ def get_story_list(session_user_id, output_folder, processed_folder, audio_folde
         # Check if the user has set all their stories to private
         is_user_private = get_user_private_setting(user_id)
         
+        # If user is not logged in, skip any private stories
+        if not session_user_id:
+            # Skip if either the story or the user is private
+            if is_story_private or is_user_private:
+                continue
+                
         # Only include the story if neither the story nor the user is private
         if not is_story_private and not is_user_private:
             filtered_stories.append(story)

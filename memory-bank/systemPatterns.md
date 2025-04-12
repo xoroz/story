@@ -132,30 +132,67 @@ sequenceDiagram
 ## File Organization
 
 ```
-story2/
-├── app.py                  # Main Flask application
-├── story_processor.py      # Background processor
-├── child_storyteller_mcp.json  # Model Control Protocol  JSON configureation
-├── config.ini              # Configuration file
-├── .env                    # Environment variables
-├── templates/              # HTML templates
-│   ├── base.html           # Base template
-│   ├── index.html          # Homepage
-│   ├── create_story.html   # Story creation form
-│   ├── waiting.html        # Processing status page
-│   ├── story_view.html     # Story display page
-│   ├── story_list.html     # Story listing page
-│   └── admin/              # Admin templates
-├── static/                 # Static assets
-│   ├── css/                # Stylesheets
-│   ├── js/                 # JavaScript files
-│   └── images/             # Images
-├── queue/                  # Story request queue
-├── processed/              # Processed requests
-├── stories/                # Generated stories
-├── audio/                  # Generated audio files
-├── errors/                 # Error records
-└── logs/                   # Log files
+./add_test_data.py
+./admin.py
+./app.py
+./assets/style.css
+./auth.py
+./check_db_structure.py
+./child_storyteller_mcp.json
+./config_loader.py
+./db_check.py
+./db_query.py
+./db_utils.py
+./init_db.py
+./process_stories.py
+./report.html
+./routes/api_routes.py
+./routes/__init__.py
+./routes/main_routes.py
+./routes/story_routes.py
+./send_email.py
+./services/email_service.py
+./services/__init__.py
+./services/story_service.py
+./static/css
+./static/css/admin.css
+./static/css/auth.css
+./static/css/base.css
+./static/css/forms.css
+./static/css/rating.css
+./static/css/story.css
+./static/css/story_list.css
+./static/css/waiting.css
+./static/js
+./static/js/auth.js
+./static/js/base.js
+./static/js/form-handlers.js
+./static/js/rating.js
+./static/js/story_list.js
+./static/js/waiting.js
+./story_metadata.json
+./story_processor.py
+./templates/admin/backup.html
+./templates/admin/base.html
+./templates/admin/configuration.html
+./templates/admin/dashboard.html
+./templates/admin/stories.html
+./templates/admin/system.html
+./templates/auth/login.html
+./templates/auth/profile.html
+./templates/auth/register.html
+./templates/base.html
+./templates/confirmation.html
+./templates/create_story.html
+./templates/email/welcome_email.html
+./templates/index.html
+./templates/story_list.html
+./templates/story_view.html
+./templates/waiting.html
+./utils/file_utils.py
+./utils/__init__.py
+./utils/template_utils.py
+
 ```
 
 ## Security Patterns

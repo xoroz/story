@@ -415,6 +415,40 @@ def process_json_directory(directory_path, force=False):
         logger.error(f"Error processing JSON directory {directory_path}: {str(e)}")
         return (success_count, failure_count)
 
+def get_story_private_setting(story_id):
+    """
+    Get the private setting for a specific story
+    
+    Args:
+        story_id: The story ID
+    
+    Returns:
+        bool: True if private, False otherwise
+    """
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Check if is_private column exists
+        cursor.execute("PRAGMA table_info(user_stories)")
+        columns = [column[1] for column in cursor.fetchall()]
+        
+        if 'is_private' in columns:
+            result = cursor.execute('SELECT is_private FROM user_stories WHERE id = ?', (story_id,)).fetchone()
+            conn.close()
+            
+            if result and result['is_private'] is not None:
+                return bool(result['is_private'])
+            return False
+        else:
+            # If is_private column doesn't exist, return default value
+            conn.close()
+            return False
+        
+    except Exception as e:
+        logger.error(f"Error getting private setting for story {story_id}: {str(e)}")
+        return False
+
 def get_user_private_setting(user_id):
     """
     Get the private setting for a user
@@ -429,7 +463,7 @@ def get_user_private_setting(user_id):
         conn = get_db_connection()
         cursor = conn.cursor()
         
-        # Check if private column exists
+        # Check if private column exists in users table
         cursor.execute("PRAGMA table_info(users)")
         columns = [column[1] for column in cursor.fetchall()]
         

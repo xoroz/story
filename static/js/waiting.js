@@ -164,6 +164,11 @@ function initRotatingMessages() {
     
     // Set the initial message
     statusMessageElement.textContent = messages[currentIndex];
+    
+    // Set up message rotation every 5 seconds
+    setInterval(() => {
+        rotateMessage();
+    }, 5000);
 }
 
 /**

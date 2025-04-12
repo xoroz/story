@@ -1,13 +1,31 @@
 # Active Context
 
 ## Current Focus
-- Need to fix  privacy settings when not login, we should not see the private stories.
-- We need to create a template for new user welcome, with very welcome text and 
-have only username as needed parameter. and set the trigger in user creation to send out the email, same way
-we already do with the new story, just changing the content and args.
 
+
+
+## Brainstorm ideas, improvements
+ - we need to improve the story audio: ( story_process.py ) 
+   1. more engaging with sounds and different voices, with rich voice content
+ maybe we should try elevenlabs ?  
+   2. maybe by creating a poetic form story ? 
+   3. maybe by using crewai and create a whole ai agents to go full blown, story, audio,images, pdf etc..
+ - we need multilanguage options 4 lang only for now ( app.py ) 
+ - we need engaging form compilation , full out new chatbot audio converstation with the child user, to compile
+ the needed json file for the backend ( vertical change no changes on existing code, but new external optionl like vertificalshift ? )
+ - we need new addon github external auth option 
+ - we need overhaul entire app for production deployment:
+  1. change from flask web server to prod options fine tune for heavy load (config browser cache static, and webserver ram cahce static content)
+  2. security checks before going to prod, limit forms max input chars, defend for input buffers
+  3. create robots.txt to index on google and others
+  4. setup all its need for SEO web search highest standard
+  - we need to auto export/publish on different plataforms like spotify channel/ youtube channel / x.com , we would need one channel per language, this could be a complex task and we must do one plataform at a time.
+  - once we have 50 users, we should start adding payment method and allow payment via paypal only to start with credits then monthly subscriptions
+  - we will need to convert the webapp into android app 
 
 ## Recent Changes
+- improve the create story form, we need to limit input chars on title and Main Characters  to 40.
+lets create a random button on the very top to fill entire form with 8 random, pre-created and defined inside config.ini under [App] example_stories It should be able to populate all fields!
 
 ### Email Notification System Integration (April 7, 2025)
 - Renamed send-email.py to send_email.py to make it importable as a module
@@ -45,8 +63,8 @@ we already do with the new story, just changing the content and args.
 - Added styling for mobile authentication links
 
 ## Current Issues
-- Need to ensure all processed JSON files have user_id for proper database integration
-- Need to verify database updates are working correctly for all story operations
+- story list while not login is showing also private ones! if story is set private it should never be displayed to everyone, but only to the owner of the story.
+- waiting page is not rotating the message , it should rotate current text "check waiting_waiting.js we need to create an entry in the config.ini under [app] with name "waiting_messages" with 8 different messages to have the user attention so we load the story in the background. it must update this part of the waiting.html <div class="status-message"> <p>Please wait while we generate your story...</p>    </div> s
 
 ## Debugging Strategy
 

@@ -16,10 +16,12 @@ StoryMagic is built using a combination of modern web technologies and AI servic
 - **CSS3**: Styling for web pages
 - **JavaScript**: Client-side scripting for interactive features
 - **Bootstrap**: CSS framework for responsive design (implied from class names)
+- **Mailsender**: Uses mailsender.com to easly send out messages to users
 
 ### Data Storage
 - **File System**: JSON files for story data, configuration, and queue management
-- **Environment Variables**: For sensitive configuration (API keys)
+- **Environment Variables**: For senstive configuration (API keys)
+- **Database using sqliter3**: DB data for user and stories
 
 ### AI Providers (via OpenRouter)
 - **OpenAI**: GPT-3.5-Turbo, O1-mini, O3-mini, GPT-4o-mini

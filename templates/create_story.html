@@ -4,10 +4,27 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+<style>
+.random-story-container {
+    text-align: right;
+    margin-bottom: 20px;
+}
+</style>
 {% endblock %}
 
 {% block content %}
 <h1>{% if prefill %}Recreate{% else %}Create{% endif %} a Magical Story</h1>
+
+<div class="random-story-container">
+    <button type="button" id="random-story-btn" class="btn btn-outline-primary">
+        Fill with Random Story
+    </button>
+</div>
+
+<script>
+    // Store example stories in a JavaScript variable
+    var exampleStories = {{ example_stories|tojson|safe }};
+</script>
 
 <form method="POST" action="{{ url_for('story.create_story') }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -18,7 +35,8 @@
                 <label for="title" class="form-label">Story Title</label>
                 <input type="text" class="form-control" id="title" name="title" 
                        placeholder="Enter a title for your story" 
-                       value="{{ prefill.title if prefill else '' }}" required>
+                       value="{{ prefill.title if prefill else '' }}" 
+                       maxlength="40" required>
             </div>
 
             <div class="form-group">
@@ -60,7 +78,8 @@
                 <label for="characters" class="form-label">Main Characters</label>
                 <input type="text" class="form-control" id="characters" name="characters" 
                     placeholder="Describe characters (e.g., 'a brave girl, a wise owl')" 
-                    value="{{ prefill.characters if prefill else '' }}" required>
+                    value="{{ prefill.characters if prefill else '' }}" 
+                    maxlength="40" required>
             </div>
 
             <div class="form-group">

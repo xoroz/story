@@ -1,0 +1,92 @@
+{% extends "admin/base.html" %}
+
+{% block title %}User Management{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>User Management</h1>
+    
+    <div class="dashboard-content">
+        <div class="card">
+            <div class="card-header">All Users</div>
+            <div class="card-body">
+                {% if users %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Credits</th>
+                                <th>Created</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>
+                                    <form action="{{ url_for('rename_user') }}" method="post" class="rename-form">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <div class="input-group">
+                                            <input type="text" name="new_username" value="{{ user.username }}" class="form-control form-control-sm">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-primary">Rename</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <form action="{{ url_for('update_user_credits') }}" method="post" class="credits-form">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <div class="input-group">
+                                            <input type="number" name="credits" value="{{ user.credits }}" class="form-control form-control-sm">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td>{{ user.created_at }}</td>
+                                <td>{{ user.last_login or 'Never' }}</td>
+                                <td>
+                                    <form action="{{ url_for('delete_user') }}" method="post" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No users found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add any additional JavaScript for the users page here
+    
+    // Example: Confirm delete action
+    const deleteForms = document.querySelectorAll('.delete-form');
+    deleteForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
