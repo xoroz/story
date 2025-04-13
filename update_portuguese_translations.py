@@ -11,8 +11,11 @@ pt_po_file = 'translations/pt/LC_MESSAGES/messages.po'
 
 # Portuguese translations for the website
 translations = {
-    # Base template
+    # Base template and Auth
     "StoryMagic": "StoryMagic",
+    "Username/Email:": "Usuário/Email:",
+    "Password:": "Senha:",
+    "Invalid username/email or password.": "Usuário/email ou senha inválidos.",
     "Home": "Início",
     "Create Story": "Criar História",
     "View Stories": "Ver Histórias",

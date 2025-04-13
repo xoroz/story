@@ -32,6 +32,11 @@ def create_story():
     if 'user_id' not in session:
         flash('Please log in to create a story')
         return redirect(url_for('auth.login'))
+    
+    # Check if email is verified
+    if not session.get('email_verified', False):
+        flash('Please verify your email address before creating stories')
+        return redirect(url_for('auth.registration_pending'))
         
     # Load MCP - will exit if not found
     mcp = load_mcp()
@@ -94,6 +99,11 @@ def recreate_story(story_id):
     if 'user_id' not in session:
         flash('Please log in to recreate a story')
         return redirect(url_for('auth.login'))
+    
+    # Check if email is verified
+    if not session.get('email_verified', False):
+        flash('Please verify your email address before creating stories')
+        return redirect(url_for('auth.registration_pending'))
     
     # Get prefill data for the story
     prefill_data = get_prefill_data_for_story(story_id)

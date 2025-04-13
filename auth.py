@@ -1,8 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
+from flask_babel import gettext as _
 from flask_bcrypt import Bcrypt
 import sqlite3
 import os
 import json
+import secrets
+import hashlib
+import time
+from datetime import datetime, timedelta
 from config_loader import load_config
 from services.email_service import send_welcome_email
 
@@ -25,7 +30,7 @@ def init_db():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     
-    # Check if private, auth_type, and preferred_language columns exist in users table
+    # Check if columns exist in users table
     cursor.execute("PRAGMA table_info(users)")
     columns = [column[1] for column in cursor.fetchall()]
     
@@ -58,6 +63,21 @@ def init_db():
     if 'preferred_language' not in columns and 'id' in columns:
         print("Adding 'preferred_language' column to users table")
         cursor.execute("ALTER TABLE users ADD COLUMN preferred_language TEXT DEFAULT 'en'")
+    
+    # Add email_verified column if it doesn't exist
+    if 'email_verified' not in columns and 'id' in columns:
+        print("Adding 'email_verified' column to users table")
+        cursor.execute("ALTER TABLE users ADD COLUMN email_verified BOOLEAN DEFAULT 0")
+    
+    # Add verification_token column if it doesn't exist
+    if 'verification_token' not in columns and 'id' in columns:
+        print("Adding 'verification_token' column to users table")
+        cursor.execute("ALTER TABLE users ADD COLUMN verification_token TEXT")
+    
+    # Add token_expiry column if it doesn't exist
+    if 'token_expiry' not in columns and 'id' in columns:
+        print("Adding 'token_expiry' column to users table")
+        cursor.execute("ALTER TABLE users ADD COLUMN token_expiry TIMESTAMP")
     
     # Check if is_private column exists in user_stories table
     cursor.execute("PRAGMA table_info(user_stories)")
@@ -124,59 +144,149 @@ def get_db_connection():
 # User registration route
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    print("Login route accessed")
+    print("Register route accessed")
     if request.method == 'POST':
-        print("Login POST request received")
+        print("Register POST request received")
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
+        password_confirm = request.form['password_confirm']
+        
+        # Validate passwords match
+        if password != password_confirm:
+            flash(_('Passwords do not match.'))
+            return render_template('auth/register.html')
+        
+        # Validate password strength
+        if len(password) < 8:
+            flash(_('Password must be at least 8 characters long.'))
+            return render_template('auth/register.html')
+        
+        # Check for at least one uppercase, one lowercase, and one number
+        if not (any(c.isupper() for c in password) and 
+                any(c.islower() for c in password) and 
+                any(c.isdigit() for c in password)):
+            flash(_('Password must contain at least one uppercase letter, one lowercase letter, and one number.'))
+            return render_template('auth/register.html')
+        
         password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
         
         # Default values for new fields
         private = False
         auth_type = 'local'
+        email_verified = False
 
         conn = get_db_connection()
         cursor = conn.cursor()
+        
+        # Check if username or email already exists
+        existing_user = cursor.execute(
+            'SELECT id FROM users WHERE username = ? OR email = ?', 
+            (username, email)
+        ).fetchone()
+        
+        if existing_user:
+            conn.close()
+            flash(_('Username or email already exists.'))
+            return render_template('auth/register.html')
+        
+        # Insert new user
         cursor.execute('''
-        INSERT INTO users (username, email, password_hash, private, auth_type) 
-        VALUES (?, ?, ?, ?, ?)
-        ''', (username, email, password_hash, private, auth_type))
+        INSERT INTO users (username, email, password_hash, private, auth_type, email_verified) 
+        VALUES (?, ?, ?, ?, ?, ?)
+        ''', (username, email, password_hash, private, auth_type, email_verified))
+        
+        # Get the new user's ID
+        user_id = cursor.lastrowid
         conn.commit()
+        
+        # Generate verification token
+        token = set_verification_token(user_id)
+        
         conn.close()
 
-        # Send welcome email
+        # Send welcome email with verification link
         try:
-            send_welcome_email(email, username)
+            # Construct verification URL
+            config = load_config()
+            base_url = config['App']['url']
+            verification_url = f"{base_url}/auth/verify/{token}"
+            
+            send_welcome_email(email, username, verification_url)
+            
+            flash(_('Registration successful! Please check your email to verify your account.'))
+            return redirect(url_for('auth.registration_pending'))
         except Exception as e:
             print(f"Error sending welcome email: {e}")
-            # Don't fail registration if email fails
-
-        flash('Registration successful! Please log in.')
-        return redirect(url_for('auth.login'))
+            flash(_('Registration successful, but there was an error sending the verification email. Please contact support.'))
+            return redirect(url_for('auth.login'))
 
     return render_template('auth/register.html')
+
+# Registration pending route
+@auth_bp.route('/registration-pending')
+def registration_pending():
+    return render_template('auth/registration_pending.html')
+
+# Email verification route
+@auth_bp.route('/verify/<token>')
+def verify_email(token):
+    success, message = verify_token(token)
+    
+    if success:
+        # If user is logged in, update their session
+        if 'user_id' in session:
+            session['email_verified'] = True
+            
+        flash(_('Your email has been verified successfully! You can now log in and create stories.'))
+        return redirect(url_for('auth.email_verified'))
+    else:
+        flash(_(message))
+        return redirect(url_for('auth.verification_failed'))
+
+# Email verified confirmation page
+@auth_bp.route('/email-verified')
+def email_verified():
+    return render_template('auth/email_verified.html')
+
+# Verification failed page
+@auth_bp.route('/verification-failed')
+def verification_failed():
+    return render_template('auth/verification_failed.html')
 
 # User login route
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        username_or_email = request.form['username']
         password = request.form['password']
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        user = cursor.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        # Check if input matches username or email
+        user = cursor.execute('SELECT * FROM users WHERE username = ? OR email = ?', 
+                             (username_or_email, username_or_email)).fetchone()
         conn.close()
 
         if user and bcrypt.check_password_hash(user['password_hash'], password):
+            # Set session variables
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['credits'] = user['credits']
-            flash('Login successful!')
+            
+            # Check if email is verified and set a session flag
+            email_verified = bool(user['email_verified']) if 'email_verified' in user.keys() else False
+            session['email_verified'] = email_verified
+            
+            # Show appropriate message
+            if not email_verified:
+                flash(_('Login successful! Please verify your email address to create stories.'))
+            else:
+                flash(_('Login successful!'))
+                
             return redirect(url_for('main.index'))
         else:
-            flash('Invalid username or password.')
+            flash(_('Invalid username/email or password.'))
 
     return render_template('auth/login.html')
 
@@ -186,6 +296,7 @@ def logout():
     session.pop('user_id', None)
     session.pop('username', None)
     session.pop('credits', None)
+    session.pop('email_verified', None)
     flash('You have been logged out successfully.')
     return redirect(url_for('main.index'))
 
@@ -209,8 +320,84 @@ def profile():
         credits=session['credits'],
         private=user_info.get('private', False),
         preferred_language=user_info.get('preferred_language', 'en'),
+        email_verified=user_info.get('email_verified', False),
         user_stories=user_stories
     )
+
+# Resend verification email route
+@auth_bp.route('/resend-verification', methods=['GET', 'POST'])
+def resend_verification():
+    # If user is logged in, use their info directly
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user_info = get_user_info(user_id)
+        
+        # Check if email is already verified
+        if user_info.get('email_verified', False):
+            flash(_('Your email is already verified.'))
+            return redirect(url_for('auth.profile'))
+        
+        # Generate new verification token
+        token = set_verification_token(user_id)
+        
+        # Send verification email
+        try:
+            # Construct verification URL
+            config = load_config()
+            base_url = config['App']['url']
+            verification_url = f"{base_url}/auth/verify/{token}"
+            
+            send_welcome_email(user_info['email'], user_info['username'], verification_url)
+            
+            flash(_('Verification email has been resent. Please check your inbox.'))
+        except Exception as e:
+            print(f"Error sending verification email: {e}")
+            flash(_('Error sending verification email. Please try again later.'))
+        
+        return redirect(url_for('auth.profile'))
+    
+    # If user is not logged in, show a form to enter email
+    if request.method == 'POST':
+        email = request.form.get('email')
+        
+        # Find user by email
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        user = cursor.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        
+        if not user:
+            conn.close()
+            flash(_('No account found with that email address.'))
+            return render_template('auth/resend_verification.html')
+        
+        # Check if email is already verified
+        if user['email_verified']:
+            conn.close()
+            flash(_('This email is already verified. Please log in.'))
+            return redirect(url_for('auth.login'))
+        
+        # Generate new verification token
+        token = set_verification_token(user['id'])
+        conn.close()
+        
+        # Send verification email
+        try:
+            # Construct verification URL
+            config = load_config()
+            base_url = config['App']['url']
+            verification_url = f"{base_url}/auth/verify/{token}"
+            
+            send_welcome_email(email, user['username'], verification_url)
+            
+            flash(_('Verification email has been sent. Please check your inbox.'))
+            return redirect(url_for('auth.registration_pending'))
+        except Exception as e:
+            print(f"Error sending verification email: {e}")
+            flash(_('Error sending verification email. Please try again later.'))
+            return render_template('auth/resend_verification.html')
+    
+    # GET request - show the form
+    return render_template('auth/resend_verification.html')
 
 # Update profile route
 @auth_bp.route('/update-profile', methods=['POST'])
@@ -341,11 +528,92 @@ def add_user_story(user_id, story_filename, is_private=False, **kwargs):
     conn.commit()
     conn.close()
 
+# Function to generate a verification token
+def generate_verification_token(user_id):
+    """Generate a secure verification token"""
+    # Create a random component
+    random_component = secrets.token_urlsafe(32)
+    
+    # Combine with user ID and timestamp
+    timestamp = int(time.time())
+    data = f"{user_id}:{timestamp}:{random_component}"
+    
+    # Hash the data for security
+    token_hash = hashlib.sha256(data.encode()).hexdigest()
+    
+    return token_hash
+
+# Function to set verification token for a user
+def set_verification_token(user_id):
+    """Generate and store a verification token for a user"""
+    token = generate_verification_token(user_id)
+    
+    # Set token expiry to 24 hours from now
+    expiry = datetime.now() + timedelta(hours=24)
+    expiry_str = expiry.strftime('%Y-%m-%d %H:%M:%S')
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        'UPDATE users SET verification_token = ?, token_expiry = ? WHERE id = ?',
+        (token, expiry_str, user_id)
+    )
+    conn.commit()
+    conn.close()
+    
+    return token
+
+# Function to verify a token
+def verify_token(token):
+    """Verify a token and mark the user's email as verified if valid"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Find user with this token
+    user = cursor.execute(
+        'SELECT id, token_expiry FROM users WHERE verification_token = ?',
+        (token,)
+    ).fetchone()
+    
+    if not user:
+        conn.close()
+        return False, "Invalid verification token"
+    
+    # Check if token has expired
+    if user['token_expiry']:
+        expiry = datetime.strptime(user['token_expiry'], '%Y-%m-%d %H:%M:%S')
+        if expiry < datetime.now():
+            conn.close()
+            return False, "Verification token has expired"
+    
+    # Mark email as verified
+    cursor.execute(
+        'UPDATE users SET email_verified = 1, verification_token = NULL, token_expiry = NULL WHERE id = ?',
+        (user['id'],)
+    )
+    conn.commit()
+    conn.close()
+    
+    return True, "Email verified successfully"
+
+# Function to check if a user's email is verified
+def is_email_verified(user_id):
+    """Check if a user's email is verified"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    result = cursor.execute(
+        'SELECT email_verified FROM users WHERE id = ?',
+        (user_id,)
+    ).fetchone()
+    conn.close()
+    
+    return bool(result and result['email_verified'])
+
 # Function to get user information by user_id
 def get_user_info(user_id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    user = cursor.execute('SELECT id, username, email, private, auth_type, preferred_language FROM users WHERE id = ?', (user_id,)).fetchone()
+    user = cursor.execute('SELECT id, username, email, private, auth_type, preferred_language, email_verified FROM users WHERE id = ?', (user_id,)).fetchone()
     conn.close()
     
     if user:
@@ -355,6 +623,7 @@ def get_user_info(user_id):
             'email': user['email'],
             'private': bool(user['private']) if 'private' in user.keys() else False,
             'auth_type': user['auth_type'] if 'auth_type' in user.keys() else 'local',
-            'preferred_language': user['preferred_language'] if 'preferred_language' in user.keys() else 'en'
+            'preferred_language': user['preferred_language'] if 'preferred_language' in user.keys() else 'en',
+            'email_verified': bool(user['email_verified']) if 'email_verified' in user.keys() else False
         }
     return None

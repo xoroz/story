@@ -4,15 +4,80 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+<style>
+    .email-verification-status {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 8px;
+    }
+    
+    .verification-badge {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        border-radius: 8px;
+    }
+    
+    .verification-badge.verified {
+        background-color: #DFF2BF;
+        border: 1px solid #4F8A10;
+    }
+    
+    .verification-badge.unverified {
+        background-color: #FFBABA;
+        border: 1px solid #D8000C;
+    }
+    
+    .verification-icon {
+        font-size: 18px;
+        margin-right: 10px;
+    }
+    
+    .verification-badge.verified .verification-icon {
+        color: #4F8A10;
+    }
+    
+    .verification-badge.unverified .verification-icon {
+        color: #D8000C;
+    }
+    
+    .verification-text {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    
+    .verification-help {
+        margin: 10px 0;
+        font-size: 14px;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="profile-container card">
     <div class="card-header">User Profile</div>
     <div class="card-body">
-        <div class="profile-info">
-            <h2>Welcome, {{ username }}!</h2>
-            <p class="credits">Your remaining credits: <span class="credit-count">{{ credits }}</span></p>
+            <div class="profile-info">
+                <h2>Welcome, {{ username }}!</h2>
+                <p class="credits">Your remaining credits: <span class="credit-count">{{ credits }}</span></p>
+                
+                <div class="email-verification-status">
+                    {% if email_verified %}
+                        <div class="verification-badge verified">
+                            <span class="verification-icon">✓</span>
+                            <span class="verification-text">Email Verified</span>
+                        </div>
+                    {% else %}
+                        <div class="verification-badge unverified">
+                            <span class="verification-icon">!</span>
+                            <span class="verification-text">Email Not Verified</span>
+                            <p class="verification-help">You need to verify your email to create stories.</p>
+                            <a href="{{ url_for('auth.resend_verification') }}" class="btn btn-sm btn-primary">Resend Verification Email</a>
+                        </div>
+                    {% endif %}
+                </div>
             
             <div class="profile-settings">
                 <h3>Account Settings</h3>

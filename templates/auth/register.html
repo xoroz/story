@@ -4,13 +4,74 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+<style>
+    .password-requirements {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 5px;
+    }
+    
+    .password-strength {
+        height: 5px;
+        margin-top: 5px;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    
+    .strength-weak {
+        background-color: #ff4d4d;
+        width: 33%;
+    }
+    
+    .strength-medium {
+        background-color: #ffa64d;
+        width: 66%;
+    }
+    
+    .strength-strong {
+        background-color: #4CAF50;
+        width: 100%;
+    }
+    
+    .password-match-message {
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+    
+    .match-success {
+        color: #4CAF50;
+    }
+    
+    .match-error {
+        color: #ff4d4d;
+    }
+    
+    .requirement {
+        display: flex;
+        align-items: center;
+        margin-bottom: 3px;
+    }
+    
+    .requirement-icon {
+        margin-right: 5px;
+        font-size: 0.8rem;
+    }
+    
+    .requirement-met {
+        color: #4CAF50;
+    }
+    
+    .requirement-unmet {
+        color: #ff4d4d;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="card">
     <div class="card-header">Register</div>
     <div class="card-body">
-        <form method="POST" class="auth-form">
+        <form method="POST" class="auth-form" id="registerForm">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             
             <div class="form-group">
@@ -27,14 +88,152 @@
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" class="form-control" required
-                       minlength="8" title="Password must be at least 8 characters long">
+                       minlength="8">
+                <div class="password-strength" id="passwordStrength"></div>
+                <div class="password-requirements" id="passwordRequirements">
+                    <div class="requirement" id="lengthRequirement">
+                        <span class="requirement-icon requirement-unmet">✗</span> At least 8 characters
+                    </div>
+                    <div class="requirement" id="uppercaseRequirement">
+                        <span class="requirement-icon requirement-unmet">✗</span> At least one uppercase letter
+                    </div>
+                    <div class="requirement" id="lowercaseRequirement">
+                        <span class="requirement-icon requirement-unmet">✗</span> At least one lowercase letter
+                    </div>
+                    <div class="requirement" id="numberRequirement">
+                        <span class="requirement-icon requirement-unmet">✗</span> At least one number
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password_confirm">Confirm Password:</label>
+                <input type="password" id="password_confirm" name="password_confirm" class="form-control" required>
+                <div class="password-match-message" id="passwordMatchMessage"></div>
             </div>
             
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-primary" id="registerButton">Register</button>
             </div>
         </form>
         <p class="mt-3">Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('password_confirm');
+        const strengthIndicator = document.getElementById('passwordStrength');
+        const matchMessage = document.getElementById('passwordMatchMessage');
+        const registerButton = document.getElementById('registerButton');
+        const registerForm = document.getElementById('registerForm');
+        
+        // Password requirement elements
+        const lengthReq = document.getElementById('lengthRequirement');
+        const uppercaseReq = document.getElementById('uppercaseRequirement');
+        const lowercaseReq = document.getElementById('lowercaseRequirement');
+        const numberReq = document.getElementById('numberRequirement');
+        
+        // Check password strength and update UI
+        function checkPasswordStrength() {
+            const password = passwordInput.value;
+            let strength = 0;
+            let feedback = '';
+            
+            // Check requirements
+            const hasLength = password.length >= 8;
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasLowercase = /[a-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            
+            // Update requirement indicators
+            updateRequirement(lengthReq, hasLength);
+            updateRequirement(uppercaseReq, hasUppercase);
+            updateRequirement(lowercaseReq, hasLowercase);
+            updateRequirement(numberReq, hasNumber);
+            
+            // Calculate strength
+            if (hasLength) strength += 1;
+            if (hasUppercase) strength += 1;
+            if (hasLowercase) strength += 1;
+            if (hasNumber) strength += 1;
+            
+            // Update strength indicator
+            strengthIndicator.className = 'password-strength';
+            if (password.length === 0) {
+                strengthIndicator.style.width = '0';
+            } else if (strength < 3) {
+                strengthIndicator.classList.add('strength-weak');
+            } else if (strength === 3) {
+                strengthIndicator.classList.add('strength-medium');
+            } else {
+                strengthIndicator.classList.add('strength-strong');
+            }
+            
+            // Check if password meets minimum requirements
+            const isValid = hasLength && hasUppercase && hasLowercase && hasNumber;
+            passwordInput.setCustomValidity(isValid ? '' : 'Password does not meet requirements');
+            
+            // Check password match if confirm field has value
+            if (confirmInput.value) {
+                checkPasswordMatch();
+            }
+        }
+        
+        // Update requirement indicator
+        function updateRequirement(element, isMet) {
+            const icon = element.querySelector('.requirement-icon');
+            
+            if (isMet) {
+                icon.textContent = '✓';
+                icon.className = 'requirement-icon requirement-met';
+            } else {
+                icon.textContent = '✗';
+                icon.className = 'requirement-icon requirement-unmet';
+            }
+        }
+        
+        // Check if passwords match
+        function checkPasswordMatch() {
+            const password = passwordInput.value;
+            const confirm = confirmInput.value;
+            
+            if (!confirm) {
+                matchMessage.textContent = '';
+                matchMessage.className = 'password-match-message';
+                confirmInput.setCustomValidity('');
+                return;
+            }
+            
+            if (password === confirm) {
+                matchMessage.textContent = 'Passwords match';
+                matchMessage.className = 'password-match-message match-success';
+                confirmInput.setCustomValidity('');
+            } else {
+                matchMessage.textContent = 'Passwords do not match';
+                matchMessage.className = 'password-match-message match-error';
+                confirmInput.setCustomValidity('Passwords do not match');
+            }
+        }
+        
+        // Add event listeners
+        passwordInput.addEventListener('input', checkPasswordStrength);
+        confirmInput.addEventListener('input', checkPasswordMatch);
+        
+        // Form submission validation
+        registerForm.addEventListener('submit', function(event) {
+            // Validate password requirements
+            checkPasswordStrength();
+            
+            // Validate password match
+            checkPasswordMatch();
+            
+            // If form is invalid, prevent submission
+            if (!registerForm.checkValidity()) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 {% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Verification Failed - StoryMagic{% endblock %}
+
+{% block extra_css %}
+<style>
+    .verification-container {
+        background-color: var(--white);
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        padding: 30px;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .error-message {
+        background-color: #FFBABA;
+        color: #D8000C;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 18px;
+        border: 1px solid #D8000C;
+    }
+    
+    .verification-icon {
+        font-size: 64px;
+        color: #D8000C;
+        margin: 20px 0;
+    }
+    
+    .troubleshooting {
+        text-align: left;
+        margin: 25px 0;
+        padding: 0 20px;
+    }
+    
+    .troubleshooting li {
+        margin-bottom: 15px;
+    }
+    
+    .actions {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        .actions {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="verification-container">
+    <h1>Email Verification Failed</h1>
+    
+    <div class="verification-icon">✗</div>
+    
+    <div class="error-message">
+        We couldn't verify your email address. The verification link may be invalid or expired.
+    </div>
+    
+    <div class="troubleshooting">
+        <h3>Possible reasons:</h3>
+        <ul>
+            <li>The verification link has expired (links are valid for 24 hours)</li>
+            <li>The verification link was already used</li>
+            <li>The verification link is incorrect or incomplete</li>
+        </ul>
+    </div>
+    
+    <p>Please try requesting a new verification email by clicking the button below.</p>
+    
+    <div class="actions">
+        <a href="{{ url_for('auth.resend_verification') }}" class="btn btn-primary">Request New Verification Email</a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-accent">Return to Home</a>
+    </div>
+</div>
+{% endblock %}

@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.querySelector('form[action="/login"]');
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
-            const username = document.getElementById('username').value;
+            const usernameOrEmail = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            if (!username || !password) {
+            if (!usernameOrEmail || !password) {
                 event.preventDefault();
                 alert('Both fields are required.');
             }

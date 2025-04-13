@@ -1,14 +1,6 @@
 # Active Context
 
 ## Current Focus
- ok this is a big one, we need multilanguage on our site!
-lets add on main page navbar Language for now only: pt,it,en,es
-lets use flask_babel for it  
-lets create a very detailed plan so we do not break application!
-Also we need user to have in the DB what language is his default.
-we should get default lang from browser
-
-
 
 
 ## Brainstorm ideas, improvements
@@ -31,6 +23,65 @@ we should get default lang from browser
   - we will need to convert the webapp into android app 
 
 ## Recent Changes
+Improved Registration Form
+
+Added password confirmation field
+Implemented client-side password validation for:
+Matching passwords
+Minimum 8 characters
+At least one uppercase letter
+At least one lowercase letter
+At least one number
+Added visual password strength indicator
+Email Verification System
+
+Added email verification requirement before creating stories
+Created verification token generation and validation
+Implemented token expiration (24 hours)
+Added verification status to user profiles
+Email Templates
+
+Enhanced welcome email with verification link
+Created verification email template
+New Pages
+
+Registration pending page
+Email verification success page
+Verification failed page
+Resend verification page for non-logged-in users
+User Experience Improvements
+
+Added verification status indicator on profile page
+Allow users to log in with unverified emails (but restrict story creation)
+Added ability to resend verification emails
+Improved error handling for verification process
+Security Enhancements
+
+Secure token generation using cryptographic methods
+Token expiration to prevent security issues
+Server-side validation of password requirements
+The system now properly guides users through the registration and verification process, ensuring email addresses are valid before allowing story creation while maintaining a smooth user experienc
+
+Login Enhancement Completed
+I've successfully implemented the ability to log in using either username or email. Here's what was changed:
+
+1. Updated Login Form
+Changed the form label from "Username:" to "Username/Email:" in the login template
+Added proper translation markers for multilanguage support
+2. Modified Authentication Logic
+Updated the login route in auth.py to check for matches in both username and email fields
+The SQL query now uses WHERE username = ? OR email = ? to allow either type of credential
+Updated the error message to reflect the new login options
+Fixed the import for the translation function to use from flask_babel import gettext as _
+3. Updated Client-Side Validation
+Modified the JavaScript validation in auth.js to use a more appropriate variable name
+The validation still ensures both fields are filled before submission
+4. Added Multilanguage Support
+Added translations for "Username/Email:" and the updated error message in:
+Spanish: "Usuario/Email:" and "Usuario/email o contraseña inválidos."
+Portuguese: "Usuário/Email:" and "Usuário/email ou senha inválidos."
+Italian: "Nome utente/Email:" and "Nome utente/email o password non validi."
+
 - improve the create story form, we need to limit input chars on title and Main Characters  to 40.
 lets create a random button on the very top to fill entire form with 8 random, pre-created and defined inside config.ini under [App] example_stories It should be able to populate all fields!
 Multilanguage Support Implementation Complete

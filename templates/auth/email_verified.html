@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Email Verified - StoryMagic{% endblock %}
+
+{% block extra_css %}
+<style>
+    .verification-container {
+        background-color: var(--white);
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        padding: 30px;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .success-message {
+        background-color: #DFF2BF;
+        color: #4F8A10;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 18px;
+        border: 1px solid #4F8A10;
+    }
+    
+    .verification-icon {
+        font-size: 64px;
+        color: #4F8A10;
+        margin: 20px 0;
+    }
+    
+    .actions {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        .actions {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="verification-container">
+    <h1>Email Verified Successfully!</h1>
+    
+    <div class="verification-icon">✓</div>
+    
+    <div class="success-message">
+        Your email has been verified successfully. You can now log in and start creating stories!
+    </div>
+    
+    <p>Thank you for verifying your email address. Your account is now fully activated, and you can enjoy all the features of StoryMagic.</p>
+    
+    <div class="actions">
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Log In</a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-accent">Return to Home</a>
+    </div>
+</div>
+{% endblock %}

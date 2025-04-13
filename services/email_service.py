@@ -180,13 +180,14 @@ def send_story_notification(email, name, title, story_about, link):
         personalization_data=personalization_data
     )
 
-def send_welcome_email(email, username):
+def send_welcome_email(email, username, verification_url=None):
     """
-    Send a welcome email to a new user
+    Send a welcome email to a new user with optional verification link
     
     Args:
         email: User's email address
         username: User's username
+        verification_url: URL for email verification (optional)
         
     Returns:
         bool: True if successful, False otherwise
@@ -201,6 +202,11 @@ def send_welcome_email(email, username):
     personalization_data = {
         "username": username
     }
+    
+    # Add verification URL if provided
+    if verification_url:
+        personalization_data["validate_link"] = verification_url
+        logger.info(f"Including verification link: {verification_url}")
     
     # Send the email
     return send_email_with_mailersend(
