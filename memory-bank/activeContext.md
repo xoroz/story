@@ -1,6 +1,14 @@
 # Active Context
 
 ## Current Focus
+  we should have another audio option called []enhanced audio in the create_story
+  if this option is selected it should use more credits (3 instead of 1).
+  when selected backend  (Story_process) should use elevenlabs api for voice 
+  we will need to add the voice/persona matching the language inside the configi.ini under
+  [audio] voice_lang_pt,voice_lang_en... 
+  If enhaced_audio was selected we need to tell the ai that will create the story to create enhanced audio support but we must not display on the html page the audio enhanced tags.
+  also using enhanced_audio we most likely will not need to use ffmpeg to break into chunks since eleven labs
+  restriction is different.
 
 
 ## Brainstorm ideas, improvements
@@ -15,7 +23,7 @@
  - we need new addon github external auth option 
  - we need overhaul entire app for production deployment:
   1. change from flask web server to prod options fine tune for heavy load (config browser cache static, and webserver ram cahce static content)
-  2. security checks before going to prod, limit forms max input chars, defend for input buffers
+  OK 2. security checks before going to prod, limit forms max input chars, defend for input buffers
   3. create robots.txt to index on google and others
   4. setup all its need for SEO web search highest standard
   - we need to auto export/publish on different plataforms like spotify channel/ youtube channel / x.com , we would need one channel per language, this could be a complex task and we must do one plataform at a time.
@@ -23,111 +31,30 @@
   - we will need to convert the webapp into android app 
 
 ## Recent Changes
-Improved Registration Form
+Implemented an About section with version information, recent changes, project details, and a contact form with human verification. 
 
-Added password confirmation field
-Implemented client-side password validation for:
-Matching passwords
-Minimum 8 characters
-At least one uppercase letter
-At least one lowercase letter
-At least one number
-Added visual password strength indicator
+Improved Registration Form
+ 
 Email Verification System
 
-Added email verification requirement before creating stories
-Created verification token generation and validation
-Implemented token expiration (24 hours)
-Added verification status to user profiles
-Email Templates
-
 Enhanced welcome email with verification link
-Created verification email template
-New Pages
 
-Registration pending page
-Email verification success page
-Verification failed page
-Resend verification page for non-logged-in users
-User Experience Improvements
+Security Enhancements, ecure token generation using cryptographic methods
 
-Added verification status indicator on profile page
-Allow users to log in with unverified emails (but restrict story creation)
-Added ability to resend verification emails
-Improved error handling for verification process
-Security Enhancements
+Login Enhancement Completed ability to log in using either username or email. Here's what was changed:
 
-Secure token generation using cryptographic methods
-Token expiration to prevent security issues
-Server-side validation of password requirements
-The system now properly guides users through the registration and verification process, ensuring email addresses are valid before allowing story creation while maintaining a smooth user experienc
+Updated Login Form hanged the form label from "Username:" to "Username/Email:" in the login template
 
-Login Enhancement Completed
-I've successfully implemented the ability to log in using either username or email. Here's what was changed:
-
-1. Updated Login Form
-Changed the form label from "Username:" to "Username/Email:" in the login template
 Added proper translation markers for multilanguage support
-2. Modified Authentication Logic
-Updated the login route in auth.py to check for matches in both username and email fields
-The SQL query now uses WHERE username = ? OR email = ? to allow either type of credential
-Updated the error message to reflect the new login options
-Fixed the import for the translation function to use from flask_babel import gettext as _
-3. Updated Client-Side Validation
-Modified the JavaScript validation in auth.js to use a more appropriate variable name
-The validation still ensures both fields are filled before submission
-4. Added Multilanguage Support
-Added translations for "Username/Email:" and the updated error message in:
-Spanish: "Usuario/Email:" and "Usuario/email o contraseña inválidos."
-Portuguese: "Usuário/Email:" and "Usuário/email ou senha inválidos."
-Italian: "Nome utente/Email:" and "Nome utente/email o password non validi."
 
-- improve the create story form, we need to limit input chars on title and Main Characters  to 40.
-lets create a random button on the very top to fill entire form with 8 random, pre-created and defined inside config.ini under [App] example_stories It should be able to populate all fields!
-Multilanguage Support Implementation Complete
-I've successfully implemented multilanguage support for the StoryMagic application with the following languages:
+Added Multilanguage Support using flask_babel Created babel.cfg configuration file
 
-English (en) - Default
-Spanish (es)
-Portuguese (pt)
-Italian (it)
-What was implemented:
-Flask-Babel Integration:
+improved the create story form, limit input chars on title and Main Characters  to 40.
+lets create a random button on the very top to fill entire form with 8 random, pre-created and defined inside 
 
-Configured Flask-Babel with supported languages
-Implemented locale selection based on user preferences and browser settings
-Fixed an issue with the Babel API by updating the locale selector implementation
-User Interface Updates:
-
-Added language selectors in the navigation bar
-Updated CSS to ensure proper display of language dropdown options
-Added language preference setting in user profiles
-Template Internationalization:
-
-Updated base.html with translation markers
-Updated index.html with translation markers
-Updated create_story.html with translation markers for all form elements
-Translation Management:
-
-Created babel.cfg configuration file
-Set up extract_translations.sh and compile_translations.sh scripts
-Created translation files for English, Spanish, Portuguese, and Italian
-Implemented update scripts for each language to easily maintain translations
 Database Support:
 
 Added preferred_language field to the users table
-Updated user profile page to allow setting preferred language
-Implemented language persistence in user sessions
-Documentation:
-
-Created MULTILANGUAGE_SUPPORT.md with detailed documentation
-Documented the translation process and how to add new languages
-The multilanguage system is now fully functional. Users can:
-
-Change the site language using the dropdown in the navigation bar
-Set their preferred language in their profile settings
-Create stories in different languages
-View the interface in their preferred language
 
 
 ### Email Notification System Integration (April 7, 2025)

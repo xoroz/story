@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-13 04:11+0200\n"
-"PO-Revision-Date: 2025-04-13 04:11+0200\n"
+"POT-Creation-Date: 2025-04-15 15:21+0200\n"
+"PO-Revision-Date: 2025-04-15 15:21+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
 "Language-Team: it <LL@li.org>\n"
@@ -16,17 +16,85 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: auth.py:181
+#: auth.py:157
+msgid "Passwords do not match."
+msgstr ""
+
+#: auth.py:162
+msgid "Password must be at least 8 characters long."
+msgstr ""
+
+#: auth.py:169
+msgid ""
+"Password must contain at least one uppercase letter, one lowercase "
+"letter, and one number."
+msgstr ""
+
+#: auth.py:190
+msgid "Username or email already exists."
+msgstr ""
+
+#: auth.py:217
+msgid "Registration successful! Please check your email to verify your account."
+msgstr ""
+
+#: auth.py:221
+msgid ""
+"Registration successful, but there was an error sending the verification "
+"email. Please contact support."
+msgstr ""
+
+#: auth.py:241
+msgid ""
+"Your email has been verified successfully! You can now log in and create "
+"stories."
+msgstr ""
+
+#: auth.py:283
+msgid "Login successful! Please verify your email address to create stories."
+msgstr ""
+
+#: auth.py:285
+msgid "Login successful!"
+msgstr ""
+
+#: auth.py:289
 msgid "Invalid username/email or password."
 msgstr "Nome utente/email o password non validi."
 
+#: auth.py:337
+msgid "Your email is already verified."
+msgstr ""
+
+#: auth.py:352
+msgid "Verification email has been resent. Please check your inbox."
+msgstr ""
+
+#: auth.py:355 auth.py:396
+msgid "Error sending verification email. Please try again later."
+msgstr ""
+
+#: auth.py:370
+msgid "No account found with that email address."
+msgstr ""
+
+#: auth.py:376
+msgid "This email is already verified. Please log in."
+msgstr ""
+
+#: auth.py:392
+msgid "Verification email has been sent. Please check your inbox."
+msgstr ""
+
 #: lib/python3.12/site-packages/click/_termui_impl.py:556
+#, python-brace-format
 msgid "{editor}: Editing failed"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/_termui_impl.py:560
+#, python-brace-format
 msgid "{editor}: Editing failed: {e}"
 msgstr ""
 
@@ -36,6 +104,7 @@ msgstr ""
 
 #: lib/python3.12/site-packages/click/core.py:1349
 #: lib/python3.12/site-packages/click/core.py:1379
+#, python-brace-format
 msgid "(Deprecated) {text}"
 msgstr ""
 
@@ -43,13 +112,15 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: lib/python3.12/site-packages/click/core.py:1424
+#: lib/python3.12/site-packages/click/core.py:1422
+#, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python3.12/site-packages/click/core.py:1437
+#: lib/python3.12/site-packages/click/core.py:1438
+#, python-brace-format
 msgid "DeprecationWarning: The command {name!r} is deprecated."
 msgstr ""
 
@@ -62,6 +133,7 @@ msgid "Missing command."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/core.py:1755
+#, python-brace-format
 msgid "No such command {name!r}."
 msgstr ""
 
@@ -69,13 +141,15 @@ msgstr ""
 msgid "Value must be an iterable."
 msgstr ""
 
-#: lib/python3.12/site-packages/click/core.py:2336
+#: lib/python3.12/site-packages/click/core.py:2334
+#, python-brace-format
 msgid "Takes {nargs} values but 1 was given."
 msgid_plural "Takes {nargs} values but {len} were given."
 msgstr[0] ""
 msgstr[1] ""
 
 #: lib/python3.12/site-packages/click/core.py:2783
+#, python-brace-format
 msgid "env var: {var}"
 msgstr ""
 
@@ -84,6 +158,7 @@ msgid "(dynamic)"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/core.py:2828
+#, python-brace-format
 msgid "default: {default}"
 msgstr ""
 
@@ -106,18 +181,22 @@ msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:49
 #: lib/python3.12/site-packages/click/exceptions.py:88
+#, python-brace-format
 msgid "Error: {message}"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:80
+#, python-brace-format
 msgid "Try '{command} {option}' for help."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:129
+#, python-brace-format
 msgid "Invalid value: {message}"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:131
+#, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
 msgstr ""
 
@@ -134,18 +213,22 @@ msgid "Missing parameter"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:193
+#, python-brace-format
 msgid "Missing {param_type}"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:200
+#, python-brace-format
 msgid "Missing parameter: {param_name}"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:220
+#, python-brace-format
 msgid "No such option: {name}"
 msgstr ""
 
-#: lib/python3.12/site-packages/click/exceptions.py:234
+#: lib/python3.12/site-packages/click/exceptions.py:232
+#, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
 msgstr[0] ""
@@ -156,6 +239,7 @@ msgid "unknown error"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/exceptions.py:277
+#, python-brace-format
 msgid "Could not open file {filename!r}: {message}"
 msgstr ""
 
@@ -164,20 +248,23 @@ msgid "Usage:"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/parser.py:233
+#, python-brace-format
 msgid "Argument {name!r} takes {nargs} values."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/parser.py:415
+#, python-brace-format
 msgid "Option {name!r} does not take a value."
 msgstr ""
 
-#: lib/python3.12/site-packages/click/parser.py:475
+#: lib/python3.12/site-packages/click/parser.py:476
+#, python-brace-format
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python3.12/site-packages/click/shell_completion.py:325
+#: lib/python3.12/site-packages/click/shell_completion.py:326
 msgid "Shell completion is not supported for Bash versions older than 4.4."
 msgstr ""
 
@@ -194,6 +281,7 @@ msgid "Error: The value you entered was invalid."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/termui.py:176
+#, python-brace-format
 msgid "Error: {e.message}"
 msgstr ""
 
@@ -210,36 +298,43 @@ msgid "Press any key to continue..."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:267
+#, python-brace-format
 msgid ""
 "Choose from:\n"
 "\t{choices}"
 msgstr ""
 
-#: lib/python3.12/site-packages/click/types.py:301
+#: lib/python3.12/site-packages/click/types.py:299
+#, python-brace-format
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python3.12/site-packages/click/types.py:395
+#: lib/python3.12/site-packages/click/types.py:393
+#, python-brace-format
 msgid "{value!r} does not match the format {format}."
 msgid_plural "{value!r} does not match the formats {formats}."
 msgstr[0] ""
 msgstr[1] ""
 
 #: lib/python3.12/site-packages/click/types.py:415
+#, python-brace-format
 msgid "{value!r} is not a valid {number_type}."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:471
+#, python-brace-format
 msgid "{value} is not in the range {range}."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:612
+#, python-brace-format
 msgid "{value!r} is not a valid boolean."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:636
+#, python-brace-format
 msgid "{value!r} is not a valid UUID."
 msgstr ""
 
@@ -256,30 +351,37 @@ msgid "path"
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:881
+#, python-brace-format
 msgid "{name} {filename!r} does not exist."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:890
+#, python-brace-format
 msgid "{name} {filename!r} is a file."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:898
+#, python-brace-format
 msgid "{name} {filename!r} is a directory."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:907
+#, python-brace-format
 msgid "{name} {filename!r} is not readable."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:916
+#, python-brace-format
 msgid "{name} {filename!r} is not writable."
 msgstr ""
 
 #: lib/python3.12/site-packages/click/types.py:925
+#, python-brace-format
 msgid "{name} {filename!r} is not executable."
 msgstr ""
 
-#: lib/python3.12/site-packages/click/types.py:991
+#: lib/python3.12/site-packages/click/types.py:992
+#, python-brace-format
 msgid "{len_type} values are required, but {len_value} was given."
 msgid_plural "{len_type} values are required, but {len_value} were given."
 msgstr[0] ""
@@ -291,7 +393,8 @@ msgstr[1] ""
 msgid "This field is required."
 msgstr ""
 
-#: lib/python3.12/site-packages/flask_wtf/file.py:93
+#: lib/python3.12/site-packages/flask_wtf/file.py:94
+#, python-brace-format
 msgid "File does not have an approved extension: {extensions}"
 msgstr ""
 
@@ -338,28 +441,28 @@ msgstr ""
 msgid "Field must be equal to %(other_name)s."
 msgstr ""
 
-#: lib/python3.12/site-packages/wtforms/validators.py:145
+#: lib/python3.12/site-packages/wtforms/validators.py:146
 #, python-format
 msgid "Field must be at least %(min)d character long."
 msgid_plural "Field must be at least %(min)d characters long."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python3.12/site-packages/wtforms/validators.py:151
+#: lib/python3.12/site-packages/wtforms/validators.py:152
 #, python-format
 msgid "Field cannot be longer than %(max)d character."
 msgid_plural "Field cannot be longer than %(max)d characters."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python3.12/site-packages/wtforms/validators.py:157
+#: lib/python3.12/site-packages/wtforms/validators.py:158
 #, python-format
 msgid "Field must be exactly %(max)d character long."
 msgid_plural "Field must be exactly %(max)d characters long."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python3.12/site-packages/wtforms/validators.py:163
+#: lib/python3.12/site-packages/wtforms/validators.py:164
 #, python-format
 msgid "Field must be between %(min)d and %(max)d characters long."
 msgstr ""
@@ -450,11 +553,11 @@ msgstr ""
 msgid "Not a valid choice."
 msgstr ""
 
-#: lib/python3.12/site-packages/wtforms/fields/choices.py:193
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:194
 msgid "Invalid choice(s): one or more data inputs could not be coerced."
 msgstr ""
 
-#: lib/python3.12/site-packages/wtforms/fields/choices.py:214
+#: lib/python3.12/site-packages/wtforms/fields/choices.py:212
 #, python-format
 msgid "'%(value)s' is not a valid choice for this field."
 msgid_plural "'%(value)s' are not valid choices for this field."
@@ -490,45 +593,198 @@ msgstr ""
 msgid "Not a valid float value."
 msgstr ""
 
-#: templates/base.html:7 templates/base.html:26 templates/base.html:80
-#: templates/base.html:137 templates/index.html:72
+#: routes/main_routes.py:127
+msgid "Please enter your name"
+msgstr "Per favore, inserisci il tuo nome"
+
+#: routes/main_routes.py:129
+msgid "Please enter a valid email address"
+msgstr "Per favore, inserisci un indirizzo email valido"
+
+#: routes/main_routes.py:131
+msgid "Please enter a message"
+msgstr "Per favore, inserisci un messaggio"
+
+#: routes/main_routes.py:133
+msgid "Please answer the verification question"
+msgstr "Per favore, rispondi alla domanda di verifica"
+
+#: routes/main_routes.py:140
+msgid "Incorrect answer to verification question"
+msgstr "Risposta errata alla domanda di verifica"
+
+#: routes/main_routes.py:142
+msgid "Please enter a valid number for verification"
+msgstr "Per favore, inserisci un numero valido per la verifica"
+
+#: routes/main_routes.py:154
+msgid "Thank you for your message! We will get back to you soon."
+msgstr "Grazie per il tuo messaggio! Ti risponderemo presto."
+
+#: routes/main_routes.py:156
+msgid "There was an error sending your message. Please try again later."
+msgstr "C'è stato un errore nell'invio del messaggio. Per favore, riprova più tardi."
+
+#: templates/about.html:3 templates/about.html:105
+msgid "About StoryMagic"
+msgstr "Chi Siamo - StoryMagic"
+
+#: templates/about.html:109
+msgid "Version Information"
+msgstr "Informazioni sulla Versione"
+
+#: templates/about.html:110
+msgid "Current Version"
+msgstr "Versione Attuale"
+
+#: templates/about.html:114
+msgid "Project Overview"
+msgstr "Panoramica del Progetto"
+
+#: templates/about.html:116
+msgid ""
+"StoryMagic is an AI-powered children's story generator that creates "
+"personalized stories based on your preferences."
+msgstr ""
+
+#: templates/about.html:118
+msgid ""
+"Our mission is to inspire creativity and a love of reading in children "
+"through personalized storytelling experiences that are educational, "
+"engaging, and tailored to each child's interests."
+msgstr ""
+
+#: templates/about.html:120
+msgid "Key Features"
+msgstr "Caratteristiche Principali"
+
+#: templates/about.html:122
+msgid "Personalized stories based on age range, theme, and educational lessons"
+msgstr "Storie personalizzate basate su fascia d'età, tema e lezioni educative"
+
+#: templates/about.html:123
+msgid "Multiple language support (English, Spanish, Italian, Portuguese)"
+msgstr "Supporto multilingue (Inglese, Spagnolo, Italiano, Portoghese)"
+
+#: templates/about.html:124
+msgid "Audio narration for an immersive experience"
+msgstr "Narrazione audio per un'esperienza immersiva"
+
+#: templates/about.html:125
+msgid "Various AI models to generate diverse storytelling styles"
+msgstr "Vari modelli di IA per generare diversi stili di narrazione"
+
+#: templates/about.html:126
+msgid "User accounts to save and manage your stories"
+msgstr "Account utente per salvare e gestire le tue storie"
+
+#: templates/about.html:129
+msgid "How to Use StoryMagic"
+msgstr "Come Usare StoryMagic"
+
+#: templates/about.html:131
+msgid "Create an account or log in"
+msgstr "Crea un account o accedi"
+
+#: templates/about.html:132
+msgid "Click \"Create Story\" in the navigation menu"
+msgstr "Clicca su \"Crea Storia\" nel menu di navigazione"
+
+#: templates/about.html:133
+msgid "Fill out the story preferences form"
+msgstr "Compila il modulo delle preferenze della storia"
+
+#: templates/about.html:134
+msgid "Wait while our AI generates your personalized story"
+msgstr "Attendi mentre la nostra IA genera la tua storia personalizzata"
+
+#: templates/about.html:135
+msgid "Enjoy your story with optional audio narration"
+msgstr "Goditi la tua storia con narrazione audio opzionale"
+
+#: templates/about.html:136
+msgid "Rate the story and create more!"
+msgstr "Valuta la storia e creane altre!"
+
+#: templates/about.html:142
+msgid "Recent Changes"
+msgstr "Modifiche Recenti"
+
+#: templates/about.html:149
+msgid "No recent changes to display."
+msgstr "Nessuna modifica recente da visualizzare."
+
+#: templates/about.html:155
+msgid "Contact Us"
+msgstr "Contattaci"
+
+#: templates/about.html:161
+msgid "Your Name"
+msgstr "Il Tuo Nome"
+
+#: templates/about.html:166
+msgid "Your Email"
+msgstr "La Tua Email"
+
+#: templates/about.html:171
+msgid "Message"
+msgstr "Messaggio"
+
+#: templates/about.html:176
+msgid "Human Verification"
+msgstr "Verifica Umana"
+
+#: templates/about.html:178
+msgid "Please solve this simple math problem to verify you are human."
+msgstr "Per favore, risolvi questo semplice problema matematico per verificare che sei umano."
+
+#: templates/about.html:181
+msgid "Send Message"
+msgstr "Invia Messaggio"
+
+#: templates/base.html:7 templates/base.html:26 templates/base.html:81
+#: templates/base.html:139 templates/index.html:72
 msgid "StoryMagic"
 msgstr "StoryMagic"
 
-#: templates/base.html:33 templates/base.html:85
+#: templates/base.html:33 templates/base.html:86
 msgid "Home"
 msgstr "Home"
 
-#: templates/base.html:34 templates/base.html:86
+#: templates/base.html:34 templates/base.html:87
 #: templates/create_story.html:152
 msgid "Create Story"
 msgstr "Crea Storia"
 
-#: templates/base.html:35 templates/base.html:87 templates/index.html:95
+#: templates/base.html:35 templates/base.html:88 templates/index.html:95
 msgid "View Stories"
 msgstr "Visualizza Storie"
 
-#: templates/base.html:41 templates/base.html:91
+#: templates/base.html:36 templates/base.html:89 templates/base.html:139
+msgid "About"
+msgstr "Chi Siamo"
+
+#: templates/base.html:42 templates/base.html:93
 msgid "Login"
 msgstr "Accedi"
 
-#: templates/base.html:42 templates/base.html:92
+#: templates/base.html:43 templates/base.html:94
 msgid "Register"
 msgstr "Registrati"
 
-#: templates/base.html:54 templates/base.html:94
+#: templates/base.html:55 templates/base.html:96
 msgid "Credits"
 msgstr "Crediti"
 
-#: templates/base.html:55 templates/base.html:95
+#: templates/base.html:56 templates/base.html:97
 msgid "Profile"
 msgstr "Profilo"
 
-#: templates/base.html:56 templates/base.html:96
+#: templates/base.html:57 templates/base.html:98
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:136
+#: templates/base.html:138
 msgid "StoryMagic - AI-Powered Stories for Little Imaginations"
 msgstr "StoryMagic - Storie Alimentate dall'IA per Piccole Immaginazioni"
 

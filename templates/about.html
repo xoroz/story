@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('About StoryMagic') }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-section {
+        margin-bottom: 2rem;
+    }
+    
+    .about-section h2 {
+        color: #4a6fa5;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #eaeaea;
+        padding-bottom: 0.5rem;
+    }
+    
+    .version-info {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .version-badge {
+        display: inline-block;
+        background-color: #4a6fa5;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: bold;
+        margin-left: 0.5rem;
+    }
+    
+    .recent-changes {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .recent-changes ul {
+        padding-left: 1.5rem;
+    }
+    
+    .recent-changes li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .contact-form {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 5px;
+        margin-top: 2rem;
+    }
+    
+    .contact-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .contact-form textarea {
+        min-height: 150px;
+    }
+    
+    .verification-question {
+        background-color: #e9f0f8;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+    }
+    
+    .submit-button {
+        background-color: #4a6fa5;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .submit-button:hover {
+        background-color: #3a5a80;
+    }
+    
+    .project-info {
+        line-height: 1.6;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ _('About StoryMagic') }}</h1>
+    
+    <div class="about-section">
+        <div class="version-info">
+            <h2>{{ _('Version Information') }}</h2>
+            <p>{{ _('Current Version') }}: <span class="version-badge">{{ version }}</span></p>
+        </div>
+        
+        <div class="about-section">
+            <h2>{{ _('Project Overview') }}</h2>
+            <div class="project-info">
+                <p>{{ _('StoryMagic is an AI-powered children\'s story generator that creates personalized stories based on your preferences.') }}</p>
+                
+                <p>{{ _('Our mission is to inspire creativity and a love of reading in children through personalized storytelling experiences that are educational, engaging, and tailored to each child\'s interests.') }}</p>
+                
+                <h3>{{ _('Key Features') }}:</h3>
+                <ul>
+                    <li>{{ _('Personalized stories based on age range, theme, and educational lessons') }}</li>
+                    <li>{{ _('Multiple language support (English, Spanish, Italian, Portuguese)') }}</li>
+                    <li>{{ _('Audio narration for an immersive experience') }}</li>
+                    <li>{{ _('Various AI models to generate diverse storytelling styles') }}</li>
+                    <li>{{ _('User accounts to save and manage your stories') }}</li>
+                </ul>
+                
+                <h3>{{ _('How to Use StoryMagic') }}:</h3>
+                <ol>
+                    <li>{{ _('Create an account or log in') }}</li>
+                    <li>{{ _('Click "Create Story" in the navigation menu') }}</li>
+                    <li>{{ _('Fill out the story preferences form') }}</li>
+                    <li>{{ _('Wait while our AI generates your personalized story') }}</li>
+                    <li>{{ _('Enjoy your story with optional audio narration') }}</li>
+                    <li>{{ _('Rate the story and create more!') }}</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2>{{ _('Recent Changes') }}</h2>
+            <div class="recent-changes">
+                {% if recent_changes %}
+                    {% for change in recent_changes %}
+                        <p>{{ change }}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>{{ _('No recent changes to display.') }}</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2>{{ _('Contact Us') }}</h2>
+            <div class="contact-form">
+                <form action="{{ url_for('main.contact') }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <div class="form-group">
+                        <label for="name">{{ _('Your Name') }}:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">{{ _('Your Email') }}:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">{{ _('Message') }}:</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <div class="form-group verification-question">
+                        <label for="verification">{{ _('Human Verification') }}: {{ verification_question }} = ?</label>
+                        <input type="number" id="verification" name="verification" required>
+                        <small>{{ _('Please solve this simple math problem to verify you are human.') }}</small>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">{{ _('Send Message') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

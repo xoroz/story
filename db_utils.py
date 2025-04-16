@@ -9,7 +9,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("db_utils.log"),
+        logging.FileHandler("logs/db_utils.log"),
         logging.StreamHandler()
     ]
 )

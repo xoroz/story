@@ -33,6 +33,7 @@
                     <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
                     <li><a href="{{ url_for('story.create_story') }}">{{ _('Create Story') }}</a></li>
                     <li><a href="{{ url_for('story.list_stories') }}">{{ _('View Stories') }}</a></li>
+                    <li><a href="{{ url_for('main.about') }}">{{ _('About') }}</a></li>
                 </ul>
             </nav>
             <nav class="user-nav">
@@ -85,6 +86,7 @@
                     <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
                     <li><a href="{{ url_for('story.create_story') }}">{{ _('Create Story') }}</a></li>
                     <li><a href="{{ url_for('story.list_stories') }}">{{ _('View Stories') }}</a></li>
+                    <li><a href="{{ url_for('main.about') }}">{{ _('About') }}</a></li>
                     
                     <!-- Authentication links for mobile -->
                     {% if 'user_id' not in session %}
@@ -134,7 +136,7 @@
             <div class="footer-content">
                 <div class="footer-info">
                     <p>{{ _('StoryMagic - AI-Powered Stories for Little Imaginations') }}</p>
-                    <p>&copy; 2025 {{ _('StoryMagic') }}</p>
+                    <p>&copy; 2025 {{ _('StoryMagic') }} | <a href="{{ url_for('main.about') }}">{{ _('About') }}</a></p>
                 </div>
             </div>
         </div>

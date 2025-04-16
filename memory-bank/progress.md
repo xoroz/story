@@ -87,6 +87,14 @@
 
 ## Recent Milestones
 
+### April 15, 2025
+- Added About page with version information, project details, and recent changes
+- Implemented contact form with human verification (math question)
+- Created email functionality to send contact form submissions without templates
+- Updated navigation to include About link in desktop, mobile, and footer
+- Added version information to config.ini
+- Fixed email sending functionality to work without templates
+
 ### April 7, 2025
 - Improved email notification system by integrating it with story_processor.py
 - Renamed send-email.py to send_email.py to make it importable as a module
