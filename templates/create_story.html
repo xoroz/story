@@ -4,27 +4,16 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
-<style>
-.random-story-container {
-    text-align: right;
-    margin-bottom: 20px;
-}
-</style>
 {% endblock %}
 
 {% block content %}
 <h1>{% if prefill %}{{ _('Recreate') }}{% else %}{{ _('Create') }}{% endif %} {{ _('a Magical Story') }}</h1>
 
-<div class="random-story-container">
+<div class="random-story-container" style="text-align: right; margin-bottom: 20px;">
     <button type="button" id="random-story-btn" class="btn btn-outline-primary">
         {{ _('Fill with Random Story') }}
     </button>
 </div>
-
-<script>
-    // Store example stories in a JavaScript variable
-    var exampleStories = {{ example_stories|tojson|safe }};
-</script>
 
 <form method="POST" action="{{ url_for('story.create_story') }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -107,6 +96,12 @@
                     {{ _('Generate audio narration') }}
                 </label>
             </div>
+            <div class="form-check ms-4">
+                <input class="form-check-input" type="checkbox" value="true" id="enhanced_audio" name="enhanced_audio" disabled>
+                <label class="form-check-label" for="enhanced_audio">
+                    {{ _('Enhanced audio narration (higher quality, uses 3 credits)') }}
+                </label>
+            </div>
             
             <div class="form-check mt-3">
                 <input class="form-check-input" type="checkbox" value="true" id="is_private" name="is_private">
@@ -156,4 +151,20 @@
 
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/form-handlers.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var enableAudio = document.getElementById('enable_audio');
+  var enhancedAudio = document.getElementById('enhanced_audio');
+  function toggleEnhanced() {
+    if (enableAudio && enhancedAudio) {
+      enhancedAudio.disabled = !enableAudio.checked;
+      if (!enableAudio.checked) enhancedAudio.checked = false;
+    }
+  }
+  if (enableAudio) {
+    enableAudio.addEventListener('change', toggleEnhanced);
+    toggleEnhanced();
+  }
+});
+</script>
 {% endblock %}

@@ -93,12 +93,17 @@
                     data-language="{{ story.language or '' }}"
                     data-has-audio="{{ 'true' if story.has_audio else 'false' }}"
                     data-username="{{ story.username or '' }}">
-                    <td>
-                        {% if story.has_audio %}
-                        <input type="checkbox" class="story-select" data-audio-path="{{ url_for('story.get_audio', filename=story.request_id + '.mp3') }}">
-                        {% endif %}
+        <td class="select-col">
+          <input type="checkbox" class="story-select" data-story-id="{{ story.request_id }}">
+        </td>
+        <td>
+          {% if story.has_audio %}
+            <span class="audio-icon" title="Audio available">🔊</span>
+          {% endif %}
+        </td>
+                    <td class="story-title-cell">
+                        <a href="{{ url_for('story.view_story', filename=story.path) }}" class="story-title-link">{{ story.title }}</a>
                     </td>
-                    <td class="story-title-cell">{{ story.title }}</td>
                     <td>{{ story.username or '-' }}</td>
                     <td>{{ story.created.strftime('%Y-%m-%d') }}</td>
                     <td>{{ story.theme or '-' }}</td>

@@ -57,12 +57,20 @@ def create_story():
             flash("Error saving story request")
             return redirect(url_for('story.create_story'))
         
-        # Deduct credits from user account
-        use_credit(session['user_id'])
-        
-        # Update session credits
-        session['credits'] = session['credits'] - 1
-            
+        # Deduct credits based on enhanced audio selection
+        enhanced_audio = request_data['parameters'].get('enhanced_audio', False)
+        user_credits = session.get('credits', 0)
+        if enhanced_audio:
+            if user_credits < 3:
+                flash("You need at least 3 credits to use enhanced audio narration.")
+                return redirect(url_for('story.create_story'))
+            for _ in range(3):
+                use_credit(session['user_id'])
+            session['credits'] = user_credits - 3
+        else:
+            use_credit(session['user_id'])
+            session['credits'] = user_credits - 1
+
         # Redirect to waiting page
         return redirect(url_for('story.waiting', request_id=request_id))
     
@@ -283,17 +291,48 @@ def view_story(filename):
         username=metadata.get('username')
     )
 
-@story_bp.route('/audio/<filename>')
-def get_audio(filename):
-    """Get audio file"""
+# Create a new route specifically for serving audio files
+@story_bp.route('/direct-audio/<filename>')
+def get_direct_audio(filename):
+    """Get audio file directly from stories/audio directory"""
+    # Log the request for debugging
+    print(f"DIRECT AUDIO request for: {filename}")
+    
     # Security check to prevent directory traversal
     if '..' in filename or filename.startswith('/'):
+        print(f"Security check failed for filename: {filename}")
         flash('Invalid audio filename')
         return redirect(url_for('story.list_stories'))
-        
-    file_path = os.path.join(AUDIO_FOLDER, filename)
+    
+    # Construct the direct path to the audio file
+    file_path = os.path.join('stories/audio', filename)
+    print(f"Looking for audio file at: {file_path}")
+    
+    # Check if file exists
     if not os.path.exists(file_path):
+        print(f"Audio file not found at: {file_path}")
         flash('Audio not found')
         return redirect(url_for('story.list_stories'))
     
+    print(f"Audio file found, serving: {file_path}")
     return send_file(file_path)
+
+# Keep the original route for backward compatibility
+@story_bp.route('/audio/<filename>')
+def get_audio(filename):
+    """Get audio file - redirects to direct-audio route"""
+    print(f"Redirecting /audio/{filename} to /direct-audio/{filename}")
+    return redirect(url_for('story.get_direct_audio', filename=filename))
+
+# Add routes for the double-prefixed URL patterns that are being generated
+@story_bp.route('/stories/audio/<filename>')
+def get_stories_audio(filename):
+    """Handle the double-prefixed URL pattern"""
+    print(f"Redirecting /stories/audio/{filename} to /direct-audio/{filename}")
+    return redirect(url_for('story.get_direct_audio', filename=filename))
+
+@story_bp.route('/stories/stories/audio/<filename>')
+def get_stories_stories_audio(filename):
+    """Handle the triple-prefixed URL pattern"""
+    print(f"Redirecting /stories/stories/audio/{filename} to /direct-audio/{filename}")
+    return redirect(url_for('story.get_direct_audio', filename=filename))

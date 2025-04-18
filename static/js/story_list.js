@@ -293,6 +293,13 @@ document.addEventListener('DOMContentLoaded', function() {
         playSelectedButton.disabled = selectedCheckboxes.length === 0;
     }
     
+    // Make sure clicking on story title links doesn't trigger row events
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('story-title-link')) {
+            e.stopPropagation();
+        }
+    });
+    
     function playSelectedStories() {
         const selectedCheckboxes = document.querySelectorAll('.story-select:checked');
         

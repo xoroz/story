@@ -13,19 +13,42 @@ from config_loader import load_config
 from auth import add_user_story
 import send_email as email_sender  # Import the email module
 
+# Import ElevenLabs SDK
+try:
+    from elevenlabs.client import ElevenLabs
+    from elevenlabs import VoiceSettings
+    ELEVENLABS_AVAILABLE = True
+except ImportError:
+    ELEVENLABS_AVAILABLE = False
+    print("Warning: elevenlabs package not found. Enhanced audio will not be available.")
+
 # Ensure logs directory exists
 os.makedirs('logs', exist_ok=True)
 
 # Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("story_processor.log"),
-        logging.StreamHandler()
-    ]
-)
+# Create logs directory if it doesn't exist
+os.makedirs('logs', exist_ok=True)
+
+# Configure logging to write to both file and console
 logger = logging.getLogger("StoryProcessor")
+logger.setLevel(logging.INFO)
+logger.propagate = False  # Prevent duplicate logs
+
+# Clear any existing handlers
+if logger.handlers:
+    logger.handlers.clear()
+
+# Add file handler
+file_handler = logging.FileHandler("logs/story_processor.log")
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+logger.addHandler(file_handler)
+
+# Add console handler
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+logger.addHandler(console_handler)
+
+logger.info("Story processor logging initialized")
 
 # Load configuration
 config = load_config()
@@ -33,8 +56,20 @@ config = load_config()
 # Get API keys from .env (already loaded by load_config)
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
-# Get your OpenRouter API key
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
+ELEVENLABS_API_KEY = os.getenv('ELEVENLABS_API_KEY')
+
+# Initialize ElevenLabs client if available
+elevenlabs_client = None
+if ELEVENLABS_AVAILABLE and ELEVENLABS_API_KEY:
+    try:
+        elevenlabs_client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
+        logger.info("ElevenLabs client initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize ElevenLabs client: {e}")
+        ELEVENLABS_AVAILABLE = False
+elif ELEVENLABS_AVAILABLE and not ELEVENLABS_API_KEY:
+    logger.warning("ElevenLabs SDK available but no API key found in environment")
 
 # Get app settings from config.ini
 QUEUE_FOLDER = config['Paths']['queue_folder']
@@ -273,8 +308,192 @@ def generate_story_openrouter(request_data):
         
         return fallback_message
 
-def generate_audio(text, language, request_id):
-    """Generate audio narration using OpenAI's API"""
+def generate_audio_elevenlabs(text, language, request_id):
+    """Generate audio narration using ElevenLabs Python SDK - simplified version"""
+    # Check if ElevenLabs is available
+    if not ELEVENLABS_AVAILABLE:
+        logger.error("ElevenLabs SDK not available. Enhanced audio generation skipped.")
+        return None
+    
+    # Check if API key is available
+    if not ELEVENLABS_API_KEY:
+        logger.warning("No ElevenLabs API key found. Skipping enhanced audio generation.")
+        return None
+    
+    try:
+        # Log what we're doing
+        logger.info(f"ELEVENLABS: Generating enhanced audio")
+        logger.info(f"ELEVENLABS: Text length: {len(text)}, Language: {repr(language)}")
+        
+        # Get voice ID based on language
+        voice_id = None
+        if isinstance(language, str):
+            lang_code = language.lower()
+            if lang_code == 'en':
+                voice_id = config['Audio']['lang_en_id']
+            elif lang_code in ['pt', 'pt-br']:
+                voice_id = config['Audio']['lang_pt_id']
+            elif lang_code == 'es':
+                voice_id = config['Audio']['lang_es_id']
+            elif lang_code == 'it':
+                voice_id = config['Audio']['lang_it_id']
+        
+        # If we couldn't determine the voice ID, use English
+        if not voice_id:
+            logger.warning(f"ELEVENLABS: Could not determine voice ID for language {repr(language)}, using English")
+            voice_id = config['Audio']['lang_en_id']
+        
+        # Get model ID from config
+        model_id = config['Audio'].get('model_id', 'eleven_multilingual_v2')
+        
+        logger.info(f"ELEVENLABS: Using voice_id={voice_id}, model_id={model_id}")
+        
+        # Create audio directory
+        audio_dir = os.path.join(OUTPUT_FOLDER, 'audio')
+        os.makedirs(audio_dir, exist_ok=True)
+        audio_filename = f"{request_id}.mp3"
+        audio_path = os.path.join(audio_dir, audio_filename)
+        
+        # Check if text is too long (over 5000 characters)
+        # ElevenLabs can handle longer text than OpenAI, but still has limits
+        MAX_CHUNK_SIZE = 4000  # Characters per chunk
+        
+        if len(text) > MAX_CHUNK_SIZE:
+            logger.info(f"ELEVENLABS: Text is {len(text)} characters, splitting into chunks")
+            
+            # Split text into chunks at paragraph boundaries
+            chunks = []
+            paragraphs = text.split('\n\n')
+            current_chunk = ""
+            
+            for paragraph in paragraphs:
+                if len(current_chunk) + len(paragraph) + 2 > MAX_CHUNK_SIZE:
+                    if current_chunk:
+                        chunks.append(current_chunk)
+                    current_chunk = paragraph
+                else:
+                    if current_chunk:
+                        current_chunk += '\n\n' + paragraph
+                    else:
+                        current_chunk = paragraph
+            
+            # Add the last chunk
+            if current_chunk:
+                chunks.append(current_chunk)
+            
+            logger.info(f"ELEVENLABS: Split text into {len(chunks)} chunks")
+            
+            # Process each chunk
+            import pydub
+            from pydub import AudioSegment
+            
+            combined_audio = None
+            temp_files = []
+            
+            for i, chunk in enumerate(chunks):
+                # Generate a temporary filename for this chunk
+                temp_filename = f"{request_id}_chunk_{i}.mp3"
+                temp_path = os.path.join(audio_dir, temp_filename)
+                temp_files.append(temp_path)
+                
+                try:
+                    logger.info(f"ELEVENLABS: Processing chunk {i+1}/{len(chunks)}")
+                    
+                    # Create a new client for each chunk
+                    client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
+                    
+                    # Generate audio for this chunk - SIMPLIFIED APPROACH
+                    audio_data = client.text_to_speech.convert(
+                        text=chunk,
+                        voice_id=voice_id,
+                        model_id=model_id,
+                        output_format="mp3_44100_128"
+                    )
+                    
+                    # Save the chunk audio file - handle generator
+                    with open(temp_path, "wb") as f:
+                        # If audio_data is a generator, iterate through it
+                        if hasattr(audio_data, '__iter__') and not isinstance(audio_data, bytes):
+                            for chunk in audio_data:
+                                if chunk:
+                                    f.write(chunk)
+                        else:
+                            # If it's bytes, write directly
+                            f.write(audio_data)
+                    
+                    logger.info(f"ELEVENLABS: Generated audio chunk {i+1}/{len(chunks)}")
+                    
+                    # Add to combined audio
+                    if combined_audio is None:
+                        combined_audio = AudioSegment.from_mp3(temp_path)
+                    else:
+                        chunk_audio = AudioSegment.from_mp3(temp_path)
+                        combined_audio += chunk_audio
+                        
+                except Exception as chunk_error:
+                    logger.error(f"ELEVENLABS: Error generating audio for chunk {i+1}: {chunk_error}")
+            
+            # Save the combined audio file
+            if combined_audio:
+                combined_audio.export(audio_path, format="mp3")
+                logger.info(f"ELEVENLABS: Combined audio saved to {audio_filename}")
+                
+                # Clean up temporary files
+                for temp_file in temp_files:
+                    try:
+                        os.remove(temp_file)
+                    except Exception as cleanup_error:
+                        logger.warning(f"ELEVENLABS: Could not remove temporary file {temp_file}: {cleanup_error}")
+                
+                return f"audio/{audio_filename}"
+            else:
+                logger.error("ELEVENLABS: Failed to generate any audio chunks")
+                return None
+                
+        else:
+            # Text is short enough to process in one go
+            logger.info(f"ELEVENLABS: Processing text in one request")
+            
+            try:
+                # Create a new client
+                client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
+                
+                # Generate audio - SIMPLIFIED APPROACH matching the example
+                audio_data = client.text_to_speech.convert(
+                    text=text,
+                    voice_id=voice_id,
+                    model_id=model_id,
+                    output_format="mp3_44100_128"
+                )
+                
+                # Save the audio to file - handle generator
+                with open(audio_path, "wb") as f:
+                    # If audio_data is a generator, iterate through it
+                    if hasattr(audio_data, '__iter__') and not isinstance(audio_data, bytes):
+                        for chunk in audio_data:
+                            if chunk:
+                                f.write(chunk)
+                    else:
+                        # If it's bytes, write directly
+                        f.write(audio_data)
+                
+                logger.info(f"ELEVENLABS: Enhanced audio generated: {audio_filename}")
+                return f"audio/{audio_filename}"
+                
+            except Exception as e:
+                logger.error(f"ELEVENLABS: Error generating audio: {e}")
+                logger.error(f"ELEVENLABS: Error traceback: {traceback.format_exc()}")
+                return None
+        
+    except Exception as e:
+        logger.error(f"ELEVENLABS ERROR: {e}")
+        logger.error(f"ELEVENLABS ERROR TRACEBACK: {traceback.format_exc()}")
+        return None
+
+def generate_audio(text, language, request_id, enhanced_audio=False):
+    """Generate audio narration using OpenAI's API or ElevenLabs if enhanced_audio is True"""
+    if enhanced_audio:
+        return generate_audio_elevenlabs(text, language, request_id)
     if not OPENAI_API_KEY:
         logger.warning("No OpenAI API key found. Skipping audio generation.")
         return None
@@ -449,11 +668,13 @@ def story_to_html(story, title, request_id, audio_path, language='en', backend='
     # Add audio player if audio is available
     audio_html = ""
     if audio_path:
+        # Extract just the filename from the audio_path
+        audio_filename = os.path.basename(audio_path) if isinstance(audio_path, str) else ""
         audio_html = f"""
         <div class="audio-player">
             <h3>Listen to the story:</h3>
             <audio controls style="width: 100%; margin: 20px 0;">
-                <source src="/{audio_path}" type="audio/mpeg">
+                <source src="/direct-audio/{audio_filename}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
@@ -549,6 +770,13 @@ def process_request(request_path):
         # Read the request
         with open(request_path, 'r') as f:
             request_data = json.load(f)
+            
+        # EXTREME DEBUGGING: Dump the entire request data to the log
+        logger.info(f"FULL REQUEST DATA: {json.dumps(request_data, indent=2)}")
+        
+        # EXTREME DEBUGGING: Specifically log the language parameter
+        language = request_data.get('parameters', {}).get('language', 'en')
+        logger.info(f"LANGUAGE PARAMETER: type={type(language)}, value={repr(language)}")
         
         # Add request_id to request_data if not already present
         if 'request_id' not in request_data:
@@ -572,10 +800,13 @@ def process_request(request_path):
         # Generate audio if requested
         audio_path = None
         audio_time = 0
+        enhanced_audio = params.get('enhanced_audio', False)
         if enable_audio:
-            logger.info(f"Generating audio for request {request_id}")
+            logger.info(f"Generating audio for request {request_id} (enhanced: {enhanced_audio})")
+            # EXTREME DEBUGGING: Log the exact parameters being passed to generate_audio
+            logger.info(f"AUDIO PARAMS: language={repr(language)}, enhanced_audio={enhanced_audio}")
             audio_start_time = time.time()
-            audio_path = generate_audio(story, language, request_id)
+            audio_path = generate_audio(story, language, request_id, enhanced_audio=enhanced_audio)
             audio_time = time.time() - audio_start_time
         
         # Extract model information for HTML
@@ -647,7 +878,9 @@ def process_request(request_path):
         request_data['output_file'] = html_filename
         if audio_path:
             request_data['audio_file'] = os.path.basename(audio_path)
-        
+        # Mark enhanced_audio in processed data for later display
+        request_data['enhanced_audio'] = params.get('enhanced_audio', False)
+
         # Include AI info and timing data in the processed data
         request_data['ai_info'] = {
             'provider': provider_display,

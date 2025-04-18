@@ -123,6 +123,19 @@
     font-size: 14px;
 }
 
+/* Story Title Link */
+.story-title-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.story-title-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
 /* Action Buttons */
 .btn-sm {
     padding: 5px 10px;

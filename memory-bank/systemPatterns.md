@@ -146,6 +146,7 @@ sequenceDiagram
 ./init_db.py
 ./process_stories.py
 ./report.html
+./requirements-check.py
 ./routes/api_routes.py
 ./routes/__init__.py
 ./routes/main_routes.py
@@ -172,15 +173,21 @@ sequenceDiagram
 ./static/js/waiting.js
 ./story_metadata.json
 ./story_processor.py
+./templates/about.html
 ./templates/admin/backup.html
 ./templates/admin/base.html
 ./templates/admin/configuration.html
 ./templates/admin/dashboard.html
 ./templates/admin/stories.html
 ./templates/admin/system.html
+./templates/admin/users.html
+./templates/auth/email_verified.html
 ./templates/auth/login.html
 ./templates/auth/profile.html
 ./templates/auth/register.html
+./templates/auth/registration_pending.html
+./templates/auth/resend_verification.html
+./templates/auth/verification_failed.html
 ./templates/base.html
 ./templates/confirmation.html
 ./templates/create_story.html
@@ -189,9 +196,14 @@ sequenceDiagram
 ./templates/story_list.html
 ./templates/story_view.html
 ./templates/waiting.html
+./test_example_stories.py
+./update_italian_translations.py
+./update_portuguese_translations.py
+./update_spanish_translations.py
 ./utils/file_utils.py
 ./utils/__init__.py
 ./utils/template_utils.py
+
 
 ```
 

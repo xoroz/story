@@ -23,7 +23,8 @@ echo $FLASK_PID > ./pids/app.pid
 
 # Start the processor in background
 echo "Starting Story Processor..."
-$P story_processor.py > logs/processor.log 2>&1 &
+#$P story_processor.py > logs/processor.log 2>&1 &
+$P story_processor.py  &
 PROCESSOR_PID=$!
 echo "Story Processor started with PID: $PROCESSOR_PID"
 echo $PROCESSOR_PID > ./pids/processor.pid

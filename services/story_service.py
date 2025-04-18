@@ -103,6 +103,7 @@ def create_story_request(form_data, user_id):
                 "language": language,
                 "ai_model": form_data.get('ai_model', 'openai/gpt-3.5-turbo'),
                 "enable_audio": form_data.get('enable_audio') == 'true',
+                "enhanced_audio": form_data.get('enhanced_audio') == 'true',
                 "is_private": form_data.get('is_private') == 'true'
             },
             "prompts": {
@@ -238,7 +239,18 @@ def extract_story_metadata(content, filename, processed_folder, audio_folder):
     audio_path = None
     audio_match = re.search(r'<source src="/(.*?)" type="audio/mpeg">', content)
     if audio_match:
-        audio_path = audio_match.group(1)
+        # Get the raw path without adding an extra slash
+        raw_path = audio_match.group(1)
+        # Debug the extracted path
+        print(f"DEBUG: Extracted audio path from HTML: {raw_path}")
+        # Ensure the path starts with a single slash and doesn't have 'stories/' prefix
+        if raw_path.startswith('stories/'):
+            # Remove the 'stories/' prefix
+            raw_path = raw_path.replace('stories/', '', 1)
+            print(f"DEBUG: Removed 'stories/' prefix: {raw_path}")
+        # Ensure the path starts with a single slash
+        audio_path = '/' + raw_path.lstrip('/')
+        print(f"DEBUG: Final audio_path: {audio_path}")
     
     # Extract provider and model info
     provider_display = 'AI'
@@ -299,6 +311,9 @@ def extract_story_metadata(content, filename, processed_folder, audio_folder):
                     audio_path = os.path.join(audio_folder, audio_file)
                     if os.path.exists(audio_path):
                         audio_size = os.path.getsize(audio_path) / (1024 * 1024)  # Size in MB
+
+                # Get enhanced_audio flag
+                enhanced_audio = request_data.get('enhanced_audio', False)
                 
                 return {
                     'title': title,
@@ -316,6 +331,7 @@ def extract_story_metadata(content, filename, processed_folder, audio_folder):
                     'processing_time': processing_time,
                     'audio_size': round(audio_size, 2) if audio_size else None,
                     'has_audio': audio_size is not None,
+                    'enhanced_audio': enhanced_audio,
                 }
             except Exception as e:
                 print(f"Error loading processed data: {e}")
@@ -514,7 +530,8 @@ def get_story_list(session_user_id, output_folder, processed_folder, audio_folde
             
             # Enhanced metadata from processed request
             theme = age = model = provider = processing_time = audio_size = language_code = username = user_id = None
-            
+            enhanced_audio = False
+
             # If we have a request_id, try to load the processed request file
             if request_id:
                 processed_path = os.path.join(processed_folder, f"{request_id}.json")
@@ -548,6 +565,9 @@ def get_story_list(session_user_id, output_folder, processed_folder, audio_folde
                             audio_path = os.path.join(audio_folder, audio_file)
                             if os.path.exists(audio_path):
                                 audio_size = os.path.getsize(audio_path) / (1024 * 1024)  # Size in MB
+
+                        # Get enhanced_audio flag
+                        enhanced_audio = request_data.get('enhanced_audio', False)
                     except Exception as e:
                         # If there's an error, continue without the enhanced metadata
                         print(f"Error loading processed data for {request_id}: {e}")
@@ -592,7 +612,8 @@ def get_story_list(session_user_id, output_folder, processed_folder, audio_folde
                 'has_audio': audio_size is not None,
                 'language': get_language_name(language_code) if language_code else None,
                 'username': username,
-                'user_id': user_id
+                'user_id': user_id,
+                'enhanced_audio': enhanced_audio
             })
     
     # Sort by creation time, newest first

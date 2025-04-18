@@ -35,11 +35,14 @@
     
     {% if audio_path %}
     <div class="audio-player">
-        <h3>Listen to the story:</h3>
-        <audio controls>
-            <source src="{{ url_for('story.get_audio', filename=audio_path.split('/')[-1]) }}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+      <h3>{{ _('Listen to the story:') }}</h3>
+      {% if enhanced_audio %}
+        <span class="badge bg-success" style="margin-bottom:8px;">{{ _('Enhanced Audio') }}</span>
+      {% endif %}
+      <audio controls style="width: 100%; margin: 20px 0;">
+        <source src="{{ audio_path }}" type="audio/mpeg">
+        {{ _('Your browser does not support the audio element.') }}
+      </audio>
     </div>
     {% endif %}
     
