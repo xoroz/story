@@ -35,10 +35,15 @@
     
     {% if audio_path %}
     <div class="audio-player">
-      <h3>{{ _('Listen to the story:') }}</h3>
-      {% if enhanced_audio %}
-        <span class="badge bg-success" style="margin-bottom:8px;">{{ _('Enhanced Audio') }}</span>
-      {% endif %}
+      <h3>
+        {{ _('Listen to the story:') }}
+        {% if enhanced_audio %}
+          <span class="audio-quality-indicator">
+            <span class="enhanced-badge" title="{{ _('Enhanced Audio Quality') }}">HD</span>
+            <span class="enhanced-text">{{ _('Enhanced Audio') }}</span>
+          </span>
+        {% endif %}
+      </h3>
       <audio controls style="width: 100%; margin: 20px 0;">
         <source src="{{ audio_path }}" type="audio/mpeg">
         {{ _('Your browser does not support the audio element.') }}

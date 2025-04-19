@@ -79,7 +79,6 @@
                     <th class="sortable" data-sort="audio">Audio Size</th>
                     <th class="sortable" data-sort="rating">Rating</th>
                     <th class="sortable" data-sort="views">Views</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,16 +92,18 @@
                     data-language="{{ story.language or '' }}"
                     data-has-audio="{{ 'true' if story.has_audio else 'false' }}"
                     data-username="{{ story.username or '' }}">
-        <td class="select-col">
-          <input type="checkbox" class="story-select" data-story-id="{{ story.request_id }}">
-        </td>
-        <td>
-          {% if story.has_audio %}
-            <span class="audio-icon" title="Audio available">🔊</span>
-          {% endif %}
-        </td>
+                    <td class="select-col">
+                        <input type="checkbox" class="story-select" data-story-id="{{ story.request_id }}">
+                    </td>
                     <td class="story-title-cell">
-                        <a href="{{ url_for('story.view_story', filename=story.path) }}" class="story-title-link">{{ story.title }}</a>
+                        <a href="{{ url_for('story.view_story', filename=story.path) }}" class="story-title-link">
+                            {% if story.has_audio %}
+                                <span class="audio-icon" title="{% if story.enhanced_audio %}Enhanced Audio Available{% else %}Audio Available{% endif %}">
+                                    🔊{% if story.enhanced_audio %}<span class="enhanced-badge" title="Enhanced Audio">HD</span>{% endif %}
+                                </span>
+                            {% endif %}
+                            {{ story.title }}
+                        </a>
                     </td>
                     <td>{{ story.username or '-' }}</td>
                     <td>{{ story.created.strftime('%Y-%m-%d') }}</td>
@@ -128,9 +129,6 @@
                             <span class="view-count-icon">👁️</span>
                             <span>{{ story.view_count }}</span>
                         </div>
-                    </td>
-                    <td>
-                        <a href="{{ url_for('story.view_story', filename=story.path) }}" class="btn btn-sm btn-accent">Read</a>
                     </td>
                 </tr>
                 {% endfor %}

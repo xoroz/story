@@ -1,19 +1,11 @@
 import os
 import json
 import sqlite3
-import logging
 from datetime import datetime
+from utils.logging_config import get_logger
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("logs/db_utils.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger("DBUtils")
+# Get logger for this component
+logger = get_logger("db_utils")
 
 def get_db_connection():
     """Get a connection to the SQLite database with row factory"""

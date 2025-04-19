@@ -1,25 +1,14 @@
 #!/usr/bin/env python3
 import json
 import os
-import logging
 import re
 from pathlib import Path
 from dotenv import load_dotenv
 from mailersend import emails
+from utils.logging_config import get_logger
 
-# Ensure logs directory exists
-os.makedirs('logs', exist_ok=True)
-
-# Setup 
-logging.basicConfig(
-    #level=logging.INFO, 
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-    filename='logs/email_notification.log',
-    filemode='a'
-)
-logger = logging.getLogger(__name__)
+# Get logger for this component
+logger = get_logger("email")
 
 # Load environment variables
 load_dotenv()

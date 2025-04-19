@@ -10,6 +10,10 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file
 from configparser import ConfigParser
 from config_loader import load_config
+from utils.logging_config import get_logger
+
+# Get logger for this component
+logger = get_logger("admin")
 
 # Load configuration
 config = load_config()
@@ -136,25 +140,30 @@ def control_process():
         flash("Missing process or action parameter")
         return redirect(url_for('system_status'))
     
+    # Get log file paths from config
+    app_log = config.get('Logging', 'app_log', fallback='logs/app.log')
+    story_processor_log = config.get('Logging', 'story_processor_log', fallback='logs/story_processor.log')
+    admin_log = config.get('Logging', 'admin_log', fallback='logs/admin.log')
+    
     # Define process details
     processes = {
         'app': {
             'name': 'Web Application',
             'script': 'app.py',
             'pid_file': 'pids/app.pid',
-            'log_file': 'logs/app.log'
+            'log_file': app_log
         },
         'processor': {
             'name': 'Story Processor',
             'script': 'story_processor.py',
             'pid_file': 'pids/processor.pid',
-            'log_file': 'logs/processor.log'
+            'log_file': story_processor_log
         },
         'admin': {
             'name': 'Admin Server',
             'script': 'admin.py',
             'pid_file': 'pids/admin.pid',
-            'log_file': 'logs/admin.log'
+            'log_file': admin_log
         }
     }
     

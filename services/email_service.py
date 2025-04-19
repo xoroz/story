@@ -1,31 +1,11 @@
 import os
 import re
-import logging
 from mailersend import emails
 from config_loader import load_config
+from utils.logging_config import get_logger
 
-# Ensure logs directory exists
-os.makedirs('logs', exist_ok=True)
-
-# Set up logging with a specific logger instead of basicConfig
-logger = logging.getLogger("EmailService")
-logger.setLevel(logging.INFO)
-
-# Check if handlers are already set up to avoid duplicate handlers
-if not logger.handlers:
-    # Create file handler
-    file_handler = logging.FileHandler("logs/email_service.log")
-    file_handler.setLevel(logging.INFO)
-    
-    # Create formatter
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(formatter)
-    
-    # Add handlers to logger
-    logger.addHandler(file_handler)
-    
-    # Prevent propagation to root logger to avoid duplicate logs
-    logger.propagate = False
+# Get logger for this component
+logger = get_logger("email")
 
 # Load configuration
 config = load_config()

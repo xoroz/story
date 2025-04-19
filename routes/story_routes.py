@@ -288,7 +288,8 @@ def view_story(filename):
         avg_rating=avg_rating,
         rating_count=rating_count,
         view_count=view_count,
-        username=metadata.get('username')
+        username=metadata.get('username'),
+        enhanced_audio=metadata.get('enhanced_audio', False)
     )
 
 # Create a new route specifically for serving audio files

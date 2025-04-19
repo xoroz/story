@@ -4,7 +4,6 @@ import time
 import sys
 import traceback
 import openai
-import logging
 import anthropic
 from datetime import datetime
 
@@ -12,6 +11,10 @@ import requests
 from config_loader import load_config
 from auth import add_user_story
 import send_email as email_sender  # Import the email module
+from utils.logging_config import get_logger
+
+# Get logger for this component
+logger = get_logger("story_processor")
 
 # Import ElevenLabs SDK
 try:
@@ -20,35 +23,9 @@ try:
     ELEVENLABS_AVAILABLE = True
 except ImportError:
     ELEVENLABS_AVAILABLE = False
-    print("Warning: elevenlabs package not found. Enhanced audio will not be available.")
+    logger.warning("elevenlabs package not found. Enhanced audio will not be available.")
 
-# Ensure logs directory exists
-os.makedirs('logs', exist_ok=True)
-
-# Set up logging
-# Create logs directory if it doesn't exist
-os.makedirs('logs', exist_ok=True)
-
-# Configure logging to write to both file and console
-logger = logging.getLogger("StoryProcessor")
-logger.setLevel(logging.INFO)
-logger.propagate = False  # Prevent duplicate logs
-
-# Clear any existing handlers
-if logger.handlers:
-    logger.handlers.clear()
-
-# Add file handler
-file_handler = logging.FileHandler("logs/story_processor.log")
-file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-logger.addHandler(file_handler)
-
-# Add console handler
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-logger.addHandler(console_handler)
-
-logger.info("Story processor logging initialized")
+logger.info("Story processor initialized")
 
 # Load configuration
 config = load_config()

@@ -9,6 +9,10 @@ from routes.main_routes import main_bp
 from routes.story_routes import story_bp
 from routes.api_routes import api_bp
 from utils.file_utils import ensure_directories_exist
+from utils.logging_config import get_logger
+
+# Get logger for this component
+logger = get_logger("app")
 
 # Load configuration
 config = load_config()

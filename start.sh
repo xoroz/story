@@ -16,22 +16,21 @@ mkdir -p logs
 
 # Start the Flask app in background
 echo "Starting Flask App (port 8000)..."
-$P app.py > logs/app.log 2>&1 &
+$P app.py &
 FLASK_PID=$!
 echo "Flask App started with PID: $FLASK_PID"
 echo $FLASK_PID > ./pids/app.pid
 
 # Start the processor in background
 echo "Starting Story Processor..."
-#$P story_processor.py > logs/processor.log 2>&1 &
-$P story_processor.py  &
+$P story_processor.py &
 PROCESSOR_PID=$!
 echo "Story Processor started with PID: $PROCESSOR_PID"
 echo $PROCESSOR_PID > ./pids/processor.pid
 
 # Start the admin server in background
 echo "Starting Admin Server (port 8001)..."
-$P admin.py > logs/admin.log 2>&1 &
+$P admin.py &
 ADMIN_PID=$!
 echo "Admin Server started with PID: $ADMIN_PID"
 echo $ADMIN_PID > ./pids/admin.pid
